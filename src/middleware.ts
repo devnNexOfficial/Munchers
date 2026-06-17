@@ -32,12 +32,18 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  // Kitchen routes: JWT based
-  if (path.startsWith('/kitchen') && path !== '/kitchen' && !path.startsWith('/api/kitchen/verify-pin')) {
+  // Kitchen routes: JWT based (pages AND API, except verify-pin)
+  const isKitchenRoute = (path.startsWith('/kitchen') || path.startsWith('/api/kitchen')) 
+    && path !== '/kitchen' 
+    && !path.startsWith('/api/kitchen/verify-pin')
+  if (isKitchenRoute) {
     const authHeader = request.headers.get('Authorization')
     const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null
     
     if (!token) {
+      if (path.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
       return NextResponse.redirect(new URL('/kitchen', request.url))
     }
 
@@ -45,7 +51,7 @@ export async function middleware(request: NextRequest) {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret')
       const { payload } = await jwtVerify(token, secret)
       
-      // Call DB to verify screen is still active
+      // Call DB to verify screen is still active (kitchen screen revocation)
       const { data: screen } = await supabase
         .from('kitchen_screens')
         .select('is_active')
@@ -53,15 +59,43 @@ export async function middleware(request: NextRequest) {
         .single()
         
       if (!screen || !screen.is_active) {
+        if (path.startsWith('/api/')) {
+          return NextResponse.json({ error: 'Screen deactivated' }, { status: 403 })
+        }
         return NextResponse.redirect(new URL('/kitchen', request.url))
       }
     } catch (e) {
+      if (path.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+      }
       return NextResponse.redirect(new URL('/kitchen', request.url))
     }
     return supabaseResponse
   }
 
-  // Restaurant routes
+  // Developer API routes — require AAL2
+  if (path.startsWith('/api/developer')) {
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const { data: staff } = await supabase
+      .from('staff_accounts')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('is_active', true)
+      .single()
+
+    if (!staff || (staff.role !== 'owner' && staff.role !== 'developer')) {
+      return NextResponse.json({ error: 'Developer access required' }, { status: 403 })
+    }
+
+    const { data: mfaData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+    if (mfaData?.currentLevel !== 'aal2') {
+      return NextResponse.json({ error: '2FA verification required' }, { status: 403 })
+    }
+  }
+
+  // Restaurant routes (pages only — API routes have internal auth checks)
   if (path.startsWith('/restaurant') && !path.startsWith('/restaurant/login') && !path.startsWith('/api/restaurant')) {
     if (!user) {
       return NextResponse.redirect(new URL('/restaurant/login', request.url))
