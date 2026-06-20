@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { ClosedOverlay } from '@/components/home/ClosedOverlay'
 import { DealsBanner } from '@/components/home/DealsBanner'
 import { HomeHeader } from '@/components/home/HomeHeader'
+import { ItemGrid } from '@/components/home/ItemGrid'
 import { RestaurantStatusProvider } from '@/context/RestaurantStatusContext'
 import { getActiveDeals, getCategories, getRestaurantSettings } from '@/lib/queries/home'
 
@@ -36,7 +37,6 @@ export default async function HomePage() {
     getCategories(),
     getRestaurantSettings(),
   ])
-  void categories
 
   return (
     <main className="min-h-screen bg-muncherz-white">
@@ -50,9 +50,7 @@ export default async function HomePage() {
       <RestaurantStatusProvider>
         <ClosedOverlay initialSettings={settings} />
         <DealsBanner deals={deals} />
-        <div className="mt-10 p-4 text-center text-gray-500">
-          Menu categories and items will load here...
-        </div>
+        <ItemGrid initialCategories={categories} initialItems={{}} />
       </RestaurantStatusProvider>
     </main>
   )
