@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "444b237c8abeebd31806e7103d764878",
-    "previewModeSigningKey": "27bbdbf14c45d524bba026e6ef7b634c70b16f1a7dd3ac31a7dd6316c1dcb39b",
-    "previewModeEncryptionKey": "770443445d02c3a603fcea363b31bc6abd74ae6746527c30c1834eb346478b2c"
-  }
-}
+{"version":4,"routes":{},"dynamicRoutes":{},"notFoundRoutes":[],"preview":{"previewModeId":"215f7e5d931b3a62cc2beb62246dd305","previewModeSigningKey":"8df9cb07f1f07037ee96a18d89b7996d53de2c86934f93e6e7fd869673d6a2b6","previewModeEncryptionKey":"6a2b5ebf06cac0787e6389ab2f4df9e3e7defd54c20d027fb1c7473b4cb6a322"}}
