@@ -19,6 +19,11 @@ export type Category = {
   sort_order: number
 }
 
+export type MenuItemSizeVariant = {
+  label: string
+  price: number
+}
+
 export type MenuItem = {
   id: string
   name_en: string
@@ -33,6 +38,8 @@ export type MenuItem = {
   canvas_type: string
   daily_special: boolean
   special_ends_at: string | null
+  size_variants: MenuItemSizeVariant[] | null
+  cooking_preference_options: string[] | null
 }
 
 export type RestaurantSettings = {
@@ -43,7 +50,7 @@ export type RestaurantSettings = {
 }
 
 const menuItemSelect =
-  'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at'
+  'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at, size_variants, cooking_preference_options'
 
 export async function getActiveDeals(): Promise<Deal[]> {
   try {

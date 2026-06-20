@@ -8,6 +8,7 @@ import type { MenuItem } from '@/lib/queries/home'
 interface ItemCardProps {
   item: MenuItem
   isRestaurantClosed: boolean
+  onOpenDetail: (item: MenuItem) => void
 }
 
 const itemPlaceholder =
@@ -27,7 +28,7 @@ function getDiscountPercent(item: MenuItem) {
   return Math.round(((highPrice - lowPrice) / highPrice) * 100)
 }
 
-export function ItemCard({ item, isRestaurantClosed }: ItemCardProps) {
+export function ItemCard({ item, isRestaurantClosed, onOpenDetail }: ItemCardProps) {
   const discountPercent = getDiscountPercent(item)
   const originalPrice = item.discount_price
   const hasDiscount = item.show_discount && originalPrice !== null
@@ -39,7 +40,16 @@ export function ItemCard({ item, isRestaurantClosed }: ItemCardProps) {
     <motion.article
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.18, ease: 'easeOut' }}
-      className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100"
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpenDetail(item)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          onOpenDetail(item)
+        }
+      }}
+      className="flex h-full cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 focus:outline-none focus:ring-2 focus:ring-muncherz-red focus:ring-offset-2"
     >
       <div className="relative aspect-square bg-gray-50">
         <Image
@@ -97,6 +107,7 @@ export function ItemCard({ item, isRestaurantClosed }: ItemCardProps) {
           <button
             type="button"
             disabled={isRestaurantClosed}
+            onClick={(event) => event.stopPropagation()}
             className={`rounded-lg border border-muncherz-red bg-white px-2 py-2 text-xs font-bold text-muncherz-red transition active:scale-95 ${disabledClass}`}
           >
             Add Standard
@@ -104,6 +115,7 @@ export function ItemCard({ item, isRestaurantClosed }: ItemCardProps) {
           <button
             type="button"
             disabled={isRestaurantClosed}
+            onClick={(event) => event.stopPropagation()}
             className={`rounded-lg border border-muncherz-red bg-muncherz-red px-2 py-2 text-xs font-bold text-white transition active:scale-95 ${
               isRestaurantClosed ? 'cursor-not-allowed border-gray-200 bg-gray-200 text-gray-400' : ''
             }`}

@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useRestaurantStatus } from '@/context/RestaurantStatusContext'
+import { useItemDetailModal } from '@/hooks/useItemDetailModal'
 import { createClient } from '@/lib/supabase/client'
 import type { Category, MenuItem } from '@/lib/queries/home'
 
 import { CategoryTabs } from './CategoryTabs'
 import { ItemCard } from './ItemCard'
+import { ItemDetailModal } from './ItemDetailModal'
 import { SearchBar } from './SearchBar'
 
 interface ItemGridProps {
@@ -16,7 +18,7 @@ interface ItemGridProps {
 }
 
 const menuItemSelect =
-  'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at'
+  'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at, size_variants, cooking_preference_options'
 
 async function fetchItemsByCategory(categoryId: string) {
   const supabase = createClient()
@@ -42,6 +44,7 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { isRestaurantClosed } = useRestaurantStatus()
+  const { isOpen, selectedItem, openModal, closeModal } = useItemDetailModal()
 
   const loadCategory = useCallback(
     async (categoryId: string) => {
@@ -109,7 +112,11 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
           <div className="hide-scrollbar mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2">
             {frequentlyAdded.map((item) => (
               <div key={item.id} className="w-40 flex-none snap-start sm:w-48">
-                <ItemCard item={item} isRestaurantClosed={isRestaurantClosed} />
+                <ItemCard
+                  item={item}
+                  isRestaurantClosed={isRestaurantClosed}
+                  onOpenDetail={openModal}
+                />
               </div>
             ))}
           </div>
@@ -128,6 +135,7 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
                 key={item.id}
                 item={item}
                 isRestaurantClosed={isRestaurantClosed}
+                onOpenDetail={openModal}
               />
             ))}
           </div>
@@ -137,6 +145,12 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
           </p>
         )}
       </div>
+      <ItemDetailModal
+        item={selectedItem}
+        isOpen={isOpen}
+        onClose={closeModal}
+        isRestaurantClosed={isRestaurantClosed}
+      />
     </section>
   )
 }
