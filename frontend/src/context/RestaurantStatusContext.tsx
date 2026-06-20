@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
 
 interface RestaurantStatusContextType {
   isRestaurantClosed: boolean
@@ -14,9 +14,13 @@ const RestaurantStatusContext = createContext<RestaurantStatusContextType>({
 
 export function RestaurantStatusProvider({ children }: { children: ReactNode }) {
   const [isRestaurantClosed, setIsRestaurantClosed] = useState(false)
+  const value = useMemo(
+    () => ({ isRestaurantClosed, setIsRestaurantClosed }),
+    [isRestaurantClosed]
+  )
 
   return (
-    <RestaurantStatusContext.Provider value={{ isRestaurantClosed, setIsRestaurantClosed }}>
+    <RestaurantStatusContext.Provider value={value}>
       {children}
     </RestaurantStatusContext.Provider>
   )

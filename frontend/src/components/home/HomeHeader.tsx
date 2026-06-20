@@ -2,35 +2,39 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 
+const logoPlaceholder =
+  'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="16" fill="%23D62828"/%3E%3Cpath d="M17 45V19h7l8 12 8-12h7v26h-7V31L32 43 24 31v14z" fill="%23fff"/%3E%3C/svg%3E'
+
 export function HomeHeader() {
   return (
-    <header className="sticky top-0 z-10 w-full bg-white border-b border-gray-100 shadow-sm px-4 h-16 flex items-center justify-between">
-      {/* Left: Logo */}
-      <Link href="/" className="flex items-center gap-2 relative">
-        <div className="relative w-8 h-8 bg-muncherz-red rounded-full flex items-center justify-center text-white font-bold text-xs overflow-hidden">
-          {/* Real logo goes here later */}
-          <span className="absolute z-10">M</span>
-        </div>
-        <span className="font-extrabold text-lg text-muncherz-black tracking-tight">Muncherz</span>
+    <header className="sticky top-0 z-10 flex h-16 w-full items-center justify-between border-b border-gray-100 bg-white px-4">
+      <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="Muncherz home">
+        <Image
+          src={logoPlaceholder}
+          alt="Muncherz"
+          width={36}
+          height={36}
+          priority
+          unoptimized
+          className="h-9 w-9 rounded-lg"
+        />
+        <span className="hidden text-lg font-extrabold text-muncherz-black sm:inline">
+          Muncherz
+        </span>
       </Link>
 
-      {/* Center: Location */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center">
-        <span className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Delivering to</span>
-        <button className="text-sm font-bold text-muncherz-black flex items-center gap-1 hover:text-muncherz-red transition-colors">
-          Lahore
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+      <div className="flex flex-1 items-center justify-center px-3 text-center">
+        <p className="truncate text-sm font-semibold text-muncherz-black">
+          Delivering to Lahore
+        </p>
       </div>
 
-      {/* Right: Search */}
-      <Link 
+      <Link
         href="/search"
-        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-50 text-muncherz-black transition-colors"
+        className="flex h-10 w-10 items-center justify-center rounded-full text-muncherz-black transition-colors hover:bg-muncherz-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-muncherz-red"
+        aria-label="Search menu"
       >
-        <Search className="w-5 h-5" />
+        <Search className="h-5 w-5" aria-hidden="true" />
       </Link>
     </header>
   )
