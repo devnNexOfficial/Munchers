@@ -1,6 +1,7 @@
 # final_master_checklist.md — Muncherz
 # Vibe coding checklist. Pick ONE section at a time.
-# Before writing any prompt: read ai-instructions.md + .cursorrules
+# Before writing any prompt: read ai-instructions.md + your editor's
+# quick-reference file (quick-reference-antigravity.md or quick-reference-codex.md)
 
 ---
 
@@ -11,7 +12,10 @@
 2. Write a prompt that includes:
    - Reference to ai-instructions.md (especially the customizer logic
      section if relevant)
-   - Reference to .cursorrules
+   - Reference to your AI editor's quick-reference file
+     (quick-reference-antigravity.md or quick-reference-codex.md —
+     neither editor auto-loads this from disk, so paste the relevant
+     content in directly)
    - The exact checklist items from that section
    - Any relevant DB schema from ARCHITECTURE.md
 3. Give to AI editor
@@ -84,10 +88,8 @@
       [ ] feedback — user can create own, restaurant can read all + reply
       [ ] menu_items / ingredients — public read, restaurant-role write only
       [ ] activity_logs — insert only, no update/delete for anyone
-[ ] Enable Realtime on: orders (INSERT for KDS, UPDATE for the user
-      tracker), ingredients (UPDATE for availability sync), and
-      restaurant_settings (UPDATE for the closed overlay) — see
-      ARCHITECTURE.md "Realtime Subscriptions" for the full breakdown
+[ ] Enable Realtime on: orders, restaurant_settings (for closed overlay),
+      ingredients (for stock availability sync)
 [ ] Create Storage buckets:
       [ ] menu-images (public)
       [ ] ingredient-pngs (private, signed URL access)
@@ -112,10 +114,7 @@
 [ ] Build restaurant staff login — Email + Password (Supabase Auth)
       [ ] Role check against staff_accounts table on every protected request
 [ ] Build developer login — Email + Password + TOTP 2FA
-      [ ] 2FA setup flow (QR code generation, TOTP verification) —
-            MUST be enrolled per-user (use Supabase Auth's native MFA
-            factor enrollment), not a single shared secret for all
-            developer accounts — see SECURITY.md
+      [ ] 2FA setup flow (QR code generation, TOTP verification)
 [ ] Middleware: protect /restaurant/* routes — staff role required
 [ ] Middleware: protect /developer/* routes — developer role + 2FA required
 [ ] Build logout flow for all three panels
@@ -862,9 +861,7 @@
 [ ] Confirm file upload validation (type + size) enforced server-side
       for menu images and feedback photos
 [ ] Confirm kitchen LCD device lockout and revocation working correctly
-[ ] Confirm 2FA enforced on developer panel with no bypass path, and
-      confirmed enrolled per-user (not a single shared TOTP secret
-      across all developer accounts)
+[ ] Confirm 2FA enforced on developer panel with no bypass path
 [ ] Run a basic penetration pass manually:
       [ ] Attempt to alter price via browser dev tools network tab
       [ ] Attempt to access /restaurant/* without staff session
@@ -981,13 +978,3 @@ Total Sections: 32
 [ ] 32. Final Polish & Edge Cases
 ```
 
-
----
-
-## Changes Made (Audit Pass)
-
-- No Roman Urdu found in this file — already clean English throughout, no translation needed.
-- **Fixed Section 2's Realtime list**, which named a third, different set of tables/channels than both `ARCHITECTURE.md` and `DEPLOYMENT.md` originally used. All three files are now aligned on one model: `orders`, `ingredients`, `restaurant_settings`.
-- Section 3's developer 2FA checklist item now explicitly requires per-user TOTP enrollment rather than leaving room for the single-shared-secret approach implied by `.env.example`'s `DEVELOPER_2FA_SECRET`.
-- Section 31's security hardening pass now checks for per-user MFA enrollment specifically, not just "2FA enforced."
-- Everything else in this file — the 32-section structure, dependency map, and progress tracker — was already internally consistent and didn't need restructuring.

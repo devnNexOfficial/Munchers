@@ -12,17 +12,36 @@ export async function GET(req: NextRequest) {
 
     const { data: orders, error } = await supabase
       .from('orders')
-      .select('id, order_number, status, payment_status, items, total, order_type, table_number, special_note, complexity, prep_time, accepted_at, created_at')
+      .select('id, order_number, status, payment_status, total, subtotal, delivery_charge, gst_amount, gst_percent, discount_amount, order_type, table_number, special_note, complexity, prep_time, accepted_at, created_at, payment_method')
       .in('status', ['pending', 'accepted', 'preparing', 'ready'])
-      // custom ordering: pending first, then accepted, etc
-      .order('status', { ascending: false }) // Since 'pending' starts with p... actually we should just order by created_at and let frontend sort by status
+      .order('status', { ascending: false })
       .order('created_at', { ascending: true })
 
     if (error) {
       return NextResponse.json({ error: 'Database error' }, { status: 500 })
     }
 
-    // Sort by status manually: pending -> accepted -> preparing -> ready
+    // Fetch actual order items for KOT printing and detailed view
+    const orderIds = orders.map(o => o.id)
+    let orderItemsMap: Record<string, any[]> = {}
+    
+    if (orderIds.length > 0) {
+      const { data: orderItems, error: itemsError } = await supabase
+        .from('order_items')
+        .select('*')
+        .in('order_id', orderIds)
+        
+      if (!itemsError && orderItems) {
+        orderItems.forEach(item => {
+          if (!orderItemsMap[item.order_id]) {
+            orderItemsMap[item.order_id] = []
+          }
+          orderItemsMap[item.order_id].push(item)
+        })
+      }
+    }
+
+    // Map order items and sort manually: pending -> accepted -> preparing -> ready
     const statusOrder: Record<string, number> = {
       'pending': 1,
       'accepted': 2,
@@ -30,7 +49,12 @@ export async function GET(req: NextRequest) {
       'ready': 4
     }
 
-    const sortedOrders = orders.sort((a, b) => {
+    const decoratedOrders = orders.map(o => ({
+      ...o,
+      items: orderItemsMap[o.id] || []
+    }))
+
+    const sortedOrders = decoratedOrders.sort((a, b) => {
       if (statusOrder[a.status] !== statusOrder[b.status]) {
         return statusOrder[a.status] - statusOrder[b.status]
       }

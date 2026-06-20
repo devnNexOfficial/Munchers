@@ -1,14 +1,10 @@
 {
-  "..\\node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
-    "id": 5139,
+  "app\\(restaurant)\\kds\\KDSBoard.tsx -> @/lib/print-order": {
+    "id": 5483,
     "files": [
-      "static/chunks/139.7a5a8e93a21948c1.js"
-    ]
-  },
-  "..\\node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {
-    "id": 1646,
-    "files": [
-      "static/chunks/646.f342b7cffc01feb0.js"
+      "static/chunks/8cc6faea.28fa1a9a0f65f414.js",
+      "static/chunks/d648eb28.25d20a50f20a6074.js",
+      "static/chunks/483.cc1973d5786e830f.js"
     ]
   }
 }
