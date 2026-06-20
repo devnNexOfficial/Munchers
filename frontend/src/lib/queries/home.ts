@@ -42,6 +42,9 @@ export type RestaurantSettings = {
   close_time: string | null
 }
 
+const menuItemSelect =
+  'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at'
+
 export async function getActiveDeals(): Promise<Deal[]> {
   try {
     const supabase = await createServerClient()
@@ -79,7 +82,7 @@ export async function getMenuItemsByCategory(categoryId: string): Promise<MenuIt
     const supabase = await createServerClient()
     const { data, error } = await supabase
       .from('menu_items')
-      .select('id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at')
+      .select(menuItemSelect)
       .eq('category_id', categoryId)
       .eq('is_published', true)
 
@@ -105,5 +108,60 @@ export async function getRestaurantSettings(): Promise<RestaurantSettings | null
   } catch (error) {
     console.error('Error fetching restaurant settings:', error)
     return null
+  }
+}
+
+export async function getDailySpecial(): Promise<MenuItem | null> {
+  try {
+    const supabase = await createServerClient()
+    const now = new Date().toISOString()
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select(menuItemSelect)
+      .eq('daily_special', true)
+      .eq('is_published', true)
+      .not('special_ends_at', 'is', null)
+      .gte('special_ends_at', now)
+      .order('special_ends_at', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data?.special_ends_at || new Date(data.special_ends_at) <= new Date()) return null
+
+    return data
+  } catch (error) {
+    console.error('Error fetching daily special:', error)
+    return null
+  }
+}
+
+export async function getFrequentlyAddedItems(): Promise<MenuItem[]> {
+  try {
+    const supabase = await createServerClient()
+    const categorySlugs = ['side', 'sides', 'extra', 'extras', 'dip', 'dips', 'drink', 'drinks']
+    const { data: categories, error: categoryError } = await supabase
+      .from('categories')
+      .select('id')
+      .in('slug', categorySlugs)
+
+    if (categoryError) throw categoryError
+
+    const categoryIds = categories?.map((category) => category.id) ?? []
+    if (categoryIds.length === 0) return []
+
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select(menuItemSelect)
+      .in('category_id', categoryIds)
+      .eq('is_published', true)
+      .order('sort_order', { ascending: true })
+      .limit(6)
+
+    if (error) throw error
+    return data ?? []
+  } catch (error) {
+    console.error('Error fetching frequently added items:', error)
+    return []
   }
 }
