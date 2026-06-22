@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CustomizerEntryAnimation } from './CustomizerEntryAnimation'
 import { BurgerCanvas } from './BurgerCanvas'
+import { IngredientPanel } from './IngredientPanel'
+import { SummaryList } from './SummaryList'
+import { useCustomizerSteps } from '@/hooks/useCustomizerSteps'
 
 export function CustomizerPageClient({ itemId }: { itemId: string }) {
   const router = useRouter()
@@ -13,6 +16,8 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
   const [isAnimating, setIsAnimating] = useState(true)
   const [isExiting, setIsExiting] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  const steps = useCustomizerSteps(ingredients)
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -70,8 +75,16 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
           transition={{ duration: 0.3 }}
           className="flex h-screen w-full flex-row overflow-hidden bg-[#0A0A0A]"
         >
-          <div className="w-1/4 bg-white flex items-center justify-center border-r">
-            <span className="text-gray-400 text-sm font-bold text-center px-4">Ingredient Panels — Section 8</span>
+          <div className="w-1/4 h-full border-r">
+            <IngredientPanel
+              ingredients={steps.currentIngredients}
+              title={steps.currentTitle}
+              currentStep={steps.currentStep}
+              totalSteps={steps.totalSteps}
+              onNext={steps.goNext}
+              onBack={steps.goBack}
+              canGoNext={steps.canGoNext}
+            />
           </div>
           
           <div className="flex-1 flex flex-col items-center justify-center relative">
@@ -79,14 +92,19 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
             {/* Temporary exit button to demonstrate the exit animation */}
             <button 
               onClick={() => handleExit('/')}
-              className="absolute top-4 right-4 z-50 rounded bg-white px-4 py-2 text-sm font-bold text-black"
+              className="absolute top-4 left-4 z-50 rounded bg-white px-4 py-2 text-sm font-bold text-black"
             >
               Exit Customizer
             </button>
           </div>
           
-          <div className="w-1/4 bg-white flex items-center justify-center border-l">
-            <span className="text-gray-400 text-sm font-bold text-center px-4">Summary List — Section 8</span>
+          <div className="w-1/4 h-full border-l">
+            <SummaryList
+              ingredients={ingredients}
+              basePrice={menuItem?.base_price || 0}
+              basePrepTime={menuItem?.prep_time || 0}
+              onAddToCart={() => handleExit('/cart')}
+            />
           </div>
         </motion.div>
       )}
