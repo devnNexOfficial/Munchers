@@ -1,14 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/kitchen/page": "app/kitchen/page.js",
-  "/(restaurant)/delivery/page": "app/(restaurant)/delivery/page.js",
   "/(developer)/dashboard/page": "app/(developer)/dashboard/page.js",
-  "/(restaurant)/deals/page": "app/(restaurant)/deals/page.js",
-  "/(restaurant)/riders/page": "app/(restaurant)/riders/page.js",
-  "/(restaurant)/kitchen-screens/page": "app/(restaurant)/kitchen-screens/page.js",
-  "/(restaurant)/kds/page": "app/(restaurant)/kds/page.js",
-  "/(restaurant)/inventory/page": "app/(restaurant)/inventory/page.js",
-  "/(restaurant)/reports/page": "app/(restaurant)/reports/page.js",
-  "/(restaurant)/staff/page": "app/(restaurant)/staff/page.js",
-  "/(restaurant)/menu/page": "app/(restaurant)/menu/page.js"
+  "/kitchen/page": "app/kitchen/page.js"
 }
