@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 import { GlobalOrderTimer } from '@/components/tracker/GlobalOrderTimer'
+import { RTLProvider } from '@/components/profile/RTLProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-muncherz-white text-muncherz-black antialiased">
-        <GlobalOrderTimer />
-        {children}
+        <RTLProvider>
+          <GlobalOrderTimer />
+          {children}
+        </RTLProvider>
       </body>
     </html>
   )
