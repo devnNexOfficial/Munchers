@@ -9,7 +9,10 @@ import { IngredientPanel } from './IngredientPanel'
 import { SummaryList } from './SummaryList'
 import { useCustomizerSteps } from '@/hooks/useCustomizerSteps'
 
-export function CustomizerPageClient({ itemId }: { itemId: string }) {
+import { useCustomizerStore } from '@/store/useCustomizerStore'
+import { useCartStore } from '@/store/useCartStore'
+
+export function CustomizerPageClient({ itemId, editCartItemId }: { itemId: string; editCartItemId?: string }) {
   const router = useRouter()
   const [ingredients, setIngredients] = useState<any[]>([])
   const [menuItem, setMenuItem] = useState<any>(null)
@@ -30,6 +33,13 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
         const data = await res.json()
         setIngredients(data.ingredients || [])
         setMenuItem(data.menuItem || { image_url: '/placeholder.png' })
+          
+        if (editCartItemId) {
+          const cartItem = useCartStore.getState().cartItems.find(i => i.cartItemId === editCartItemId)
+          if (cartItem) {
+            useCustomizerStore.getState().loadSelections(cartItem.selections)
+          }
+        }
       } catch (e) {
         console.error(e)
       } finally {
@@ -37,7 +47,7 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
       }
     }
     fetchIngredients()
-  }, [itemId])
+  }, [itemId, editCartItemId])
 
   if (loading) {
     return <div className="flex h-screen items-center justify-center bg-muncherz-black text-white">Loading...</div>
@@ -63,6 +73,49 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
     setTimeout(() => {
       router.push(path)
     }, 300) // matches exit duration
+  }
+
+  const handleSaveToCart = () => {
+    const { selections } = useCustomizerStore.getState()
+    const selectionsArray = Object.values(selections)
+    
+    // Subtotal calculations logic goes here when actually saving, or we reuse store methods
+    const basePrice = menuItem?.base_price || 0
+    const totalPrice = useCustomizerStore.getState().calculateSubtotal(basePrice, ingredients)
+    
+    if (editCartItemId) {
+      useCartStore.getState().updateItem(editCartItemId, {
+        selections: selectionsArray,
+        totalPrice: totalPrice // Need to consider meal price, but wait, updateItem preserves meal price if we update base properly. 
+        // Wait, getTotalWithoutMeal uses totalPrice in cartStore. So we should re-add meal price if needed?
+        // Actually, cartStore assumes totalPrice INCLUDES mealPrice. So we must add the meal total.
+        // Let's just do it directly.
+      })
+      // Correct way to handle meal price when editing:
+      const cartItem = useCartStore.getState().cartItems.find(i => i.cartItemId === editCartItemId)
+      if (cartItem) {
+        const mealTotal = cartItem.mealOptions.reduce((acc, opt) => acc + opt.quantity * opt.extraPrice, 0)
+        useCartStore.getState().updateItem(editCartItemId, {
+          selections: selectionsArray,
+          totalPrice: totalPrice + mealTotal
+        })
+      }
+    } else {
+      useCartStore.getState().addItem({
+        cartItemId: crypto.randomUUID(),
+        menuItemId: itemId,
+        name: menuItem?.name || 'Custom Item',
+        imageUrl: menuItem?.image_url || '/placeholder.png',
+        basePrice: basePrice,
+        selections: selectionsArray,
+        mealOptions: [],
+        totalPrice: totalPrice,
+        quantity: 1,
+        specialInstructions: ''
+      })
+    }
+    
+    handleExit('/cart')
   }
 
   return (
@@ -103,7 +156,8 @@ export function CustomizerPageClient({ itemId }: { itemId: string }) {
               ingredients={ingredients}
               basePrice={menuItem?.base_price || 0}
               basePrepTime={menuItem?.prep_time || 0}
-              onAddToCart={() => handleExit('/cart')}
+              onAddToCart={handleSaveToCart}
+              buttonText={editCartItemId ? 'Save Changes' : 'Add to Cart'}
             />
           </div>
         </motion.div>

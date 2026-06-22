@@ -27,6 +27,7 @@ interface CartState {
   updateSpecialInstructions: (cartItemId: string, text: string) => void
   addMealToItem: (cartItemId: string, meal: SelectedMealOption[]) => void
   removeMealFromItem: (cartItemId: string) => void
+  updateItem: (cartItemId: string, updatedItem: Partial<CartItem>) => void
   clearCart: () => void
   getSubtotal: () => number
   getItemCount: () => number
@@ -97,6 +98,16 @@ export const useCartStore = create<CartState>((set, get) => ({
       cartItems: state.cartItems.map((item) =>
         item.cartItemId === cartItemId
           ? { ...item, mealOptions: [], totalPrice: getTotalWithoutMeal(item) }
+          : item
+      ),
+    }))
+  },
+
+  updateItem: (cartItemId, updatedItem) => {
+    set((state) => ({
+      cartItems: state.cartItems.map((item) =>
+        item.cartItemId === cartItemId
+          ? { ...item, ...updatedItem }
           : item
       ),
     }))

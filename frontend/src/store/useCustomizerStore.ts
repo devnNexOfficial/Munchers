@@ -11,6 +11,7 @@ interface CustomizerState {
   removeItem: (ingredientId: string, isCore: boolean) => void
   setItemQuantity: (ingredientId: string, qty: number, isCore?: boolean) => void
   resetCustomizer: () => void
+  loadSelections: (selectionsArray: IngredientSelection[]) => void
   clearAlert: () => void
   calculateSubtotal: (basePrice: number, ingredientsList: CustomizerIngredient[]) => number
   calculatePrepTime: (baseTime: number, ingredientsList: CustomizerIngredient[]) => number
@@ -106,6 +107,15 @@ export const useCustomizerStore = create<CustomizerState>((set, get) => ({
   },
 
   resetCustomizer: () => set({ selections: {}, alertMessage: null }),
+  
+  loadSelections: (selectionsArray) => {
+    const newSelections: Record<string, IngredientSelection> = {}
+    selectionsArray.forEach(sel => {
+      newSelections[sel.ingredientId] = sel
+    })
+    set({ selections: newSelections, alertMessage: null })
+  },
+
   clearAlert: () => set({ alertMessage: null }),
 
   calculateSubtotal: (basePrice, ingredientsList) => {

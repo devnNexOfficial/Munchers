@@ -9,14 +9,15 @@ export const metadata: Metadata = {
 export default async function CustomizePage({
   searchParams,
 }: {
-  searchParams: Promise<{ itemId?: string }>
+  searchParams: Promise<{ itemId?: string; editCartItemId?: string }>
 }) {
   const resolvedParams = await searchParams
   const itemId = resolvedParams.itemId
+  const editCartItemId = resolvedParams.editCartItemId
 
   if (!itemId) {
     redirect('/')
   }
 
-  return <CustomizerPageClient itemId={itemId} />
+  return <CustomizerPageClient itemId={itemId} editCartItemId={editCartItemId} />
 }

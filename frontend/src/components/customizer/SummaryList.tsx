@@ -33,9 +33,10 @@ interface SummaryListProps {
   basePrice: number
   basePrepTime: number
   onAddToCart: () => void
+  buttonText?: string
 }
 
-export function SummaryList({ ingredients, basePrice, basePrepTime, onAddToCart }: SummaryListProps) {
+export function SummaryList({ ingredients, basePrice, basePrepTime, onAddToCart, buttonText = 'Add to Cart' }: SummaryListProps) {
   const { selections, calculateSubtotal, calculatePrepTime } = useCustomizerStore()
 
   const subtotal = calculateSubtotal(basePrice, ingredients)
@@ -115,7 +116,7 @@ export function SummaryList({ ingredients, basePrice, basePrepTime, onAddToCart 
           disabled={missingRequired.length > 0}
           className="w-full rounded-xl bg-muncherz-red py-4 text-center text-lg font-black text-white shadow-lg transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
         >
-          {missingRequired.length > 0 ? 'Missing Requirements' : 'Add to Cart'}
+          {missingRequired.length > 0 ? 'Missing Requirements' : buttonText}
         </button>
 
         {missingRequired.length > 0 && (
