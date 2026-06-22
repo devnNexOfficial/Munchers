@@ -6,9 +6,12 @@ import Image from 'next/image'
 import { Minus, Plus } from 'lucide-react'
 
 import { BurgerCanvas } from '@/components/customizer/BurgerCanvas'
+import { MealSelector } from '@/components/customizer/MealSelector'
 import { PizzaCanvas } from '@/components/customizer/PizzaCanvas'
 import { RollCanvas } from '@/components/customizer/RollCanvas'
 import { SimpleItemSelector } from '@/components/customizer/SimpleItemSelector'
+import type { SelectedMealOption } from '@/hooks/useMealSelector'
+import { useMealSelector } from '@/hooks/useMealSelector'
 import type {
   CustomizerIngredient as Ingredient,
   IngredientCategory,
@@ -24,6 +27,7 @@ interface MenuItemData {
   basePrice: number
   basePrepTime: number
   canvasType: CanvasType
+  withMeal: boolean
 }
 
 interface IngredientRow {
@@ -184,7 +188,15 @@ function IngredientPanel({ ingredients }: { ingredients: Ingredient[] }) {
   )
 }
 
-function SummaryList({ item, ingredients }: { item: MenuItemData; ingredients: Ingredient[] }) {
+function SummaryList({
+  item,
+  ingredients,
+  onAddToCart,
+}: {
+  item: MenuItemData
+  ingredients: Ingredient[]
+  onAddToCart: () => void
+}) {
   const selections = useCustomizerStore((state) => state.selections)
   const subtotal = useCustomizerStore((state) => state.calculateSubtotal(item.basePrice, ingredients))
   const prepTime = useCustomizerStore((state) => state.calculatePrepTime(item.basePrepTime, ingredients))
@@ -220,6 +232,13 @@ function SummaryList({ item, ingredients }: { item: MenuItemData; ingredients: I
           <span>Subtotal</span>
           <span className="text-muncherz-red">{formatPrice(subtotal)}</span>
         </div>
+        <button
+          type="button"
+          onClick={onAddToCart}
+          className="mt-4 w-full rounded-xl bg-muncherz-red px-4 py-3 text-sm font-black text-white transition active:scale-95"
+        >
+          Add to Cart
+        </button>
       </div>
     </aside>
   )
@@ -229,6 +248,7 @@ export default function CustomizePage() {
   const [item, setItem] = useState<MenuItemData | null>(null)
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const mealSelector = useMealSelector()
   const resetCustomizer = useCustomizerStore((state) => state.resetCustomizer)
   const setItemQuantity = useCustomizerStore((state) => state.setItemQuantity)
   const itemId = useMemo(() => {
@@ -246,7 +266,7 @@ export default function CustomizePage() {
       const supabase = createClient()
       const { data: itemData } = await supabase
         .from('menu_items')
-        .select('id, name_en, base_price, base_prep_time, canvas_type')
+        .select('id, name_en, base_price, base_prep_time, canvas_type, with_meal')
         .eq('id', itemId)
         .maybeSingle()
 
@@ -258,7 +278,7 @@ export default function CustomizePage() {
         .eq('menu_item_id', itemId)
         .order('sort_order', { ascending: true })
 
-      const menuItem = itemData as { id: string; name_en: string; base_price: number; base_prep_time: number | null; canvas_type: string | null } | null
+      const menuItem = itemData as { id: string; name_en: string; base_price: number; base_prep_time: number | null; canvas_type: string | null; with_meal: boolean | null } | null
       const mappedIngredients = ((ingredientRows ?? []) as MenuItemIngredientRow[])
         .map(mapIngredient)
         .filter((ingredient): ingredient is Ingredient => ingredient !== null)
@@ -270,6 +290,7 @@ export default function CustomizePage() {
           basePrice: menuItem.base_price,
           basePrepTime: menuItem.base_prep_time ?? 15,
           canvasType: parseCanvasType(menuItem.canvas_type),
+          withMeal: menuItem.with_meal ?? false,
         })
       }
 
@@ -294,6 +315,36 @@ export default function CustomizePage() {
     )
   }
 
+  function goToCart(selectedMealOptions: SelectedMealOption[] = []) {
+    console.log('Prepared cart item', {
+      itemId: item?.id,
+      selectedMealOptions,
+    })
+    // TODO: actual cart add logic wired in Section 11
+    window.location.href = '/cart'
+  }
+
+  function handleAddToCart() {
+    if (!item) return
+    if (item.withMeal) {
+      mealSelector.openMealSelector({ id: item.id, name: item.name })
+      return
+    }
+
+    goToCart()
+  }
+
+  function handleAddMeal(selectedMealOptions: SelectedMealOption[]) {
+    mealSelector.rememberSelectedOptions(selectedMealOptions)
+    goToCart(selectedMealOptions)
+  }
+
+  function handleSkipMeal() {
+    // Skipped meals can be added later from the Section 11 cart meal tag flow.
+    mealSelector.rememberSelectedOptions([])
+    goToCart()
+  }
+
   return (
     <main className="min-h-screen bg-muncherz-black">
       <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 md:grid-cols-[280px_1fr_320px]">
@@ -301,8 +352,16 @@ export default function CustomizePage() {
         <section className="grid place-items-center p-4 md:p-8">
           <CanvasRouter canvasType={item.canvasType} ingredients={ingredients} />
         </section>
-        <SummaryList item={item} ingredients={ingredients} />
+        <SummaryList item={item} ingredients={ingredients} onAddToCart={handleAddToCart} />
       </div>
+      <MealSelector
+        isOpen={mealSelector.isOpen}
+        onClose={mealSelector.closeMealSelector}
+        mealOptions={mealSelector.mealOptions}
+        baseItemName={mealSelector.activeItem?.name ?? item.name}
+        onAddMeal={handleAddMeal}
+        onSkip={handleSkipMeal}
+      />
     </main>
   )
 }
