@@ -1,20 +1,22 @@
-import type { Metadata } from 'next'
-
+import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { OrderTrackerPage } from '@/components/tracker/OrderTrackerPage'
 
-export function generateMetadata(): Metadata {
-  return {
-    title: {
-      absolute: 'Track Order | Muncherz',
-    },
-  }
+export const metadata: Metadata = {
+  title: 'Track Order | Muncherz',
 }
 
-type TrackSearchParams = Promise<{ orderId?: string | string[] }>
+interface TrackPageProps {
+  searchParams: Promise<{ orderId?: string }>
+}
 
-export default async function Page({ searchParams }: { searchParams: TrackSearchParams }) {
-  const params = await searchParams
-  const orderId = Array.isArray(params.orderId) ? params.orderId[0] : params.orderId
+export default async function TrackPage({ searchParams }: TrackPageProps) {
+  const resolvedParams = await searchParams
+  const orderId = resolvedParams.orderId
 
-  return <OrderTrackerPage initialOrderId={orderId ?? null} />
+  if (!orderId) {
+    redirect('/')
+  }
+
+  return <OrderTrackerPage orderId={orderId} />
 }
