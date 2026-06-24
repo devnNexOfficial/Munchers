@@ -11,10 +11,12 @@ import { LoyaltySection } from './LoyaltySection'
 import { OrderHistorySection } from './OrderHistorySection'
 import { AccountSection } from './AccountSection'
 
+import type { IngredientSelection } from '@/lib/layerConfig'
+import type { OrderHistoryEntry } from './OrderHistorySection'
+
 type Profile = { id: string; name: string | null; phone: string; language: string; loyalty_stamps: number }
-type SavedCreation = { id: string; name: string; menu_item_id: string; total_price: number; customizations: any }
+type SavedCreation = { id: string; name: string; menu_item_id: string; total_price: number; customizations: IngredientSelection[] }
 type Address = { id: string; label: string; address_text: string; is_default: boolean }
-type Order = { id: string; order_number: string; status: string; total: number; created_at: string; items: any }
 type RestaurantSettings = { loyalty_enabled: boolean; loyalty_stamp_count: number; loyalty_reward_item: string }
 
 export function ProfilePage() {
@@ -24,7 +26,7 @@ export function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [creations, setCreations] = useState<SavedCreation[]>([])
   const [addresses, setAddresses] = useState<Address[]>([])
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<OrderHistoryEntry[]>([])
   const [settings, setSettings] = useState<RestaurantSettings | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -50,7 +52,7 @@ export function ProfilePage() {
       if (profRes.data) setProfile(profRes.data as Profile)
       if (creatRes.data) setCreations(creatRes.data as SavedCreation[])
       if (addrRes.data) setAddresses(addrRes.data as Address[])
-      if (orderRes.data) setOrders(orderRes.data as Order[])
+      if (orderRes.data) setOrders(orderRes.data as OrderHistoryEntry[])
       if (setRes.data) setSettings(setRes.data as RestaurantSettings)
       
       setLoading(false)

@@ -1,10 +1,11 @@
 'use client'
 
+import type { Dispatch, SetStateAction } from 'react'
 import { MapPin, Plus } from 'lucide-react'
 
 type Address = { id: string; label: string; address_text: string; is_default: boolean }
 
-export function AddressesSection({ addresses, setAddresses }: { addresses: Address[]; setAddresses: any }) {
+export function AddressesSection({ addresses, setAddresses }: { addresses: Address[]; setAddresses: Dispatch<SetStateAction<Address[]>> }) {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">

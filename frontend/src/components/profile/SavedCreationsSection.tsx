@@ -1,12 +1,14 @@
 'use client'
 
+import type { Dispatch, SetStateAction } from 'react'
 import { Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useCartStore } from '@/store/useCartStore'
+import type { IngredientSelection } from '@/lib/layerConfig'
 
-type SavedCreation = { id: string; name: string; menu_item_id: string; total_price: number; customizations: any }
+type SavedCreation = { id: string; name: string; menu_item_id: string; total_price: number; customizations: IngredientSelection[] }
 
-export function SavedCreationsSection({ creations, setCreations }: { creations: SavedCreation[]; setCreations: any }) {
+export function SavedCreationsSection({ creations, setCreations }: { creations: SavedCreation[]; setCreations: Dispatch<SetStateAction<SavedCreation[]>> }) {
   const addToCart = useCartStore(state => state.addItem)
 
   async function handleDelete(id: string) {

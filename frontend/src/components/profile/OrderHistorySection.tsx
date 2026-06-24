@@ -3,9 +3,22 @@
 import { useState } from 'react'
 import { ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react'
 
-type Order = { id: string; order_number: string; status: string; total: number; created_at: string; items: any }
+export interface OrderHistoryItem {
+  menu_item_name: string
+  quantity: number
+  item_total: number
+}
 
-export function OrderHistorySection({ orders }: { orders: Order[] }) {
+export type OrderHistoryEntry = {
+  id: string
+  order_number: string
+  status: string
+  total: number
+  created_at: string
+  items: OrderHistoryItem[] | null
+}
+
+export function OrderHistorySection({ orders }: { orders: OrderHistoryEntry[] }) {
   const [filter, setFilter] = useState<'all' | 'week' | 'month'>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
@@ -24,7 +37,7 @@ export function OrderHistorySection({ orders }: { orders: Order[] }) {
         <h3 className="text-lg font-black text-muncherz-black">Order History</h3>
         <select 
           value={filter} 
-          onChange={(e) => setFilter(e.target.value as any)}
+          onChange={(e) => setFilter(e.target.value as 'all' | 'week' | 'month')}
           className="rounded-lg border-gray-200 bg-white py-1 pl-2 pr-8 text-sm outline-none"
         >
           <option value="all">All</option>
@@ -39,7 +52,7 @@ export function OrderHistorySection({ orders }: { orders: Order[] }) {
             No past orders
           </div>
         ) : (
-          filteredOrders.map((order: Order) => {
+          filteredOrders.map((order: OrderHistoryEntry) => {
             const isExpanded = expandedId === order.id
             const dateStr = new Date(order.created_at).toLocaleDateString()
             return (
@@ -68,7 +81,7 @@ export function OrderHistorySection({ orders }: { orders: Order[] }) {
                 {isExpanded && (
                   <div className="mt-4 border-t pt-4">
                     <div className="mb-4 space-y-2">
-                      {Array.isArray(order.items) && order.items.map((item: any, idx) => (
+                      {Array.isArray(order.items) && (order.items as OrderHistoryItem[]).map((item, idx) => (
                         <div key={idx} className="flex justify-between text-sm">
                           <span className="text-gray-700">{item.quantity}x {item.menu_item_name}</span>
                           <span className="font-medium">Rs. {item.item_total}</span>
