@@ -67,7 +67,7 @@ export function PizzaCanvas({ ingredients }: PizzaCanvasProps) {
   const toppings = layers.filter(({ ingredient }) => ingredient.category === 'topping')
 
   return (
-    <div className="relative aspect-square w-full overflow-hidden bg-[#0A0A0A] p-8">
+    <div className="relative aspect-square w-full overflow-hidden bg-muncherz-white p-8">
       <div className="absolute inset-[10%] rounded-full bg-[#C77933] shadow-[inset_0_0_0_14px_rgba(255,202,112,0.45)]" />
 
       {crust && (

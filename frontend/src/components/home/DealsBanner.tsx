@@ -1,10 +1,24 @@
 'use client'
 
+/**
+ * COMPONENT: DealsBanner
+ * PURPOSE:   Auto-scrolling horizontal carousel of active deals on the home page.
+ *            Pauses on hover/touch and resumes after release.
+ * DEPENDENCIES: Deal type (lib/queries/home), Framer Motion, next/image
+ * SIDE EFFECTS: setInterval for auto-scroll (cleaned up in useEffect return).
+ * PERFORMANCE:
+ *   - clearInterval cleanup prevents memory leaks on unmount
+ *   - isPaused prevents interval from scrolling while user is dragging
+ *   - Scroll syncs currentIndex via onScroll handler for dot indicators
+ */
+
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import type { Deal } from '@/lib/queries/home'
+import { formatPKR } from '@/lib/utils/formatCurrency'
+import { DEALS_SCROLL_INTERVAL_MS } from '@/lib/constants'
 
 interface DealsBannerProps {
   deals: Deal[]
@@ -28,7 +42,7 @@ export function DealsBanner({ deals }: DealsBannerProps) {
         behavior: 'smooth',
       })
       setCurrentIndex(nextIndex)
-    }, 4000)
+    }, DEALS_SCROLL_INTERVAL_MS)
 
     return () => clearInterval(intervalId)
   }, [currentIndex, deals.length, isPaused])
@@ -91,11 +105,11 @@ export function DealsBanner({ deals }: DealsBannerProps) {
                 <div className="flex flex-col">
                   {deal.original_price && deal.original_price > deal.deal_price && (
                     <span className="text-xs text-gray-400 line-through">
-                      Rs. {deal.original_price}
+                      {formatPKR(deal.original_price)}
                     </span>
                   )}
                   <span className="text-xl font-extrabold text-muncherz-red">
-                    Rs. {deal.deal_price}
+                    {formatPKR(deal.deal_price)}
                   </span>
                 </div>
 

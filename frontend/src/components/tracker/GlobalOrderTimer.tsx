@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Clock3 } from 'lucide-react'
 
 import { createClient } from '@/lib/supabase/client'
-import { type OrderStatus, useOrderStore } from '@/store/useOrderStore'
+import { OrderStatus, useOrderStore } from '@/store/useOrderStore'
 
 interface OrderRealtimeRow {
   id: string
@@ -16,16 +16,16 @@ interface OrderRealtimeRow {
   estimated_ready_at?: string | null
 }
 
-const terminalStatuses: OrderStatus[] = ['delivered', 'cancelled']
+const terminalStatuses: OrderStatus[] = [OrderStatus.Delivered, OrderStatus.Cancelled]
 
 function isOrderStatus(value: unknown): value is OrderStatus {
   return (
-    value === 'received' ||
-    value === 'preparing' ||
-    value === 'ready' ||
-    value === 'dispatched' ||
-    value === 'delivered' ||
-    value === 'cancelled'
+    value === OrderStatus.Received ||
+    value === OrderStatus.Preparing ||
+    value === OrderStatus.Ready ||
+    value === OrderStatus.Dispatched ||
+    value === OrderStatus.Delivered ||
+    value === OrderStatus.Cancelled
   )
 }
 

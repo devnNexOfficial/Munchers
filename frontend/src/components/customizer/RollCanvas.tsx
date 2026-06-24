@@ -47,7 +47,7 @@ export function RollCanvas({ ingredients }: RollCanvasProps) {
   const fillings = layers.filter(({ ingredient }) => ingredient.category !== 'bun')
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#0A0A0A] p-8">
+    <div className="relative aspect-[4/3] w-full overflow-hidden bg-muncherz-white p-8">
       <div className="absolute inset-x-[6%] top-[22%] h-[56%] rounded-[42%] bg-[#E9C88E] shadow-[inset_0_-18px_0_rgba(177,110,43,0.24)]" />
 
       {wrap && (

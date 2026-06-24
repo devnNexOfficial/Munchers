@@ -3,7 +3,8 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { CheckCircle2, ShieldCheck } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
+import { CheckoutFormHeader } from '@/components/checkout/CheckoutFormHeader'
 
 import { AddressSelector, type Address } from '@/components/checkout/AddressSelector'
 import { calculateOrderTotals, OrderSummary } from '@/components/checkout/OrderSummary'
@@ -107,7 +108,8 @@ export function CheckoutPageClient({
     // TODO: actual API call - backend Section 13
     setToast('Order Placed!')
     clearCart()
-    window.setTimeout(() => router.push('/track'), 700)
+    const timer = window.setTimeout(() => router.push('/track'), 700)
+    return () => window.clearTimeout(timer)
   }
 
   return (
@@ -118,42 +120,22 @@ export function CheckoutPageClient({
             <h1 className="text-3xl font-black text-muncherz-black">Checkout</h1>
             <p className="mt-1 text-sm font-bold text-gray-500">Confirm the essentials before the kitchen starts.</p>
           </div>
-          <section className="rounded-xl bg-white p-4 shadow-sm">
-            <label className="block">
-              <span className="text-xs font-black text-muncherz-black">Phone number</span>
-              <input
-                value={phone}
-                onChange={(event) => {
-                  setPhone(event.target.value)
-                  setPhoneVerified(event.target.value === initialPhone)
-                  setError('Phone changed. OTP re-verify will run once backend Section 13 is connected.')
-                }}
-                placeholder="03XXXXXXXXX"
-                className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-3 text-sm font-bold outline-none focus:border-muncherz-red"
-              />
-            </label>
-            {error && (
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="flex gap-2 text-sm font-bold text-warning">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  {error}
-                </p>
-                {!phoneVerified && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      console.log('TODO: re-verify phone via OTP', phone)
-                      setPhoneVerified(true)
-                      setToast('Phone re-verified for checkout.')
-                    }}
-                    className="shrink-0 rounded-lg border border-muncherz-red px-3 py-2 text-xs font-black text-muncherz-red"
-                  >
-                    Re-verify
-                  </button>
-                )}
-              </div>
-            )}
-          </section>
+          <CheckoutFormHeader
+            phone={phone}
+            initialPhone={initialPhone}
+            error={error}
+            phoneVerified={phoneVerified}
+            onPhoneChange={(val) => {
+              setPhone(val)
+              setPhoneVerified(val === initialPhone)
+              setError('Phone changed. OTP re-verify will run once backend Section 13 is connected.')
+            }}
+            onReverify={() => {
+              console.log('TODO: re-verify phone via OTP', phone)
+              setPhoneVerified(true)
+              setToast('Phone re-verified for checkout.')
+            }}
+          />
           <OrderTypeSelector
             qrTableNumber={qrTableNumber}
             onSelect={(nextOrderType, nextTableNumber) => {

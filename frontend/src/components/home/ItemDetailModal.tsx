@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 
 import type { MenuItem, MenuItemSizeVariant } from '@/lib/queries/home'
+import { ItemDetailPricing } from './ItemDetailPricing'
 
 interface ItemDetailModalProps {
   item: MenuItem | null
@@ -27,14 +28,6 @@ function getVariants(item: MenuItem | null): MenuItemSizeVariant[] {
 
 function getCookingOptions(item: MenuItem | null): string[] {
   return item?.cooking_preference_options?.filter(Boolean) ?? []
-}
-
-function chipClass(isSelected: boolean, weight = 'font-bold') {
-  return `rounded-full border px-4 py-2 text-sm ${weight} transition active:scale-95 ${
-    isSelected
-      ? 'border-muncherz-red bg-muncherz-red text-white'
-      : 'border-gray-200 bg-muncherz-white text-muncherz-black'
-  }`
 }
 
 export function ItemDetailModal({
@@ -138,58 +131,20 @@ export function ItemDetailModal({
                   )}
                 </div>
 
-                <div className="flex items-end gap-2">
-                  {hasDiscount && (
-                    <span className="pb-0.5 text-sm font-bold text-gray-400 line-through">
-                      {formatPrice(activeItem.discount_price ?? activeItem.base_price)}
-                    </span>
-                  )}
-                  <span className="text-3xl font-black text-muncherz-red">
-                    {formatPrice(displayedPrice)}
-                  </span>
-                </div>
-
-                {hasVariants && (
-                  <section aria-label="Size options">
-                    <h3 className="text-sm font-extrabold text-muncherz-black">Choose size</h3>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {variants.map((variant) => {
-                        const isSelected = selectedSize?.label === variant.label
-                        return (
-                          <button
-                            key={`${variant.label}-${variant.price}`}
-                            type="button"
-                            onClick={() => setSelectedSize(variant)}
-                            className={chipClass(isSelected, 'font-extrabold')}
-                          >
-                            {variant.label} - {formatPrice(variant.price)}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </section>
-                )}
-
-                {hasCookingOptions && (
-                  <section aria-label="Cooking preference">
-                    <h3 className="text-sm font-extrabold text-muncherz-black">Cooking preference</h3>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {cookingOptions.map((option) => {
-                        const isSelected = selectedCookingPreference === option
-                        return (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() => setSelectedCookingPreference(option)}
-                            className={chipClass(isSelected)}
-                          >
-                            {option}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </section>
-                )}
+                <ItemDetailPricing
+                  hasDiscount={hasDiscount}
+                  basePrice={activeItem.base_price}
+                  discountPrice={activeItem.discount_price}
+                  displayedPrice={displayedPrice}
+                  hasVariants={hasVariants}
+                  variants={variants}
+                  selectedSize={selectedSize}
+                  onSelectSize={setSelectedSize}
+                  hasCookingOptions={hasCookingOptions}
+                  cookingOptions={cookingOptions}
+                  selectedCookingPreference={selectedCookingPreference}
+                  onSelectCookingPreference={setSelectedCookingPreference}
+                />
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <button

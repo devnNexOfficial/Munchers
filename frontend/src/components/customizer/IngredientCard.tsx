@@ -1,35 +1,65 @@
 'use client'
 
-import { useState } from 'react'
+/**
+ * COMPONENT: IngredientCard
+ * PURPOSE:   Displays one ingredient in the left panel with its image, name,
+ *            price, and interaction controls (+/-, tier selector for toppings).
+ * DEPENDENCIES: LimitBar, next/image, Framer Motion, lucide-react icons
+ * SIDE EFFECTS: None — calls onAdd/onRemove callbacks provided by parent.
+ * PERFORMANCE:
+ *   - React.memo: prevents re-render unless ingredient data, qty, or disabled state changes
+ *   - useCallback on onAdd/onRemove (applied in IngredientPanel) keeps these stable
+ *   - AnimatePresence wraps controls for smooth show/hide transitions
+ *
+ * INTERFACE SEGREGATION: Only receives exactly what this card needs — no full
+ *   store object, no raw supabase client, no extraneous props.
+ */
+
+import React, { useState } from 'react'
+
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Minus, X } from 'lucide-react'
+
 import type { CustomizerIngredient } from '@/lib/layerConfig'
+import { formatPKR } from '@/lib/utils/formatCurrency'
+
 import { LimitBar } from './LimitBar'
 
 interface IngredientCardProps {
   ingredient: CustomizerIngredient
+  /** Current selected quantity (0 = not added) */
   currentQty: number
+  /** Called when the user taps + or selects a tier. tier is only set for toppings. */
   onAdd: (tier?: 'low' | 'medium' | 'high') => void
+  /** Called when the user taps - or the remove (×) badge */
   onRemove: () => void
+  /** True when the ingredient is out of stock — all interactions are disabled */
   isDisabled: boolean
 }
 
-export function IngredientCard({
+export const IngredientCard = React.memo(function IngredientCard({
   ingredient,
   currentQty,
   onAdd,
   onRemove,
   isDisabled,
 }: IngredientCardProps) {
+  // Controls are shown inline for core items; toggled by tapping for flexible ones
   const [showControls, setShowControls] = useState(false)
   const isMaxed = currentQty >= ingredient.maxLimit
 
-  const handleCardTap = () => {
+  /**
+   * Tapping the card:
+   * - Core items: controls always visible (isCore handles this in renderControls)
+   * - Topping items: show tier buttons (not a simple tap-to-add)
+   * - Flexible items at qty 0: tap to add immediately
+   * - Flexible items at qty > 0: toggle the +/- controls
+   */
+  function handleCardTap(): void {
     if (isDisabled) return
     if (ingredient.isCore || ingredient.category === 'topping') return
 
-    // Flexible ingredients logic
     if (currentQty === 0) {
       onAdd()
     } else {
@@ -37,7 +67,14 @@ export function IngredientCard({
     }
   }
 
-  const renderControls = () => {
+  /**
+   * Renders the appropriate controls for the ingredient category:
+   * - Topping: 3-tier selector (Light / Regular / Extra)
+   * - Core: always-visible +/- stepper
+   * - Flexible: toggled +/- stepper (via showControls)
+   */
+  function renderControls(): React.ReactNode {
+    // Toppings use the 3-tier quantity system (L/R/E) per ai-instructions spec
     if (ingredient.category === 'topping') {
       return (
         <div className="mt-2 flex w-full justify-between gap-1">
@@ -51,6 +88,7 @@ export function IngredientCard({
               }}
               className="flex-1 rounded-full bg-gray-100 py-1 text-[10px] font-bold uppercase text-gray-600 transition-colors hover:bg-gray-200 disabled:opacity-50"
             >
+              {/* L = Light, R = Regular, E = Extra */}
               {tier === 'low' ? 'L' : tier === 'medium' ? 'R' : 'E'}
             </button>
           ))}
@@ -97,7 +135,14 @@ export function IngredientCard({
         isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
       } ${currentQty > 0 ? 'ring-2 ring-muncherz-red' : 'ring-1 ring-gray-200'}`}
     >
-      {/* Active Badge for Flexible items not showing controls yet */}
+      {/* Quantity badge — shown for flexible items when controls are hidden */}
+      {currentQty > 0 && !ingredient.isCore && !showControls && ingredient.category !== 'topping' && (
+        <div className="absolute -left-2 -top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muncherz-red text-[10px] font-bold text-white shadow-sm">
+          x{currentQty}
+        </div>
+      )}
+
+      {/* Remove button — shown for flexible items when controls are hidden */}
       {currentQty > 0 && !ingredient.isCore && !showControls && ingredient.category !== 'topping' && (
         <button
           onClick={(e) => {
@@ -110,12 +155,7 @@ export function IngredientCard({
         </button>
       )}
 
-      {currentQty > 0 && !ingredient.isCore && !showControls && ingredient.category !== 'topping' && (
-        <div className="absolute -left-2 -top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muncherz-red text-[10px] font-bold text-white shadow-sm">
-          x{currentQty}
-        </div>
-      )}
-
+      {/* Ingredient image */}
       <div className="relative mb-2 h-16 w-16">
         <Image
           src={ingredient.pngImageUrl || '/placeholder.png'}
@@ -128,8 +168,9 @@ export function IngredientCard({
       <span className="text-center text-xs font-bold text-gray-800 line-clamp-1">
         {ingredient.name}
       </span>
+      {/* Use formatPKR for consistent currency formatting across the app */}
       <span className="text-[10px] font-bold text-gray-500">
-        + Rs. {ingredient.pricePerUnit}
+        + {formatPKR(ingredient.pricePerUnit)}
       </span>
 
       <div className="mt-auto w-full pt-2">
@@ -140,4 +181,4 @@ export function IngredientCard({
       </div>
     </motion.div>
   )
-}
+})

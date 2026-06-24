@@ -57,12 +57,12 @@ export function CartPage() {
 
   function handleMealSelected(selectedOptions: SelectedMealOption[]) {
     if (activeMealCartItemId) addMealToItem(activeMealCartItemId, selectedOptions)
-    mealSelector.rememberSelectedOptions(selectedOptions)
+    mealSelector.setSelectedOptions(selectedOptions)
     setActiveMealCartItemId(null)
   }
 
   function handleMealSkipped() {
-    mealSelector.rememberSelectedOptions([])
+    mealSelector.setSelectedOptions([])
     setActiveMealCartItemId(null)
   }
 

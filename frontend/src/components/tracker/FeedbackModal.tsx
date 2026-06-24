@@ -3,7 +3,19 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Star, Upload, X } from 'lucide-react'
+import Image from 'next/image'
+import { z } from 'zod'
 import { createClient } from '@/lib/supabase/client'
+import { FeedbackRatingSection } from './FeedbackRatingSection'
+
+const feedbackSchema = z.object({
+  orderId: z.string().uuid(),
+  overallRating: z.number().min(1).max(5),
+  foodRating: z.number().min(1).max(5).optional(),
+  riderRating: z.number().min(1).max(5).optional(),
+  comment: z.string().max(500).optional(),
+  photoUrl: z.string().url().optional(),
+})
 
 interface FeedbackModalProps {
   orderId: string
@@ -63,16 +75,32 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
         }
       }
 
+      const payload = {
+        orderId: orderId,
+        overallRating: overallRating,
+        foodRating: foodRating || undefined,
+        riderRating: riderRating || undefined,
+        comment: comment || undefined,
+        photoUrl: photoUrl || undefined,
+      }
+      
+      const parsed = feedbackSchema.safeParse(payload)
+      if (!parsed.success) {
+        alert("Invalid feedback data. Please try again.")
+        setIsSubmitting(false)
+        return
+      }
+
       await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          order_id: orderId,
-          overall_rating: overallRating,
-          food_rating: foodRating || null,
-          rider_rating: riderRating || null,
-          comment: comment || null,
-          photo_url: photoUrl,
+          order_id: parsed.data.orderId,
+          overall_rating: parsed.data.overallRating,
+          food_rating: parsed.data.foodRating || null,
+          rider_rating: parsed.data.riderRating || null,
+          comment: parsed.data.comment || null,
+          photo_url: parsed.data.photoUrl || null,
         }),
       })
 
@@ -92,27 +120,6 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
       setPhoto(file)
       setPhotoPreview(URL.createObjectURL(file))
     }
-  }
-
-  function renderStars(rating: number, setRating: (val: number) => void) {
-    return (
-      <div className="flex gap-1">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <button
-            key={star}
-            type="button"
-            onClick={() => setRating(star)}
-            className="focus:outline-none"
-          >
-            <Star
-              className={`h-8 w-8 ${
-                star <= rating ? 'fill-muncherz-yellow text-muncherz-yellow' : 'text-gray-300'
-              }`}
-            />
-          </button>
-        ))}
-      </div>
-    )
   }
 
   return (
@@ -136,20 +143,14 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
             <h2 className="mb-6 text-2xl font-black text-muncherz-black">How was your experience?</h2>
 
             <div className="space-y-6">
-              <div>
-                <label className="mb-2 block text-sm font-bold text-gray-700">Overall Rating *</label>
-                {renderStars(overallRating, setOverallRating)}
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-bold text-gray-700">Food Quality (Optional)</label>
-                {renderStars(foodRating, setFoodRating)}
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-bold text-gray-700">Rider/Delivery (Optional)</label>
-                {renderStars(riderRating, setRiderRating)}
-              </div>
+              <FeedbackRatingSection
+                overallRating={overallRating}
+                setOverallRating={setOverallRating}
+                foodRating={foodRating}
+                setFoodRating={setFoodRating}
+                riderRating={riderRating}
+                setRiderRating={setRiderRating}
+              />
 
               <div>
                 <label className="mb-2 block text-sm font-bold text-gray-700">Comments (Optional)</label>
@@ -166,9 +167,8 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
               <div>
                 <label className="mb-2 block text-sm font-bold text-gray-700">Add a Photo (Optional)</label>
                 {photoPreview ? (
-                  <div className="relative inline-block">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={photoPreview} alt="Preview" className="h-24 w-24 rounded-lg object-cover" />
+                  <div className="relative inline-block h-24 w-24">
+                    <Image src={photoPreview} alt="Feedback photo preview" width={200} height={200} className="h-24 w-24 rounded-lg object-cover" />
                     <button
                       onClick={() => {
                         setPhoto(null)
