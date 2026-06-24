@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Clock3 } from 'lucide-react'
 
-import { createClient } from '@/lib/supabase/client'
+import { subscriptionManager } from '@/lib/realtime/subscriptionManager'
 import { OrderStatus, useOrderStore } from '@/store/useOrderStore'
 
 interface OrderRealtimeRow {
@@ -85,34 +85,23 @@ export function GlobalOrderTimer() {
   useEffect(() => {
     if (!activeOrderId) return
 
-    const supabase = createClient()
-    const channel = supabase
-      .channel(`public:orders:${activeOrderId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'orders',
-          filter: `id=eq.${activeOrderId}`,
-        },
-        (payload) => {
-          const row = payload.new as Partial<OrderRealtimeRow>
-          if (!row.id || !isOrderStatus(row.status)) return
+    const unsubscribe = subscriptionManager.subscribe(
+      `orders:${activeOrderId}`,
+      { table: 'orders', event: 'UPDATE', filter: `id=eq.${activeOrderId}` },
+      (payload) => {
+        const row = payload.new as Partial<OrderRealtimeRow>
+        if (!row.id || !isOrderStatus(row.status)) return
 
-          if (terminalStatuses.includes(row.status)) {
-            clearActiveOrder()
-            return
-          }
-
-          setActiveOrder(row.id, row.status, row.estimated_ready_at ?? null)
+        if (terminalStatuses.includes(row.status)) {
+          clearActiveOrder()
+          return
         }
-      )
-      .subscribe()
 
-    return () => {
-      supabase.removeChannel(channel)
-    }
+        setActiveOrder(row.id, row.status, row.estimated_ready_at ?? null)
+      }
+    )
+
+    return unsubscribe
   }, [activeOrderId, clearActiveOrder, setActiveOrder])
 
   function handleOpenTracker() {

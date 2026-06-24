@@ -19,6 +19,7 @@
 import { create } from 'zustand'
 
 import type { CustomizerIngredient, IngredientSelection } from '@/lib/layerConfig'
+import { getPricingStrategy } from '@/lib/pricing/pricingStrategies'
 
 // ---------------------------------------------------------------------------
 // Private helpers (not exported — encapsulation)
@@ -228,11 +229,7 @@ export const useCustomizerStore = create<CustomizerState>((set, get) => ({
 
   calculateSubtotal: (basePrice, ingredientsList) => {
     const { selections } = get()
-    // Single-pass O(n) — avoids filter().map().reduce() chaining
-    return ingredientsList.reduce((total, ingredient) => {
-      const qty = selections[ingredient.id]?.qty ?? 0
-      return total + qty * ingredient.pricePerUnit
-    }, basePrice)
+    return getPricingStrategy('customized').calculate(basePrice, selections, ingredientsList)
   },
 
   calculatePrepTime: (baseTime, ingredientsList) => {
