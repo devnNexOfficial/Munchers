@@ -2,6 +2,14 @@
 
 import { motion } from 'framer-motion'
 
+/**
+ * COMPONENT: LimitBar
+ * PURPOSE: Visual fill indicator per ingredient showing current quantity
+ *          vs max limit. Shakes when limit is reached.
+ * DEPENDENCIES: None (pure presentational)
+ * PERFORMANCE: Only re-renders when current/max change.
+ * EDGE CASES: Handles max=0 safely by clamping to 0%.
+ */
 interface LimitBarProps {
   current: number
   max: number

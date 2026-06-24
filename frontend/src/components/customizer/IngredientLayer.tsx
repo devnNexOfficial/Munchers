@@ -1,15 +1,24 @@
 'use client'
 
 import Image from 'next/image'
-
 import { motion } from 'framer-motion'
 
 import { getLayerConfig } from '@/lib/layerConfig'
 import type { CustomizerIngredient } from '@/lib/layerConfig'
 
+/**
+ * COMPONENT: IngredientLayer
+ * PURPOSE: Renders a single ingredient layer on the burger canvas at its
+ *          configured position (yPosition, widthRatio, zIndex).
+ * DEPENDENCIES: None (pure presentational)
+ * PERFORMANCE: Uses willChange for GPU acceleration. Memoized by parent.
+ */
 interface IngredientLayerProps {
   ingredient: CustomizerIngredient
 }
+
+const FALLBACK_IMAGE =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 900 520%22%3E%3Crect width=%22900%22 height=%22520%22 fill=%22transparent%22/%3E%3C/svg%3E'
 
 export function IngredientLayer({ ingredient }: IngredientLayerProps) {
   const layerConfig = getLayerConfig(ingredient)
@@ -30,7 +39,7 @@ export function IngredientLayer({ ingredient }: IngredientLayerProps) {
       }}
     >
       <Image
-        src={ingredient.pngImageUrl}
+        src={ingredient.png_image_url ?? FALLBACK_IMAGE}
         alt={ingredient.name}
         width={900}
         height={520}
