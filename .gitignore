@@ -1,6 +1,7 @@
 # Frontend
 frontend/node_modules/
 frontend/.env
+frontend/.next/
 frontend/build/
 frontend/dist/
 
@@ -10,5 +11,6 @@ backend/__pycache__/
 backend/.env
 
 # General
+node_modules/
 .DS_Store
 *.log

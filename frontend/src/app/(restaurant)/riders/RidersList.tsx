@@ -212,7 +212,7 @@ export default function RidersList({ initialRiders, role }: RidersListProps) {
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm font-bold text-[#D62828]">Deactivate {rider.name}?</p>
-                            <p className="text-xs text-red-800 mt-1">They won't be assignable to new orders.</p>
+                            <p className="text-xs text-red-800 mt-1">They won&apos;t be assignable to new orders.</p>
                           </div>
                           <div className="flex gap-3">
                             <button 

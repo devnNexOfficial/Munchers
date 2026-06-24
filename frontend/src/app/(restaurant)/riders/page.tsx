@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server';
 import RidersList from './RidersList';
 import { Rider, StaffRole } from './types';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Rider Management | Muncherz',
 };

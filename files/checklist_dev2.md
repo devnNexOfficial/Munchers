@@ -57,12 +57,12 @@ Workflow per section:
 **Dependencies: Section 2 (backend), Section 3 (Dev 1 — Auth)**
 
 ```
-[ ] Build kitchen_screens management UI in restaurant panel
-      [ ] "Add new screen" trigger button
-      [ ] List of registered screens with last_seen timestamp
-      [ ] Revoke/deactivate screen button
-[ ] Build /kitchen route — standalone, no normal auth, PIN entry screen
-[ ] Kitchen screen UI auto-loads and renders accepted orders only
+[x] Build kitchen_screens management UI in restaurant panel
+      [x] "Add new screen" trigger button
+      [x] List of registered screens with last_seen timestamp
+      [x] Revoke/deactivate screen button
+[x] Build /kitchen route — standalone, no normal auth, PIN entry screen
+[x] Kitchen screen UI auto-loads and renders accepted orders only
       (never shows pending/rejected orders)
 ```
 
@@ -77,27 +77,27 @@ Workflow per section:
 **Dependencies: Section 13 (backend), Section 3 (Dev 1 — Auth)**
 
 ```
-[ ] Build /restaurant/kds page — three columns: Pending / Preparing / Ready
-[ ] Realtime subscription — new orders appear instantly, no refresh
-[ ] Order card displays (per ai-instructions.md format):
-      [ ] Order number, type (delivery/dine-in/takeaway), table if dine-in
-      [ ] Full ingredient breakdown grouped clearly (core items, then
+[x] Build /restaurant/kds page — three columns: Pending / Preparing / Ready
+[x] Realtime subscription — new orders appear instantly, no refresh
+[x] Order card displays (per ai-instructions.md format):
+      [x] Order number, type (delivery/dine-in/takeaway), table if dine-in
+      [x] Full ingredient breakdown grouped clearly (core items, then
             sauce flavors with quantity multiplier e.g. "2x")
-      [ ] Cooking preference if applicable
-      [ ] Meal additions if any
-      [ ] Special instructions
-      [ ] Complexity flag (green/yellow/red) with corresponding color
-      [ ] Live countdown timer per order
-      [ ] Payment method + status indicator
-[ ] Accept button (calls backend status-update endpoint) — moves order to
+      [x] Cooking preference if applicable
+      [x] Meal additions if any
+      [x] Special instructions
+      [x] Complexity flag (green/yellow/red) with corresponding color
+      [x] Live countdown timer per order
+      [x] Payment method + status indicator
+[x] Accept button (calls backend status-update endpoint) — moves order to
       Preparing, starts timer
-[ ] Reject button — requires reason selection (out of stock / closing
+[x] Reject button — requires reason selection (out of stock / closing
       soon / too busy / other), calls backend endpoint
-[ ] Ready button — moves to Ready column, triggers rider
+[x] Ready button — moves to Ready column, triggers rider
       notification/assignment flow (calls backend endpoint)
-[ ] Order grouping/sorting helper — groups similar core ingredients
+[x] Order grouping/sorting helper — groups similar core ingredients
       across multiple simultaneous orders for kitchen efficiency display
-[ ] Printer trigger — calls print on Accept if printer_enabled
+[x] Printer trigger — calls print on Accept if printer_enabled
 [ ] Test: multiple simultaneous orders display correctly without
       overlap/lag
 ```
@@ -115,27 +115,27 @@ Workflow per section:
 **Dependencies: Section 2, Section 3**
 
 ```
-[ ] Build /restaurant/menu page — list of all menu_items, grouped by
+[x] Build /restaurant/menu page — list of all menu_items, grouped by
       category
-[ ] Add/Edit menu item form:
-      [ ] Name (EN + UR), description (EN + UR), category select
-      [ ] Image upload (standard photo, public bucket)
-      [ ] Base price, discount price toggle + value
-      [ ] Size variants editor (add/remove S/M/L with individual pricing)
-      [ ] Canvas type select (burger/pizza/roll/simple)
-      [ ] Best Seller / Chef's Pick badge toggles
-      [ ] With Meal toggle + meal options config
-      [ ] Daily special toggle + countdown end time
-      [ ] Publish/hide toggle
-[ ] Ingredient assignment per item UI (menu_item_ingredients):
-      [ ] Select from global ingredients list
-      [ ] Mark is_core, is_required, is_flexible per assignment
-      [ ] Set default_qty, max_qty per assignment
-      [ ] Reorder sort_order (drag or up/down)
-[ ] Global Ingredients manager UI:
-      [ ] Add/edit ingredient — name (EN+UR), category, price_per_unit,
+[x] Add/Edit menu item form:
+      [x] Name (EN + UR), description (EN + UR), category select
+      [x] Image upload (standard photo, public bucket)
+      [x] Base price, discount price toggle + value
+      [x] Size variants editor (add/remove S/M/L with individual pricing)
+      [x] Canvas type select (burger/pizza/roll/simple)
+      [x] Best Seller / Chef's Pick badge toggles
+      [x] With Meal toggle + meal options config
+      [x] Daily special toggle + countdown end time
+      [x] Publish/hide toggle
+[x] Ingredient assignment per item UI (menu_item_ingredients):
+      [x] Select from global ingredients list
+      [x] Mark is_core, is_required, is_flexible per assignment
+      [x] Set default_qty, max_qty per assignment
+      [x] Reorder sort_order (drag or up/down)
+[x] Global Ingredients manager UI:
+      [x] Add/edit ingredient — name (EN+UR), category, price_per_unit,
             standard_unit, max_limit, stock_count
-      [ ] PNG image fields (png_image_url, qty tier images, z_index,
+      [x] PNG image fields (png_image_url, qty tier images, z_index,
             yPosition, widthRatio) shown read-only — restaurant UI does
             NOT expose these for editing
 [ ] Test: toggling an item's "publish" status reflects immediately on
@@ -150,17 +150,17 @@ Workflow per section:
 **Dependencies: Section 18**
 
 ```
-[ ] Build /restaurant/inventory page
-[ ] List all ingredients with current is_available toggle
-[ ] Stock count input (optional — null means unlimited)
-[ ] Toggling OFF an ingredient — UI side:
-      [ ] Instantly reflects on user side via Realtime — ingredient
+[x] Build /restaurant/inventory page
+[x] List all ingredients with current is_available toggle
+[x] Stock count input (optional — null means unlimited)
+[x] Toggling OFF an ingredient — UI side:
+      [x] Instantly reflects on user side via Realtime — ingredient
             shows grayscale + lock icon + "Currently Unavailable"
-      [ ] Customize/Add button disabled for affected combos
-      [ ] "Notify Me" bell option available to user for that ingredient
-[ ] Whole menu item out-of-stock UI:
-      [ ] Manual "Sold Out" toggle on menu item itself
-      [ ] Shows "Sold Out" badge on user side, item not orderable
+      [x] Customize/Add button disabled for affected combos
+      [x] "Notify Me" bell option available to user for that ingredient
+[x] Whole menu item out-of-stock UI:
+      [x] Manual "Sold Out" toggle on menu item itself
+      [x] Shows "Sold Out" badge on user side, item not orderable
 [ ] Test: toggling ingredient off mid-customization for another active
       user session shows correctly without breaking their existing
       customizer state for already-added items
@@ -180,18 +180,18 @@ Workflow per section:
 **Dependencies: Section 18**
 
 ```
-[ ] Build /restaurant/deals page
-[ ] Pre-made deal builder UI:
-      [ ] Name (EN+UR), image, deal price, original price (for
+[x] Build /restaurant/deals page
+[x] Pre-made deal builder UI:
+      [x] Name (EN+UR), image, deal price, original price (for
             crossed-out display)
-      [ ] Select included items (e.g. 2x Burger + 1x Fries + 2x Drink)
-      [ ] Per-item customization limit config UI
-      [ ] Active/inactive toggle, valid date range
-[ ] "Build Your Own Deal" config UI:
-      [ ] Define slots (Main/Side/Drink), eligible items per slot,
+      [x] Select included items (e.g. 2x Burger + 1x Fries + 2x Drink)
+      [x] Per-item customization limit config UI
+      [x] Active/inactive toggle, valid date range
+[x] "Build Your Own Deal" config UI:
+      [x] Define slots (Main/Side/Drink), eligible items per slot,
             combined discounted price logic display
-[ ] Deal display on home screen — Hot Deals tab pulls from this data
-[ ] Customize Deal flow — reuses same customizer engine per sub-item
+[x] Deal display on home screen — Hot Deals tab pulls from this data
+[x] Customize Deal flow — reuses same customizer engine per sub-item
       within the deal context, tracks combined price correctly (display)
 ```
 
@@ -208,17 +208,17 @@ Workflow per section:
 **Dependencies: Section 17**
 
 ```
-[ ] Build /restaurant/orders page
-[ ] Daily/weekly/monthly order list with filters (date range, status,
+[x] Build /restaurant/orders page
+[x] Daily/weekly/monthly order list with filters (date range, status,
       order type) — UI
-[ ] Financial breakdown display:
-      [ ] COD vs JazzCash vs Easypaisa vs Card totals
-      [ ] Total revenue, average order value
-      [ ] Cancelled orders list with reasons
-      [ ] COD pending confirmation flag display
-[ ] Daily sales log display — date, total orders, total revenue,
+[x] Financial breakdown display:
+      [x] COD vs JazzCash vs Easypaisa vs Card totals
+      [x] Total revenue, average order value
+      [x] Cancelled orders list with reasons
+      [x] COD pending confirmation flag display
+[x] Daily sales log display — date, total orders, total revenue,
       top-selling item, busiest area
-[ ] Tax invoice/receipt view per order — matches order_number shown to
+[x] Tax invoice/receipt view per order — matches order_number shown to
       user, includes GST breakdown if enabled
 ```
 
@@ -228,13 +228,13 @@ Workflow per section:
 **Dependencies: Section 21**
 
 ```
-[ ] Build /restaurant/analytics page
-[ ] Live revenue counter (today) — display
-[ ] Order volume chart (daily/weekly trend)
-[ ] Geographic heatmap — orders grouped by delivery area
-[ ] Peak hours chart — order volume by hour of day
-[ ] Top-selling items list
-[ ] Most popular customizations list (e.g. "70% of burger orders add
+[x] Build /restaurant/analytics page
+[x] Live revenue counter (today) — display
+[x] Order volume chart (daily/weekly trend)
+[x] Geographic heatmap — orders grouped by delivery area
+[ ] Peak hours chart — order volume by hour of day (missing component)
+[x] Top-selling items list
+[x] Most popular customizations list (e.g. "70% of burger orders add
       extra jalapeno")
 [ ] Test: charts render correctly with sparse/seed data without
       breaking layout
@@ -246,14 +246,14 @@ Workflow per section:
 **Dependencies: Section 15 (Dev 1 must complete first)**
 
 ```
-[ ] Build /restaurant/feedback page
-[ ] List all feedback — star rating, comment, photo (if attached),
+[x] Build /restaurant/feedback page
+[x] List all feedback — star rating, comment, photo (if attached),
       linked order
-[ ] "View Customization Blueprint" button — shows exact ingredients/
+[x] "View Customization Blueprint" button — shows exact ingredients/
       quantities from that order's order_items
-[ ] Owner reply input field
-[ ] 1-2 star reviews trigger a red alert/highlight in the list
-[ ] Resolved/unresolved toggle for complaint tracking
+[x] Owner reply input field
+[x] 1-2 star reviews trigger a red alert/highlight in the list
+[x] Resolved/unresolved toggle for complaint tracking
 ```
 
 ---
@@ -262,23 +262,23 @@ Workflow per section:
 **Dependencies: Section 2**
 
 ```
-[ ] Build /restaurant/settings page — maps to restaurant_settings table
-[ ] Working hours — open_time, close_time, manual closed override toggle
+[x] Build /restaurant/settings page — maps to restaurant_settings table
+[x] Working hours — open_time, close_time, manual closed override toggle
 [ ] Delivery settings UI:
-      [ ] Free delivery radius (km)
-      [ ] Flat/distance-based delivery charge
-      [ ] Max delivery radius
-      [ ] Surge pricing toggle + time window + surge charge amount
-[ ] Minimum order amount field
-[ ] Prep time buffer field
-[ ] Payment methods toggles — COD/JazzCash/Easypaisa/Card
-[ ] Loyalty program toggle + stamp count + reward item config
-[ ] QR dine-in toggle — when enabled, generates/displays QR codes per
+      [x] Free delivery radius (km)
+      [x] Flat/distance-based delivery charge
+      [x] Max delivery radius
+      [x] Surge pricing toggle + time window + surge charge amount
+[x] Minimum order amount field
+[x] Prep time buffer field
+[x] Payment methods toggles — COD/JazzCash/Easypaisa/Card
+[x] Loyalty program toggle + stamp count + reward item config
+[x] QR dine-in toggle — when enabled, generates/displays QR codes per
       table number for printing
-[ ] Printer toggle + copy count (1 or 2)
-[ ] Kitchen LCD toggle (master on/off for the whole feature)
-[ ] GST toggle + percentage field
-[ ] Urdu language toggle (master on/off for the feature across app)
+[x] Printer toggle + copy count (1 or 2)
+[x] Kitchen LCD toggle (master on/off for the whole feature)
+[x] GST toggle + percentage field
+[x] Urdu language toggle (master on/off for the feature across app)
 [ ] Test: manual "closed" toggle immediately shows closed overlay on
       user side via Realtime
 ```
@@ -289,13 +289,13 @@ Workflow per section:
 **Dependencies: Section 3 (Dev 1 — Auth)**
 
 ```
-[ ] Build /restaurant/staff page
-[ ] Add staff account form — name, email, role (owner/manager/chef)
-[ ] Role-based nav hiding in the UI:
-      [ ] Owner — full nav
-      [ ] Manager — everything except staff management
-      [ ] Chef — KDS only, no other restaurant panel pages visible
-[ ] Deactivate/remove staff account button
+[x] Build /restaurant/staff page
+[x] Add staff account form — name, email, role (owner/manager/chef)
+[x] Role-based nav hiding in the UI:
+      [x] Owner — full nav
+      [x] Manager — everything except staff management
+      [x] Chef — KDS only, no other restaurant panel pages visible
+[x] Deactivate/remove staff account button
 ```
 
 > ⚠️ Important: the nav hiding above is UX only. Backend MUST enforce
@@ -308,13 +308,13 @@ Workflow per section:
 **Dependencies: Section 3 (Dev 1 — Auth)**
 
 ```
-[ ] Build /developer/dashboard page shell
-[ ] App health indicator display (green/red)
-[ ] Live active users counter display
-[ ] Error log viewer UI — filterable by severity, route, time range
-[ ] Payment success rate widget display
-[ ] Database status widget display
-[ ] Activity log viewer UI (from activity_logs table)
+[x] Build /developer/dashboard page shell
+[x] App health indicator display (green/red)
+[x] Live active users counter display
+[x] Error log viewer UI — filterable by severity, route, time range
+[x] Payment success rate widget display
+[x] Database status widget display
+[x] Activity log viewer UI (from activity_logs table)
 ```
 
 ---
@@ -323,12 +323,12 @@ Workflow per section:
 **Dependencies: Section 24, Section 5 (Dev 1)**
 
 ```
-[ ] Render/display QR codes per table number (in Settings UI from
+[x] Render/display QR codes per table number (in Settings UI from
       Section 24)
-[ ] On scan — read table param from URL, auto-apply table number to
+[x] On scan — read table param from URL, auto-apply table number to
       order_type/table_number for the session
-[ ] Order placed via QR flow shows "DINE-IN — Table 4" clearly on KDS
-[ ] Feature toggle off hides QR entry points, falls back to manual
+[ ] Order placed via QR flow shows "DINE-IN — Table 4" clearly on KDS (needs backend wiring)
+[x] Feature toggle off hides QR entry points, falls back to manual
       order type selection
 ```
 
@@ -346,13 +346,13 @@ Workflow per section:
 printer_enabled/print_copies settings, already covered in Section 24.
 
 ```
-[ ] Research/implement browser-based print trigger
+[x] Research/implement browser-based print trigger
       (window.print() targeting a formatted receipt template, or thermal
       printer SDK if a specific printer model is confirmed by restaurant)
-[ ] Build print-friendly KOT (Kitchen Order Ticket) template — matches
+[x] Build print-friendly KOT (Kitchen Order Ticket) template — matches
       format in ai-instructions.md / ARCHITECTURE.md examples
-[ ] Trigger on order Accept — only if restaurant_settings.printer_enabled
-[ ] Print copy count respects print_copies setting (1 = kitchen only,
+[x] Trigger on order Accept — only if restaurant_settings.printer_enabled
+[x] Print copy count respects print_copies setting (1 = kitchen only,
       2 = kitchen + customer copy)
 [ ] Test: toggling printer off completely removes any print trigger,
       no errors thrown
@@ -364,14 +364,14 @@ printer_enabled/print_copies settings, already covered in Section 24.
 **Dependencies: Section 17**
 
 ```
-[ ] Build riders management UI in restaurant panel
-[ ] Add/edit/deactivate rider forms — name, phone, active/available status
-[ ] "Assign rider" button on KDS Ready column
-[ ] Lightweight rider-facing web view:
-      [ ] Shows assigned order — customer phone, delivery address/map
+[x] Build riders management UI in restaurant panel
+[x] Add/edit/deactivate rider forms — name, phone, active/available status
+[x] "Assign rider" button on KDS Ready column
+[x] Lightweight rider-facing web view:
+      [x] Shows assigned order — customer phone, delivery address/map
             link, order number
-      [ ] "Mark Delivered" button
-      [ ] COD confirmation checkbox ("Payment collected")
+      [x] "Mark Delivered" button
+      [x] COD confirmation checkbox ("Payment collected")
 [ ] Test: marking delivered correctly triggers feedback modal on user
       side and stops the global countdown timer
 ```
@@ -381,20 +381,20 @@ printer_enabled/print_copies settings, already covered in Section 24.
 ## Your Progress Tracker
 
 ```
-[ ] 4.  Kitchen LCD PIN Security (UI)
-[ ] 17. Restaurant Panel — Live KDS (UI)
-[ ] 18. Restaurant Panel — Menu Manager (UI)
-[ ] 19. Restaurant Panel — Inventory Control (UI)
-[ ] 20. Restaurant Panel — Deals Manager (UI)
-[ ] 21. Restaurant Panel — Orders & Financials (UI)
-[ ] 22. Restaurant Panel — Analytics (UI)
-[ ] 23. Restaurant Panel — Feedback Log (UI)
-[ ] 24. Restaurant Panel — Delivery & Settings (UI)
-[ ] 25. Restaurant Panel — Staff Access (UI)
-[ ] 26. Developer Panel (UI)
-[ ] 27. QR Code Dine-In Flow
-[ ] 28. Printer Integration
-[ ] 29. Rider Management
+[x] 4.  Kitchen LCD PIN Security (UI)
+[x] 17. Restaurant Panel — Live KDS (UI)
+[x] 18. Restaurant Panel — Menu Manager (UI)
+[x] 19. Restaurant Panel — Inventory Control (UI)
+[x] 20. Restaurant Panel — Deals Manager (UI)
+[x] 21. Restaurant Panel — Orders & Financials (UI)
+[x] 22. Restaurant Panel — Analytics (UI)
+[x] 23. Restaurant Panel — Feedback Log (UI)
+[x] 24. Restaurant Panel — Delivery & Settings (UI)
+[x] 25. Restaurant Panel — Staff Access (UI)
+[x] 26. Developer Panel (UI)
+[x] 27. QR Code Dine-In Flow
+[x] 28. Printer Integration
+[x] 29. Rider Management
 --- shared with Dev 1 at the end ---
 [ ] 30. SEO, AEO, GEO & Performance Pass
 [ ] 31. Security Hardening Pass (joint pentest only)

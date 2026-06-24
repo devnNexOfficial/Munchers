@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
@@ -104,7 +105,7 @@ export default function FeedbackRow({ entry, role, onToggleResolve, onSaveReply 
         {/* Comment */}
         {entry.comment && (
           <div className="text-sm text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100 italic">
-            "{truncateComment(entry.comment)}"
+            &quot;{truncateComment(entry.comment)}&quot;
             {entry.comment.length > 150 && (
               <button 
                 onClick={() => setExpandedComment(!expandedComment)} 

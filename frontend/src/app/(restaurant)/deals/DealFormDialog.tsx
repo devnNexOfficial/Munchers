@@ -128,7 +128,7 @@ export default function DealFormDialog({ initialData, menuOptions, onSave, onCan
               <input type="datetime-local" value={formData.valid_until || ''} onChange={e => setFormData(p => ({ ...p, valid_until: e.target.value }))} className="w-full border p-2 rounded focus:ring-[#D62828]" />
               {errors.valid_until && <p className="text-[#EF4444] text-xs mt-1">{errors.valid_until}</p>}
             </div>
-            <div className="md:col-span-2 text-xs text-blue-800">Leave both blank for "Always Active".</div>
+            <div className="md:col-span-2 text-xs text-blue-800">Leave both blank for &quot;Always Active&quot;.</div>
           </div>
 
           <label className="flex items-center gap-2 mt-4 cursor-pointer">

@@ -161,7 +161,7 @@ export function KitchenScreensClient() {
         ))}
         {screens.length === 0 && !isAdding && (
           <div className="text-center py-8 text-gray-500 bg-white rounded-lg border border-gray-100">
-            No kitchen screens registered. Click "Add new screen" to begin.
+            No kitchen screens registered. Click &quot;Add new screen&quot; to begin.
           </div>
         )}
       </div>

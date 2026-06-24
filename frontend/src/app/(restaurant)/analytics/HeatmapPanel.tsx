@@ -43,7 +43,7 @@ export default function HeatmapPanel({ range }: { range: DateRange }) {
 
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800 mb-4">
         <p className="font-bold mb-1">Visual Map Unavailable</p>
-        <p>A visual map requires an external library (e.g., Google Maps, Leaflet) which is currently outside the project's stack lock. Falling back to a data table view as per Section 20 guidelines.</p>
+        <p>A visual map requires an external library (e.g., Google Maps, Leaflet) which is currently outside the project&apos;s stack lock. Falling back to a data table view as per Section 20 guidelines.</p>
         <p className="mt-2 text-xs opacity-80">Assumption: The endpoint returns <code>zone_name</code> or <code>location</code> (lat/lng) strings alongside <code>order_count</code>.</p>
       </div>
 
