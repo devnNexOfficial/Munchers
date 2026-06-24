@@ -12,5 +12,6 @@ backend/__pycache__/
 backend/.env
 
 # General
+node_modules/
 .DS_Store
 *.log

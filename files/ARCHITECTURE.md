@@ -297,6 +297,41 @@ CREATE TABLE feedback (
 );
 ```
 
+### Table: restock_notifications
+```sql
+CREATE TABLE restock_notifications (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id         UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  ingredient_id   UUID REFERENCES ingredients(id) ON DELETE CASCADE,
+  menu_item_id    UUID REFERENCES menu_items(id) ON DELETE CASCADE,
+  is_notified     BOOLEAN DEFAULT false,
+  created_at      TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (user_id, ingredient_id, menu_item_id)
+);
+```
+
+⚠️ **Gap fix (flagged in `frontend_checklist.md` notes):** The "Notify Me"
+feature on out-of-stock ingredients (referenced in Section 19 of
+`final_master_checklist.md`) had no backing table until this addition.
+This table records which user wants to be told when which ingredient
+becomes available again, scoped to the specific menu item they were
+trying to order. The `UNIQUE` constraint prevents duplicate notification
+requests from the same user for the same ingredient/item combination.
+
+How it's consumed:
+```
+Restaurant toggles ingredient.is_available back to true
+        ↓
+A Supabase Database Function (trigger on ingredients UPDATE) checks
+restock_notifications for matching ingredient_id WHERE is_notified = false
+        ↓
+For each match: send notification (push/SMS, depending on what
+notification channel the team wires up later — this table only stores
+the intent to notify, it does not itself send anything)
+        ↓
+Mark is_notified = true after sending
+```
+
 ### Table: deals
 ```sql
 CREATE TABLE deals (
@@ -624,7 +659,26 @@ Supabase Storage:
   - Signed URLs (private by default)
   - Public bucket for menu images only
   - Private bucket for ingredient PNGs
+  - Private bucket for feedback photos (signed URL access only)
 ```
+
+⚠️ **Gap fix (flagged in `frontend_checklist.md` notes):** The
+`feedback.photo_url` column (used for complaint photo uploads, Section
+15 of `final_master_checklist.md`) had a column defined but no Storage
+bucket to actually hold the uploaded files. A dedicated private bucket
+is added here rather than reusing `ingredient-pngs` or `menu-images`,
+because:
+- These photos are user-submitted complaint evidence, not curated
+  restaurant content — they need stricter access control than the
+  public `menu-images` bucket.
+- Mixing them into `ingredient-pngs` would conflate two unrelated
+  concerns (developer-controlled canvas assets vs. user complaint
+  uploads) under one bucket's access policy.
+
+Bucket name: `feedback-photos`. Access: restaurant staff (owner/manager
+roles only — not chef) and the uploading user themselves, via signed
+URL, matching the RLS pattern already used for the `feedback` table
+itself.
 
 ### Database
 ```
@@ -637,6 +691,7 @@ Indexes:
   - menu_item_ingredients.menu_item_id
   - ingredients.category
   - activity_logs.actor_id + created_at
+  - restock_notifications.ingredient_id + is_notified
 
 Connection pooling: Supabase built-in (pgBouncer)
 ```
@@ -726,3 +781,6 @@ roughly 7 days with no API traffic. See `ROLLBACK.md` Section 5A and
 - **Added a precedence rule** for `is_core`/`is_required`, which existed redundantly on both `ingredients` and `menu_item_ingredients` with no stated rule for which one wins. `menu_item_ingredients` is now documented as the runtime source of truth.
 - Added a caveat under "Accounts Required" that Supabase's free tier has a 200-connection Realtime cap and auto-pauses after ~7 days of inactivity — relevant given how many Realtime-dependent features this architecture stacks on top of a single free-tier project (KDS, tracker, kitchen LCD, inventory sync, closed overlay).
 - PayMob's Pakistan support (JazzCash, Easypaisa, Card) was verified current — that part of the stack checks out and didn't need a fix.
+- **Added the `restock_notifications` table**, closing the gap flagged in `frontend_checklist.md`'s notes section — the "Notify Me" feature on out-of-stock ingredients had no backing table until now. Includes a `UNIQUE` constraint and the consumption flow (database trigger on ingredient restock → notify matching rows).
+- **Added a dedicated `feedback-photos` Storage bucket**, closing the second gap flagged in `frontend_checklist.md` — the `feedback.photo_url` column existed with nowhere defined to actually store the uploaded file. Kept separate from `ingredient-pngs` and `menu-images` since it holds user-submitted complaint evidence, not developer/restaurant-curated content, and needs its own access scope (restaurant staff + uploading user only).
+- Added the corresponding index (`restock_notifications.ingredient_id + is_notified`) to the Database Indexes list so the restock trigger's lookup stays fast as notification requests accumulate.
