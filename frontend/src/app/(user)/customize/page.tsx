@@ -1,26 +1,23 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
+import { CustomizerPageClient } from '@/components/customizer/CustomizerPageClient'
 
-import CustomizerPageClient from './CustomizerPageClient'
-
-export const dynamic = 'force-dynamic'
-
-export function generateMetadata(): Metadata {
-  return {
-    title: 'Customize | Muncherz',
-  }
+export const metadata: Metadata = {
+  title: 'Customize | Muncherz',
 }
 
-export default function CustomizePage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="flex min-h-screen items-center justify-center bg-[#0A0A0A] text-white">
-          Loading...
-        </main>
-      }
-    >
-      <CustomizerPageClient />
-    </Suspense>
-  )
+export default async function CustomizePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ itemId?: string; editCartItemId?: string }>
+}) {
+  const resolvedParams = await searchParams
+  const itemId = resolvedParams.itemId
+  const editCartItemId = resolvedParams.editCartItemId
+
+  if (!itemId) {
+    redirect('/')
+  }
+
+  return <CustomizerPageClient itemId={itemId} editCartItemId={editCartItemId} />
 }

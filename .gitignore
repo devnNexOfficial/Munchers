@@ -4,6 +4,7 @@ frontend/.env
 frontend/.next/
 frontend/build/
 frontend/dist/
+frontend/tsconfig.tsbuildinfo
 
 # Backend
 backend/venv/

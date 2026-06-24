@@ -1,21 +1,30 @@
-import React from 'react';
-import './globals.css';
+import type { Metadata } from 'next'
+import './globals.css'
 
-export const metadata = {
-  title: 'Muncherz',
-  description: 'Single restaurant premium ordering web app',
-};
+import { GlobalOrderTimer } from '@/components/tracker/GlobalOrderTimer'
+import { RTLProvider } from '@/components/profile/RTLProvider'
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Muncherz',
+    template: '%s | Muncherz',
+  },
+  description: "Pakistan's first live 2.5D burger customizer.",
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#FAFAFA] text-[#0A0A0A] min-h-screen antialiased">
-        {children}
+      <body className="bg-muncherz-white text-muncherz-black antialiased">
+        <RTLProvider>
+          <GlobalOrderTimer />
+          {children}
+        </RTLProvider>
       </body>
     </html>
-  );
+  )
 }
