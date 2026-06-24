@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 /**
  * STORE: useCustomizerStore
@@ -6,14 +6,14 @@
  *            Tracks ingredient selections, enforces core/required rules,
  *            and exposes price/prep-time calculations for the UI.
  * DEPENDENCIES: CustomizerIngredient, IngredientSelection (lib/layerConfig)
- * SIDE EFFECTS: None — all state is local. API calls happen at checkout only.
- * PERFORMANCE: Zustand selectors — components subscribe to the slice they need.
+ * SIDE EFFECTS: None â€” all state is local. API calls happen at checkout only.
+ * PERFORMANCE: Zustand selectors â€” components subscribe to the slice they need.
  *   Example: useCustomizerStore(state => state.selections) re-renders ONLY
  *   when selections changes, not on alertMessage changes.
  *
- * ENCAPSULATION: clampQuantity is a module-private helper — it is intentionally
+ * ENCAPSULATION: clampQuantity is a module-private helper â€” it is intentionally
  *   NOT exported. External code must use the store actions (addItem, removeItem,
- *   setItemQuantity) — never mutate state directly.
+ *   setItemQuantity) â€” never mutate state directly.
  */
 
 import { create } from 'zustand'
@@ -21,31 +21,19 @@ import { create } from 'zustand'
 import type { CustomizerIngredient, IngredientSelection } from '@/lib/layerConfig'
 import { getPricingStrategy } from '@/lib/pricing/pricingStrategies'
 
-// ---------------------------------------------------------------------------
-// Private helpers (not exported — encapsulation)
-// ---------------------------------------------------------------------------
-
-/**
- * Clamps a quantity between 0 and maxLimit.
- * maxLimit is floored at 1 to prevent division errors.
- * PRIVATE: This is an implementation detail — callers use store actions.
- */
-function clampQuantity(qty: number, maxLimit: number): number {
-  return Math.max(0, Math.min(qty, Math.max(1, maxLimit)))
-}
-
-/** Alert shown when a core ingredient removal is blocked */
-const CORE_INGREDIENT_BLOCKED_MESSAGE = "Chef's Rule: this ingredient is required."
-
-/** Alert shown when an ingredient has hit its restaurant-set maximum */
-const MAX_LIMIT_REACHED_MESSAGE = 'Maximum reached for this ingredient.'
+import {
+  addItemHelper,
+  calculatePrepTimeHelper,
+  removeItemHelper,
+  setItemQuantityHelper,
+} from './useCustomizerStore.helpers'
 
 // ---------------------------------------------------------------------------
 // State shape
 // ---------------------------------------------------------------------------
 
 interface CustomizerState {
-  /** Map of ingredientId → selection data. Use store selectors to read. */
+  /** Map of ingredientId â†’ selection data. Use store selectors to read. */
   selections: Record<string, IngredientSelection>
   /**
    * User-facing alert message to display in a toast.
@@ -133,84 +121,19 @@ export const useCustomizerStore = create<CustomizerState>((set, get) => ({
 
   addItem: (ingredientId, maxLimit, isCore = false) => {
     set((state) => {
-      const current = state.selections[ingredientId]
-      const currentQty = current?.qty ?? 0
-
-      // Block if already at max — set alert for the UI to display
-      if (currentQty >= maxLimit) {
-        return { alertMessage: MAX_LIMIT_REACHED_MESSAGE }
-      }
-
-      const nextQty = clampQuantity(currentQty + 1, maxLimit)
-
-      return {
-        selections: {
-          ...state.selections,
-          [ingredientId]: {
-            ingredientId,
-            qty: nextQty,
-            // Preserve existing isCore flag if already set; else use provided value
-            isCore: current?.isCore ?? isCore,
-            tier: current?.tier,
-          },
-        },
-        alertMessage: null,
-      }
+      return addItemHelper(state.selections, ingredientId, maxLimit, isCore)
     })
   },
 
   removeItem: (ingredientId, isCore) => {
     set((state) => {
-      const current = state.selections[ingredientId]
-      if (!current) return state
-
-      // Block removal of core ingredients at minimum quantity
-      if (isCore && current.qty <= 1) {
-        return { alertMessage: CORE_INGREDIENT_BLOCKED_MESSAGE }
-      }
-
-      const nextQty = current.qty - 1
-      const nextSelections = { ...state.selections }
-
-      if (nextQty <= 0) {
-        // Remove entirely from the map when quantity reaches 0
-        delete nextSelections[ingredientId]
-      } else {
-        nextSelections[ingredientId] = { ...current, qty: nextQty }
-      }
-
-      return {
-        selections: nextSelections,
-        alertMessage: null,
-      }
+      return removeItemHelper(state.selections, ingredientId, isCore)
     })
   },
 
   setItemQuantity: (ingredientId, qty, isCore = false) => {
     set((state) => {
-      // Block setting core items to 0 (must always have at least 1)
-      if (isCore && qty <= 0) {
-        return { alertMessage: CORE_INGREDIENT_BLOCKED_MESSAGE }
-      }
-
-      const nextSelections = { ...state.selections }
-
-      if (qty <= 0) {
-        delete nextSelections[ingredientId]
-      } else {
-        nextSelections[ingredientId] = {
-          ingredientId,
-          qty,
-          isCore,
-          // Preserve existing tier if present (topping tier selection)
-          tier: state.selections[ingredientId]?.tier,
-        }
-      }
-
-      return {
-        selections: nextSelections,
-        alertMessage: null,
-      }
+      return setItemQuantityHelper(state.selections, ingredientId, qty, isCore)
     })
   },
 
@@ -234,10 +157,8 @@ export const useCustomizerStore = create<CustomizerState>((set, get) => ({
 
   calculatePrepTime: (baseTime, ingredientsList) => {
     const { selections } = get()
-    // Single-pass O(n)
-    return ingredientsList.reduce((total, ingredient) => {
-      const qty = selections[ingredient.id]?.qty ?? 0
-      return total + qty * ingredient.extraPrepTime
-    }, baseTime)
+    return calculatePrepTimeHelper(baseTime, ingredientsList, selections)
   },
 }))
+
+

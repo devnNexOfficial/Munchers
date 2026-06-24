@@ -1,21 +1,15 @@
-'use client'
+﻿'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ChangeEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, Upload, X } from 'lucide-react'
-import Image from 'next/image'
-import { z } from 'zod'
-import { createClient } from '@/lib/supabase/client'
-import { FeedbackRatingSection } from './FeedbackRatingSection'
 
-const feedbackSchema = z.object({
-  orderId: z.string().uuid(),
-  overallRating: z.number().min(1).max(5),
-  foodRating: z.number().min(1).max(5).optional(),
-  riderRating: z.number().min(1).max(5).optional(),
-  comment: z.string().max(500).optional(),
-  photoUrl: z.string().url().optional(),
-})
+import { createClient } from '@/lib/supabase/client'
+import { feedbackSchema } from '@/lib/validators/feedback'
+
+import { FeedbackActions } from './FeedbackActions'
+import { FeedbackCommentField } from './FeedbackCommentField'
+import { FeedbackPhotoUpload } from './FeedbackPhotoUpload'
+import { FeedbackRatingSection } from './FeedbackRatingSection'
 
 interface FeedbackModalProps {
   orderId: string
@@ -51,7 +45,7 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
   }
 
   async function handleSubmit() {
-    if (overallRating === 0) return // Require at least overall rating
+    if (overallRating === 0) return
     setIsSubmitting(true)
 
     try {
@@ -70,23 +64,22 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
         if (uploadError) {
           console.error('Photo upload failed:', uploadError)
         } else {
-          // get public url or signed url here if needed, but per schema it's just path/url.
           photoUrl = filePath
         }
       }
 
       const payload = {
-        orderId: orderId,
-        overallRating: overallRating,
+        orderId,
+        overallRating,
         foodRating: foodRating || undefined,
         riderRating: riderRating || undefined,
         comment: comment || undefined,
         photoUrl: photoUrl || undefined,
       }
-      
+
       const parsed = feedbackSchema.safeParse(payload)
       if (!parsed.success) {
-        alert("Invalid feedback data. Please try again.")
+        alert('Invalid feedback data. Please try again.')
         setIsSubmitting(false)
         return
       }
@@ -114,9 +107,9 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
     }
   }
 
-  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
+  function handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0]
       setPhoto(file)
       setPhotoPreview(URL.createObjectURL(file))
     }
@@ -151,58 +144,21 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
                 riderRating={riderRating}
                 setRiderRating={setRiderRating}
               />
-
-              <div>
-                <label className="mb-2 block text-sm font-bold text-gray-700">Comments (Optional)</label>
-                <textarea
-                  maxLength={500}
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Tell us what you liked or how we can improve..."
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm focus:border-muncherz-red focus:outline-none focus:ring-1 focus:ring-muncherz-red"
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-bold text-gray-700">Add a Photo (Optional)</label>
-                {photoPreview ? (
-                  <div className="relative inline-block h-24 w-24">
-                    <Image src={photoPreview} alt="Feedback photo preview" width={200} height={200} className="h-24 w-24 rounded-lg object-cover" />
-                    <button
-                      onClick={() => {
-                        setPhoto(null)
-                        setPhotoPreview(null)
-                      }}
-                      className="absolute -right-2 -top-2 rounded-full bg-red-100 p-1 text-muncherz-red"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100">
-                    <Upload className="mb-1 h-6 w-6 text-gray-400" />
-                    <span className="text-xs text-gray-500">Upload</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
-                  </label>
-                )}
-              </div>
-
-              <div className="pt-4 flex flex-col gap-3">
-                <button
-                  onClick={handleSubmit}
-                  disabled={overallRating === 0 || isSubmitting}
-                  className="w-full rounded-xl bg-muncherz-red py-3.5 font-bold text-white transition-colors hover:bg-red-700 disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
-                </button>
-                <button
-                  onClick={handleSkip}
-                  className="w-full py-2 text-sm font-semibold text-gray-500 hover:text-gray-800"
-                >
-                  Skip
-                </button>
-              </div>
+              <FeedbackCommentField comment={comment} onCommentChange={setComment} />
+              <FeedbackPhotoUpload
+                photoPreview={photoPreview}
+                onPhotoChange={handlePhotoChange}
+                onClearPhoto={() => {
+                  setPhoto(null)
+                  setPhotoPreview(null)
+                }}
+              />
+              <FeedbackActions
+                canSubmit={overallRating > 0}
+                isSubmitting={isSubmitting}
+                onSubmit={handleSubmit}
+                onSkip={handleSkip}
+              />
             </div>
           </motion.div>
         </>
@@ -210,3 +166,4 @@ export function FeedbackModal({ orderId, isOpen, onClose }: FeedbackModalProps) 
     </AnimatePresence>
   )
 }
+
