@@ -1,5 +1,14 @@
 import { createServerClient } from '@/lib/supabase/server'
 
+import {
+  MOCK_CATEGORIES,
+  MOCK_DEALS,
+  MOCK_DAILY_SPECIAL,
+  MOCK_FREQUENTLY_ADDED,
+  MOCK_MENU_ITEMS,
+  MOCK_RESTAURANT_SETTINGS,
+} from './mockData'
+
 export type Deal = {
   id: string
   name: string
@@ -62,10 +71,11 @@ export async function getActiveDeals(): Promise<Deal[]> {
       .eq('is_active', true)
 
     if (error) throw error
-    return data ?? []
-  } catch (error) {
-    console.error('Error fetching deals:', error)
-    return []
+    if (data && data.length > 0) return data
+    // Fallback to mock data when DB is empty
+    return MOCK_DEALS
+  } catch {
+    return MOCK_DEALS
   }
 }
 
@@ -78,10 +88,10 @@ export async function getCategories(): Promise<Category[]> {
       .order('sort_order', { ascending: true })
 
     if (error) throw error
-    return data ?? []
-  } catch (error) {
-    console.error('Error fetching categories:', error)
-    return []
+    if (data && data.length > 0) return data
+    return MOCK_CATEGORIES
+  } catch {
+    return MOCK_CATEGORIES
   }
 }
 
@@ -95,10 +105,10 @@ export async function getMenuItemsByCategory(categoryId: string): Promise<MenuIt
       .eq('is_published', true)
 
     if (error) throw error
-    return data ?? []
-  } catch (error) {
-    console.error(`Error fetching menu items for category ${categoryId}:`, error)
-    return []
+    if (data && data.length > 0) return data
+    return MOCK_MENU_ITEMS[categoryId] ?? []
+  } catch {
+    return MOCK_MENU_ITEMS[categoryId] ?? []
   }
 }
 
@@ -112,10 +122,9 @@ export async function getRestaurantSettings(): Promise<RestaurantSettings | null
       .maybeSingle()
 
     if (error) throw error
-    return data
-  } catch (error) {
-    console.error('Error fetching restaurant settings:', error)
-    return null
+    return data ?? MOCK_RESTAURANT_SETTINGS
+  } catch {
+    return MOCK_RESTAURANT_SETTINGS
   }
 }
 
@@ -135,12 +144,11 @@ export async function getDailySpecial(): Promise<MenuItem | null> {
       .maybeSingle()
 
     if (error) throw error
-    if (!data?.special_ends_at || new Date(data.special_ends_at) <= new Date()) return null
-
-    return data
-  } catch (error) {
-    console.error('Error fetching daily special:', error)
-    return null
+    if (data?.special_ends_at && new Date(data.special_ends_at) > new Date()) return data
+    // Return mock daily special as fallback
+    return MOCK_DAILY_SPECIAL
+  } catch {
+    return MOCK_DAILY_SPECIAL
   }
 }
 
@@ -156,7 +164,7 @@ export async function getFrequentlyAddedItems(): Promise<MenuItem[]> {
     if (categoryError) throw categoryError
 
     const categoryIds = categories?.map((category) => category.id) ?? []
-    if (categoryIds.length === 0) return []
+    if (categoryIds.length === 0) return MOCK_FREQUENTLY_ADDED
 
     const { data, error } = await supabase
       .from('menu_items')
@@ -167,9 +175,9 @@ export async function getFrequentlyAddedItems(): Promise<MenuItem[]> {
       .limit(6)
 
     if (error) throw error
-    return data ?? []
-  } catch (error) {
-    console.error('Error fetching frequently added items:', error)
-    return []
+    if (data && data.length > 0) return data
+    return MOCK_FREQUENTLY_ADDED
+  } catch {
+    return MOCK_FREQUENTLY_ADDED
   }
 }

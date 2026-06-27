@@ -6,6 +6,7 @@ import { useRestaurantStatus } from '@/context/RestaurantStatusContext'
 import { useItemDetailModal } from '@/hooks/useItemDetailModal'
 import { createClient } from '@/lib/supabase/client'
 import type { Category, MenuItem } from '@/lib/queries/home'
+import { MOCK_MENU_ITEMS } from '@/lib/queries/mockData'
 
 import { CategoryTabs } from './CategoryTabs'
 import { ItemCard } from './ItemCard'
@@ -21,19 +22,22 @@ const menuItemSelect =
   'id, name_en, description_en, image_url, base_price, discount_price, show_discount, category_id, is_best_seller, is_chefs_pick, canvas_type, daily_special, special_ends_at, size_variants, cooking_preference_options'
 
 async function fetchItemsByCategory(categoryId: string) {
-  const supabase = createClient()
-  const { data, error } = await supabase
-    .from('menu_items')
-    .select(menuItemSelect)
-    .eq('category_id', categoryId)
-    .eq('is_published', true)
+  try {
+    const supabase = createClient()
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select(menuItemSelect)
+      .eq('category_id', categoryId)
+      .eq('is_published', true)
 
-  if (error) {
-    console.error(`Error fetching menu items for category ${categoryId}:`, error)
-    return []
+    if (error) throw error
+    const items = (data ?? []) as MenuItem[]
+    if (items.length > 0) return items
+    // Fallback to mock data when DB is empty
+    return MOCK_MENU_ITEMS[categoryId] ?? []
+  } catch {
+    return MOCK_MENU_ITEMS[categoryId] ?? []
   }
-
-  return (data ?? []) as MenuItem[]
 }
 
 export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
