@@ -7,7 +7,7 @@ const logoPlaceholder =
 
 export function HomeHeader() {
   return (
-    <header className="sticky top-0 z-10 flex h-16 w-full items-center justify-between border-b border-gray-100 bg-white px-4">
+    <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-100 bg-white px-4 shadow-sm">
       <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="Muncherz home">
         <Image
           src={logoPlaceholder}
@@ -24,7 +24,7 @@ export function HomeHeader() {
       </Link>
 
       <div className="flex flex-1 items-center justify-center px-3 text-center">
-        <p className="truncate text-sm font-semibold text-muncherz-black">
+        <p className="truncate text-sm text-gray-600">
           Delivering to Lahore
         </p>
       </div>

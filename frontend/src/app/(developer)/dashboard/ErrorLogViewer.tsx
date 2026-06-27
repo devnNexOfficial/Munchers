@@ -20,7 +20,11 @@ export default function ErrorLogViewer() {
         // TODO: KNOWN GAP - THIS ENDPOINT DOES NOT EXIST
         // GET /api/developer/errors is not yet implemented.
         // Assumption Flag: There is no error_logs table in ARCHITECTURE.md.
-        const queryParams = new URLSearchParams(filters as any).toString();
+        const queryParams = new URLSearchParams(
+          Object.entries(filters).filter((entry): entry is [string, string] => {
+            return typeof entry[1] === 'string' && entry[1].length > 0
+          })
+        ).toString();
         const res = await fetch(`/api/developer/errors?${queryParams}`);
         if (!res.ok) {
           setLogs(null);

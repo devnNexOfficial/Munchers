@@ -90,8 +90,15 @@ export function DealsBanner({ deals }: DealsBannerProps) {
                   priority
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-sm text-gray-400">
-                  No Image
+                <div className="absolute inset-0 bg-gradient-to-br from-[#D62828] to-red-800">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-white/80">
+                      Hot Deal
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-2xl font-black leading-tight text-white">
+                      {deal.name}
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
