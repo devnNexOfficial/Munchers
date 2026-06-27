@@ -14,7 +14,7 @@ export default function DailySummaryPanel({ range }: { range: DateRange }) {
       try {
         const res = await fetch(`/api/analytics/daily?from=${range.from}&to=${range.to}`);
         if (res.ok) setData(await res.json());
-      } catch (e) {
+      } catch {
         // Handle error
       } finally {
         setIsLoading(false);
@@ -28,7 +28,7 @@ export default function DailySummaryPanel({ range }: { range: DateRange }) {
   if (isLoading) return <div className="h-40 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-500">Loading Summary...</div>;
   if (!data) return <div className="h-40 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-500">No data available</div>;
 
-  const totalPaidOrders = data.orders_by_payment.cod + data.orders_by_payment.jazzcash + data.orders_by_payment.easypaisa + data.orders_by_payment.card;
+
   const cancellationRate = data.total_orders > 0 ? ((data.cancelled_orders / data.total_orders) * 100).toFixed(1) : '0.0';
 
   return (

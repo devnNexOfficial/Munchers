@@ -26,7 +26,7 @@ export default function StaffList({ initialStaff, currentUserId }: StaffListProp
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ is_active: active }),
       });
-    } catch (err) {
+    } catch {
       // Revert omitted for brevity
     }
   };

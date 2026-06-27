@@ -94,7 +94,7 @@ export default function OrderHistoryTab({ initialRange, onRangeChange }: OrderHi
         setOrders(mockOrders);
         setTotalPages(1);
         setTotalCount(2);
-      } catch (err) {
+      } catch {
         // error handling
       } finally {
         setLoading(false);

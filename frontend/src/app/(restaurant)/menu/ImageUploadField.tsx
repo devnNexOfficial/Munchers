@@ -59,8 +59,8 @@ export default function ImageUploadField({ bucket, label, value, onChange }: Ima
       
       // MOCK URL for demonstration
       onChange(`mock-url-for-${file.name}`);
-    } catch (err: any) {
-      setError(err.message || 'Upload failed');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setIsUploading(false);
     }

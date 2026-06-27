@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
-import BurgerCanvas from '@/components/customizer/BurgerCanvas'
-import CustomizerEntryAnimation from '@/components/customizer/CustomizerEntryAnimation'
-import type { Ingredient } from '@/components/customizer/BurgerCanvas'
+import { BurgerCanvas } from '@/components/customizer/BurgerCanvas'
+import { CustomizerEntryAnimation } from '@/components/customizer/CustomizerEntryAnimation'
+import type { CustomizerIngredient as Ingredient } from '@/lib/layerConfig'
 
 interface CustomizerIngredientsResponse {
   ingredients?: Ingredient[]
@@ -104,7 +104,7 @@ export default function CustomizerPageClient() {
         Ingredient Panels - Section 8
       </aside>
       <section className="flex flex-1 items-center justify-center bg-[#0A0A0A] p-6">
-        <BurgerCanvas ingredients={[]} />
+        <BurgerCanvas ingredients={ingredients} />
       </section>
       <aside className="flex w-1/4 items-center justify-center p-6 text-center text-sm font-medium text-neutral-700">
         Summary List - Section 8

@@ -9,7 +9,7 @@ import PopularItemsPanel from './PopularItemsPanel';
 
 // Assuming we would pass initial data down, but since components 
 // are already written to fetch on mount, we'll just render them.
-export default function AnalyticsClientWrapper({ initialSummary, initialPopular }: any) {
+export default function AnalyticsClientWrapper() {
   const today = new Date().toISOString().split('T')[0];
   const [range, setRange] = useState<DateRange>({ from: today, to: today });
 

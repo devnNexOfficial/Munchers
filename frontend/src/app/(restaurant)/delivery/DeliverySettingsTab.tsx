@@ -23,7 +23,7 @@ export default function DeliverySettingsTab({ initialSettings, role }: DeliveryS
     setHasUnsavedChanges(isDifferent);
   }, [settings, initialSettings]);
 
-  const handleChange = (field: keyof DeliverySettings, value: any) => {
+  const handleChange = (field: keyof DeliverySettings, value: unknown) => {
     if (!canEdit) return;
     setSettings(prev => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));

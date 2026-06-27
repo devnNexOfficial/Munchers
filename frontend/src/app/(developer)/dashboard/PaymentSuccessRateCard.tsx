@@ -36,7 +36,7 @@ export default function PaymentSuccessRateCard() {
         } else {
           setRate({ paid, total, percentage: (paid / total) * 100 });
         }
-      } catch (err) {
+      } catch {
         // handle error
       } finally {
         setLoading(false);

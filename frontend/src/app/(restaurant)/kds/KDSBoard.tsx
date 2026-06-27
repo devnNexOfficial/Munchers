@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { KDSOrder, Rider } from './types';
 import KDSOrderCard from './KDSOrderCard';
 import KDSRejectDialog from './KDSRejectDialog';
@@ -27,28 +27,10 @@ export default function KDSBoard() {
     return () => clearInterval(timer);
   }, []);
 
-  const playBeep = () => {
-    try {
-      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
-      osc.stop(ctx.currentTime + 0.5);
-    } catch (e) {
-      // browser may block auto-play
-    }
-  };
+
 
   useEffect(() => {
-    // let channel: any;
+    // let channel: unknown;
 
     const fetchData = async () => {
       try {
@@ -76,7 +58,7 @@ export default function KDSBoard() {
             print_copies: settingsData.print_copies ?? 1
           });
         }
-      } catch (e) {
+      } catch {
         // Handle error quietly
       }
     };
@@ -117,7 +99,7 @@ export default function KDSBoard() {
     };
   }, []);
 
-  const handleAction = async (id: string, action: string, payload?: any) => {
+  const handleAction = async (id: string, action: string, payload?: unknown) => {
     // Optimistic UI update could happen here, but we rely on Realtime UPDATE for absolute truth
     // to keep it simple and safe.
     try {
@@ -134,7 +116,7 @@ export default function KDSBoard() {
           printOrderDocuments(orderToPrint, settings);
         }
       }
-    } catch (e) {
+    } catch {
       // Handle error
     }
   };

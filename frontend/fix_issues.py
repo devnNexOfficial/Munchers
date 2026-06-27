@@ -130,3 +130,4 @@ if os.path.exists(p):
     print(f"  FIXED: HeatmapPanel Math.max outside loop")
 
 print("\nBatch fixes complete.")
+

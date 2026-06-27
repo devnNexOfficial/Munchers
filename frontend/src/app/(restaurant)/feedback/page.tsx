@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import FeedbackList from './FeedbackList';
+import { FeedbackEntry } from './types';
 
 export const metadata: Metadata = {
   title: "Feedback | Muncherz Restaurant",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 export default async function FeedbackPage() {
   // Mock fetching initial feedback list server-side.
   // Real implementation will query the feedback table from Supabase.
-  const initialEntries: any[] = [];
+  const initialEntries: FeedbackEntry[] = [];
   const role = 'owner'; // Mocking role
 
   return (

@@ -22,7 +22,7 @@ export default function DealCustomizeLimitPanel({ items, menuOptions, limits, on
     return null; // Hidden if all items are simple
   }
 
-  const handleUpdate = (menuItemId: string, field: 'max_extra_ingredients' | 'allowed_swaps', value: any) => {
+  const handleUpdate = (menuItemId: string, field: 'max_extra_ingredients' | 'allowed_swaps', value: number | string | boolean) => {
     const updated = { ...limits };
     if (!updated[menuItemId]) {
       updated[menuItemId] = { max_extra_ingredients: 0, allowed_swaps: false };

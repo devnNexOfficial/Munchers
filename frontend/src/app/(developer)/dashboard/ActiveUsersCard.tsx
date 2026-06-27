@@ -22,7 +22,7 @@ export default function ActiveUsersCard() {
           const data = await res.json();
           setActiveUsers(data);
         }
-      } catch (err) {
+      } catch {
         setActiveUsers(null);
       } finally {
         setLoading(false);

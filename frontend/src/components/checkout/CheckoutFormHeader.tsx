@@ -13,7 +13,6 @@ interface CheckoutFormHeaderProps {
 
 export function CheckoutFormHeader({
   phone,
-  initialPhone,
   error,
   phoneVerified,
   onPhoneChange,

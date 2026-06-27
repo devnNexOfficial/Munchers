@@ -1,13 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 
-import { motion } from 'framer-motion'
 
 import { createClient } from '@/lib/supabase/client'
 import type { CartItem } from '@/store/useCartStore'
-import { useCartStore } from '@/store/useCartStore'
 
 import { SavedCreationCard, type QuickAddCardType } from './SavedCreationCard'
 

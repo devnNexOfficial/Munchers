@@ -20,7 +20,7 @@ export default function DealItemsPanel({ items, menuOptions, onChange, error }: 
     onChange(newItems);
   };
 
-  const handleUpdate = (index: number, field: keyof DealItem, value: any) => {
+  const handleUpdate = (index: number, field: keyof DealItem, value: unknown) => {
     const newItems = [...items];
     newItems[index] = { ...newItems[index], [field]: value };
     onChange(newItems);

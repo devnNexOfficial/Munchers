@@ -40,8 +40,8 @@ export interface ActivityLogEntry {
   action: string;
   entity: string;
   entity_id: string;
-  old_value: any;
-  new_value: any;
+  old_value: unknown;
+  new_value: unknown;
   ip_address: string | null;
   created_at: string;
 }

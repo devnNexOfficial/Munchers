@@ -42,7 +42,7 @@ export default function KitchenOrdersView({ token, onLogout }: KitchenOrdersView
 
   // 2. Fetch Initial Orders & Subscribe to Realtime
   useEffect(() => {
-    // let channel: any;
+    // let channel: unknown;
 
     const fetchOrders = async () => {
       try {
@@ -60,7 +60,7 @@ export default function KitchenOrdersView({ token, onLogout }: KitchenOrdersView
             .sort((a: KitchenOrder, b: KitchenOrder) => new Date(a.accepted_at).getTime() - new Date(b.accepted_at).getTime());
           setOrders(activeOrders);
         }
-      } catch (e) {
+      } catch {
         // Silent error for display stability
       }
     };

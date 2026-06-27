@@ -21,7 +21,7 @@ export default function AppHealthCard() {
           const data = await res.json();
           setHealth(data);
         }
-      } catch (err) {
+      } catch {
         setHealth(null);
       } finally {
         setLoading(false);

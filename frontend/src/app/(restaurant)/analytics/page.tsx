@@ -17,7 +17,7 @@ export default async function AnalyticsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Analytics Dashboard</h1>
-      <AnalyticsClientWrapper initialSummary={initialSummary} initialPopular={null} />
+      <AnalyticsClientWrapper />
     </div>
   );
 }

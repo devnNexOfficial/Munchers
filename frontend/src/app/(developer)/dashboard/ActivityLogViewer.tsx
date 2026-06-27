@@ -61,7 +61,7 @@ export default function ActivityLogViewer() {
         setLogs(mockLogs);
         setTotalCount(2);
         setTotalPages(1);
-      } catch (err) {
+      } catch {
         // Handle error
       } finally {
         setLoading(false);

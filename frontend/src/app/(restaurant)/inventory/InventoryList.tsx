@@ -20,7 +20,7 @@ export default function InventoryList({ initialIngredients, initialNotifications
 
   useEffect(() => {
     // Supabase Realtime Subscription on ingredients table
-    // let channel: any;
+    // let channel: unknown;
     // if (typeof supabase !== 'undefined') {
     //   channel = supabase
     //     .channel('inventory-sync')
@@ -46,7 +46,7 @@ export default function InventoryList({ initialIngredients, initialNotifications
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
       });
-    } catch (e) {
+    } catch {
       // Revert optimistic update on failure (omitted for brevity, assume success or reload in real app)
     }
   };

@@ -18,7 +18,7 @@ export default function HeatmapPanel({ range }: { range: DateRange }) {
           // Assuming endpoint returns array of HeatmapPoint
           setPoints(data || []);
         }
-      } catch (e) {
+      } catch {
         // Handle error
       } finally {
         setIsLoading(false);

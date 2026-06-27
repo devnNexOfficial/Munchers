@@ -22,7 +22,7 @@ export default function PopularItemsPanel({ range }: { range: DateRange }) {
           // Do not manually parse orders.items JSONB here.
           setCustomizations(data.customizations || null);
         }
-      } catch (e) {
+      } catch {
         // handle error
       } finally {
         setIsLoading(false);

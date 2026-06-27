@@ -27,7 +27,7 @@ export default function RiderTab({ initialRiders, role }: RiderTabProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
       });
-    } catch (err) {
+    } catch {
       // Revert omitted for brevity
     }
   };
@@ -57,7 +57,7 @@ export default function RiderTab({ initialRiders, role }: RiderTabProps) {
       }
       setShowDialog(false);
       setEditingRider(null);
-    } catch (err) {
+    } catch {
       // Handle error
     }
   };

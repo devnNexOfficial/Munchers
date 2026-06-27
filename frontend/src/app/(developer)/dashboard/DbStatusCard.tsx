@@ -20,7 +20,7 @@ export default function DbStatusCard() {
           const data = await res.json();
           setDbStatus(data);
         }
-      } catch (err) {
+      } catch {
         setDbStatus(null);
       } finally {
         setLoading(false);

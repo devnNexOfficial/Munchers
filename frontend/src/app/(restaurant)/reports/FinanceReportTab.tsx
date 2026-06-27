@@ -51,7 +51,7 @@ export default function FinanceReportTab({ initialRange, onRangeChange }: Financ
           { date: initialRange.to, orders: 110, revenue: 190000, avg_order_value: 1727 }
         ]);
         
-      } catch (err) {
+      } catch {
         // Error handling
       } finally {
         setLoading(false);

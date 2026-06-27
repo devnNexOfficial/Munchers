@@ -28,7 +28,7 @@ export default function ErrorLogViewer() {
           const data = await res.json();
           setLogs(data);
         }
-      } catch (err) {
+      } catch {
         setLogs(null);
       } finally {
         setLoading(false);
