@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 
 import { useRestaurantStatus } from '@/context/RestaurantStatusContext'
 import type { MenuItem } from '@/lib/queries/home'
+import { useCartStore } from '@/store/useCartStore'
 
 interface FrequentlyAddedProps {
   items: MenuItem[]
@@ -19,6 +20,7 @@ function formatPrice(price: number) {
 
 export function FrequentlyAdded({ items }: FrequentlyAddedProps) {
   const { isRestaurantClosed } = useRestaurantStatus()
+  const addItem = useCartStore((state) => state.addItem)
 
   if (items.length === 0) return null
 
@@ -55,6 +57,20 @@ export function FrequentlyAdded({ items }: FrequentlyAddedProps) {
               <button
                 type="button"
                 disabled={isRestaurantClosed}
+                onClick={() => {
+                  addItem({
+                    cartItemId: crypto.randomUUID(),
+                    menuItemId: item.id,
+                    name: item.name_en,
+                    imageUrl: item.image_url ?? '',
+                    basePrice: item.base_price,
+                    selections: [],
+                    mealOptions: [],
+                    totalPrice: item.base_price,
+                    quantity: 1,
+                    specialInstructions: '',
+                  })
+                }}
                 className={`rounded-lg px-3 py-2 text-xs font-bold transition active:scale-95 ${
                   isRestaurantClosed
                     ? 'cursor-not-allowed bg-gray-200 text-gray-400'

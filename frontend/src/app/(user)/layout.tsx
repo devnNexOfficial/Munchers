@@ -12,7 +12,7 @@ export default function UserLayout({
   const itemCount = useCartStore((state) => state.getItemCount())
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pb-16">
+    <div className="min-h-screen bg-[#FAFAFA] pb-20">
       <GlobalOrderTimer />
       {children}
       <nav className="fixed bottom-0 left-0 right-0 z-50 flex
@@ -27,10 +27,10 @@ export default function UserLayout({
           items-center gap-0.5 text-gray-500 hover:text-[#D62828]">
           <ShoppingCart className="h-5 w-5" />
           {itemCount > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-4 w-4
+            <span className="absolute -right-2 -top-1 flex h-4 w-4
               items-center justify-center rounded-full bg-[#D62828]
               text-[9px] font-bold text-white">
-              {itemCount}
+              {itemCount > 9 ? '9+' : itemCount}
             </span>
           )}
           <span className="text-[10px] font-medium">Cart</span>

@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { useRestaurantStatus } from '@/context/RestaurantStatusContext'
 import type { MenuItem } from '@/lib/queries/home'
+import { useRouter } from 'next/navigation'
+import { useCartStore } from '@/store/useCartStore'
 
 interface DailySpecialBannerProps {
   item: MenuItem | null
@@ -34,6 +36,8 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
   const [remainingMs, setRemainingMs] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const { isRestaurantClosed } = useRestaurantStatus()
+  const router = useRouter()
+  const addItem = useCartStore((state) => state.addItem)
 
   useEffect(() => {
     const nextRemaining = getRemainingMs(item?.special_ends_at ?? null)
@@ -75,10 +79,11 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
           transition={{ duration: 0.25, ease: 'easeOut' }}
           className="bg-muncherz-white px-4 py-4"
         >
-          <button
-            type="button"
+          <div
+            role="button"
+            tabIndex={0}
             onClick={() => scrollToItem(item.id)}
-            className="flex w-full overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-gray-100"
+            className="flex w-full overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-gray-100 cursor-pointer"
           >
             <span className="relative block h-32 w-32 flex-none bg-gray-50">
               <Image
@@ -102,8 +107,27 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
                   Available for {formatCountdown(remainingMs)}
                 </span>
               </span>
-              <span className="grid grid-cols-2 gap-2">
-                <span
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  disabled={isRestaurantClosed}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (isRestaurantClosed) return
+                    addItem({
+                      cartItemId: crypto.randomUUID(),
+                      menuItemId: item.id,
+                      name: item.name_en,
+                      imageUrl: item.image_url ?? '',
+                      basePrice: item.base_price,
+                      selections: [],
+                      mealOptions: [],
+                      totalPrice: item.base_price,
+                      quantity: 1,
+                      specialInstructions: '',
+                    })
+                    router.push('/cart')
+                  }}
                   className={`rounded-lg border px-2 py-2 text-center text-xs font-bold ${
                     isRestaurantClosed
                       ? 'border-gray-200 bg-gray-100 text-gray-400'
@@ -111,8 +135,15 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
                   }`}
                 >
                   Add Standard
-                </span>
-                <span
+                </button>
+                <button
+                  type="button"
+                  disabled={isRestaurantClosed}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (isRestaurantClosed) return
+                    router.push(`/customize?itemId=${item.id}`)
+                  }}
                   className={`rounded-lg border px-2 py-2 text-center text-xs font-bold ${
                     isRestaurantClosed
                       ? 'border-gray-200 bg-gray-200 text-gray-400'
@@ -120,10 +151,10 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
                   }`}
                 >
                   Customize
-                </span>
-              </span>
+                </button>
+              </div>
             </span>
-          </button>
+          </div>
         </motion.section>
       )}
     </AnimatePresence>

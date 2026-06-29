@@ -27,6 +27,31 @@ function jsonUnauthorized(message = 'Unauthorized') {
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
 
+  const path = request.nextUrl.pathname
+
+  // Allow all user-facing routes without any auth check
+  const publicRoutes = [
+    '/',
+    '/login',
+    '/cart', 
+    '/checkout',
+    '/payment',
+    '/profile',
+    '/customize',
+    '/search',
+    '/track',
+  ]
+
+  const isPublicRoute = publicRoutes.some(route => 
+    path === route || 
+    path.startsWith(route + '/') ||
+    path.startsWith(route + '?')
+  )
+
+  if (isPublicRoute) {
+    return NextResponse.next()
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -50,7 +75,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const path = request.nextUrl.pathname
+
 
   if (PUBLIC_AUTH_PATHS.has(path)) {
     return response

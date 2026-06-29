@@ -15,6 +15,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 import type { Deal } from '@/lib/queries/home'
 import { formatPKR } from '@/lib/utils/formatCurrency'
@@ -28,6 +29,7 @@ export function DealsBanner({ deals }: DealsBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isPaused, setIsPaused] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const router = useRouter()
 
   useEffect(() => {
     const container = containerRef.current
@@ -120,7 +122,10 @@ export function DealsBanner({ deals }: DealsBannerProps) {
                   </span>
                 </div>
 
-                <button className="rounded-lg bg-muncherz-red px-4 py-2 text-sm font-semibold text-white transition-transform active:scale-95">
+                <button
+                  onClick={() => router.push('/')}
+                  className="rounded-lg bg-muncherz-red px-4 py-2 text-sm font-semibold text-white transition-transform active:scale-95"
+                >
                   Order Now
                 </button>
               </div>
