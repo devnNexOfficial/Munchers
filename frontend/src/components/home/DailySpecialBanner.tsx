@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -31,12 +31,8 @@ function formatCountdown(ms: number) {
 }
 
 export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
-  const initialRemaining = useMemo(
-    () => getRemainingMs(item?.special_ends_at ?? null),
-    [item?.special_ends_at]
-  )
-  const [remainingMs, setRemainingMs] = useState(initialRemaining)
-  const [isVisible, setIsVisible] = useState(Boolean(item && initialRemaining > 0))
+  const [remainingMs, setRemainingMs] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
   const { isRestaurantClosed } = useRestaurantStatus()
 
   useEffect(() => {
@@ -102,7 +98,7 @@ export function DailySpecialBanner({ item }: DailySpecialBannerProps) {
                 <span className="mt-2 block truncate text-base font-extrabold text-muncherz-black">
                   {item.name_en}
                 </span>
-                <span className="mt-1 block text-xs font-semibold text-gray-500">
+                <span className="mt-1 block text-xs font-semibold text-gray-500" suppressHydrationWarning>
                   Available for {formatCountdown(remainingMs)}
                 </span>
               </span>
