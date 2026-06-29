@@ -2,8 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
+
+import { useCartStore } from '@/store/useCartStore'
 
 import type { MenuItem, MenuItemSizeVariant } from '@/lib/queries/home'
 import { ItemDetailPricing } from './ItemDetailPricing'
@@ -36,6 +39,8 @@ export function ItemDetailModal({
   onClose,
   isRestaurantClosed,
 }: ItemDetailModalProps) {
+  const router = useRouter()
+  const addItem = useCartStore((state) => state.addItem)
   const variants = useMemo(() => getVariants(item), [item])
   const cookingOptions = useMemo(() => getCookingOptions(item), [item])
   const [selectedSize, setSelectedSize] = useState<MenuItemSizeVariant | null>(null)
@@ -62,19 +67,28 @@ export function ItemDetailModal({
     : ''
 
   function handleAction(action: 'add-standard' | 'customize') {
-    console.log('Item detail selection', {
-      action,
-      itemId: activeItem.id,
-      itemName: activeItem.name_en,
-      size: selectedSize,
-      cookingPreference: selectedCookingPreference || null,
-    })
+    if (isRestaurantClosed) return
 
     if (action === 'customize') {
-      // TODO: navigate to customizer with this item + selected size/cooking preference — wired in Section 7
+      onClose()
+      router.push(`/customize?itemId=${activeItem.id}`)
+      return
     }
 
+    addItem({
+      cartItemId: crypto.randomUUID(),
+      menuItemId: activeItem.id,
+      name: activeItem.name_en,
+      imageUrl: activeItem.image_url ?? '',
+      basePrice: selectedSize?.price ?? activeItem.base_price,
+      selections: [],
+      mealOptions: [],
+      totalPrice: selectedSize?.price ?? activeItem.base_price,
+      quantity: 1,
+      specialInstructions: '',
+    })
     onClose()
+    router.push('/cart')
   }
 
   return (
