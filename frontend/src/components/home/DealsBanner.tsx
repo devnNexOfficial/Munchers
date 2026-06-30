@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation'
 import type { Deal } from '@/lib/queries/home'
 import { formatPKR } from '@/lib/utils/formatCurrency'
 import { DEALS_SCROLL_INTERVAL_MS } from '@/lib/constants'
+import { useCartStore } from '@/store/useCartStore'
 
 interface DealsBannerProps {
   deals: Deal[]
@@ -123,7 +124,21 @@ export function DealsBanner({ deals }: DealsBannerProps) {
                 </div>
 
                 <button
-                  onClick={() => router.push('/')}
+                  onClick={() => {
+                    useCartStore.getState().addItem({
+                      cartItemId: crypto.randomUUID(),
+                      menuItemId: deal.id,
+                      name: deal.name,
+                      imageUrl: deal.image_url ?? '',
+                      basePrice: deal.deal_price,
+                      selections: [],
+                      mealOptions: [],
+                      totalPrice: deal.deal_price,
+                      quantity: 1,
+                      specialInstructions: '',
+                    })
+                    router.push('/cart')
+                  }}
                   className="rounded-lg bg-muncherz-red px-4 py-2 text-sm font-semibold text-white transition-transform active:scale-95"
                 >
                   Order Now

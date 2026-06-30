@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>MUNCHERZ | Home of the Ember Glow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;800&family=JetBrains+Mono:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#5b1a00",
+                        "primary-container": "#d72b2b",
+                        "primary": "#ffb4ac",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#93000e",
+                        "tertiary": "#ffb59b",
+                        "on-surface": "#e5e2e1",
+                        "charcoal-muted": "#2A2420",
+                        "primary-fixed": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#3d2f00",
+                        "inverse-primary": "#bc131b",
+                        "on-background": "#e5e2e1",
+                        "ember-glow": "rgba(215, 43, 43, 0.15)",
+                        "secondary-container": "#e7b900",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed": "#241a00",
+                        "on-error": "#690005",
+                        "paper-white": "#F5F0E8",
+                        "secondary": "#ffd65b",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-secondary-fixed-variant": "#584400",
+                        "surface-variant": "#353534",
+                        "on-primary-container": "#fff3f2",
+                        "outline-variant": "#5c403d",
+                        "tertiary-fixed-dim": "#ffb59b",
+                        "surface-dim": "#131313",
+                        "on-primary": "#690007",
+                        "background": "#131313",
+                        "on-tertiary-container": "#fff4f1",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed-dim": "#f0c110",
+                        "primary-fixed-dim": "#ffb4ac",
+                        "on-tertiary-fixed-variant": "#7b2e0f",
+                        "surface-container": "#201f1f",
+                        "tertiary-fixed": "#ffdbcf",
+                        "on-surface-variant": "#e5bdb9",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-brown": "#1C1410",
+                        "surface-tint": "#ffb4ac",
+                        "outline": "#ac8885",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#b15734",
+                        "on-secondary-container": "#5f4a00",
+                        "secondary-fixed": "#ffe08b",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "section-label": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "price-tag": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "section-label": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "price-tag": ["18px", {"lineHeight": "18px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .rustic-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .ember-shadow {
+            box-shadow: 0 4px 20px rgba(215, 43, 43, 0.2);
+        }
+        .active-pill {
+            background: #d72b2b;
+            color: white;
+            box-shadow: 0 0 12px rgba(215, 43, 43, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased overflow-x-hidden pb-24">
+<!-- Background Texture -->
+<div class="fixed inset-0 rustic-texture z-0"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/30 bg-surface/90 backdrop-blur-md">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl active:scale-95 transition-transform" data-icon="menu">menu</span>
+<div class="flex flex-col">
+<h1 class="font-display-lg text-primary-container uppercase tracking-tighter text-[20px] leading-tight">MUNCHERZ</h1>
+<div class="flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-label-sm">Downtown Oasis</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:text-primary-fixed transition-colors active:scale-90" data-icon="search">search</button>
+<div class="relative active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_cart">shopping_cart</span>
+<span class="absolute -top-1 -right-2 bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</div>
+</div>
+</div>
+</header>
+<main class="relative z-10 pt-20">
+<!-- Daily Special Countdown -->
+<section class="px-margin-mobile mb-stack-md">
+<div class="bg-primary-container/20 border border-primary-container/30 rounded-xl p-3 flex items-center justify-between overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container/10 to-transparent"></div>
+<div class="flex items-center gap-3 relative z-10">
+<div class="bg-primary-container p-2 rounded-lg animate-pulse">
+<span class="material-symbols-outlined text-white" data-icon="timer">timer</span>
+</div>
+<div>
+<p class="font-section-label text-section-label text-primary-fixed uppercase tracking-widest">Flash Sale Ends In</p>
+<p class="font-price-tag text-price-tag text-white" id="countdown">00:42:15</p>
+</div>
+</div>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-label-sm uppercase tracking-tight active:scale-95 transition-all relative z-10">
+                    Claim
+                </button>
+</div>
+</section>
+<!-- Hero Deals Horizontal Scroll -->
+<section class="mb-stack-lg">
+<div class="flex overflow-x-auto no-scrollbar gap-gutter px-margin-mobile">
+<!-- Deal Card 1 -->
+<div class="flex-none w-[85%] max-w-[400px] h-48 rounded-2xl relative overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A juicy, oversized beef burger with melted cheddar cheese, thick bacon, and fresh greens on a toasted brioche bun. The lighting is cinematic with warm amber glows, set against a dark rustic background to evoke a premium steakhouse atmosphere. Red accents highlight the succulent textures of the food." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRXXI3oC_9Ky66WIDOHUlxPH9RJZaqab-FJo5QohRS1Gw41noE3pyWtsLV845d4mj1c4gl79F_4FHW3WhUAhVzjlCQuTIkySJwew0Mt4Z2ELCdPSwBgBO-dDefVNpnlQGtaMmG3DqMlrKe-sWQSBi9Enu_BsHkGsYJGJPzwhiEsch6D7LIEGwH8yUZFM-mlPGLrIs7dyB4VXhwBThw-SvRERzFxc3htNX9GgBRC6zOJcWfWGeR2qTREbextVfzotiHaToeTuFww1Jc')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary-container text-white px-3 py-1 rounded-full text-label-sm font-bold flex items-center gap-1 ember-shadow">
+<span class="material-symbols-outlined text-[14px]" data-icon="local_fire_department">local_fire_department</span>
+                        HOT DEAL
+                    </div>
+<div class="absolute bottom-4 left-4">
+<h3 class="font-headline-md text-headline-md text-white mb-1">Double Ember BBQ</h3>
+<p class="text-secondary font-price-tag text-price-tag">SAVE 30%</p>
+</div>
+</div>
+<!-- Deal Card 2 -->
+<div class="flex-none w-[85%] max-w-[400px] h-48 rounded-2xl relative overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Crispy golden Nashville hot chicken sliders stacked with spicy coleslaw and pickles. The scene is high-energy with neon red lighting effects and a dark charcoal background. The chicken is glistening with honey glaze, creating a tactile and appetizing visual for a bold fast-food brand." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHQvHvMT3Hoxc_jqCm94N3HcM8OYsYB45dVbTeR4Khwgn7QwOrFF2Dcgp1JbJn7YThaFgaaz8EgNSHducidprx789TGkFfLDLosco9EXpV9Dy2DV3xThHC1MA8M6Y8KEQPA1zRFbXleUXJAsiVx5EjmmBQPlFP-3_k9BxS6u0CHq5H0Sn_EjJb3ERb68nWWfy1bhKMU5K_5MRXcDUpHqYfm493N4B8e91XmemYtR6XacL_M2EVqtgmOg0DUI0hVlu2Y4uzakyUyMbF')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary-container text-white px-3 py-1 rounded-full text-label-sm font-bold flex items-center gap-1 ember-shadow">
+<span class="material-symbols-outlined text-[14px]" data-icon="star">star</span>
+                        WEEKEND SPECIAL
+                    </div>
+<div class="absolute bottom-4 left-4">
+<h3 class="font-headline-md text-headline-md text-white mb-1">Nashville Heat Pack</h3>
+<p class="text-secondary font-price-tag text-price-tag">FREE SIDES</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Scrolling Category Tabs -->
+<section class="mb-stack-md">
+<div class="flex overflow-x-auto no-scrollbar gap-3 px-margin-mobile items-center">
+<button class="flex-none active-pill px-6 py-2 rounded-full font-section-label text-section-label transition-all">ALL</button>
+<button class="flex-none bg-surface-container border border-outline-variant/30 text-on-surface-variant px-6 py-2 rounded-full font-section-label text-section-label hover:border-primary transition-all">BURGERS</button>
+<button class="flex-none bg-surface-container border border-outline-variant/30 text-on-surface-variant px-6 py-2 rounded-full font-section-label text-section-label hover:border-primary transition-all">CHICKEN</button>
+<button class="flex-none bg-surface-container border border-outline-variant/30 text-on-surface-variant px-6 py-2 rounded-full font-section-label text-section-label hover:border-primary transition-all">WRAPS</button>
+<button class="flex-none bg-surface-container border border-outline-variant/30 text-on-surface-variant px-6 py-2 rounded-full font-section-label text-section-label hover:border-primary transition-all">SIDES</button>
+<button class="flex-none bg-surface-container border border-outline-variant/30 text-on-surface-variant px-6 py-2 rounded-full font-section-label text-section-label hover:border-primary transition-all">SHAKES</button>
+</div>
+</section>
+<!-- Category Grid (2-column) -->
+<section class="px-margin-mobile mb-stack-lg">
+<h2 class="font-section-label text-section-label text-primary-fixed uppercase tracking-widest mb-stack-sm">Browse Categories</h2>
+<div class="grid grid-cols-2 gap-stack-sm">
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl p-3 flex items-center justify-between group active:scale-95 transition-all">
+<span class="font-bold text-label-sm uppercase tracking-tighter group-hover:text-primary">Beef Burgers</span>
+<span class="material-symbols-outlined text-secondary" data-icon="lunch_dining">lunch_dining</span>
+</div>
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl p-3 flex items-center justify-between group active:scale-95 transition-all">
+<span class="font-bold text-label-sm uppercase tracking-tighter group-hover:text-primary">Chicken</span>
+<span class="material-symbols-outlined text-secondary" data-icon="restaurant">restaurant</span>
+</div>
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl p-3 flex items-center justify-between group active:scale-95 transition-all">
+<span class="font-bold text-label-sm uppercase tracking-tighter group-hover:text-primary">Wraps</span>
+<span class="material-symbols-outlined text-secondary" data-icon="layers">layers</span>
+</div>
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl p-3 flex items-center justify-between group active:scale-95 transition-all">
+<span class="font-bold text-label-sm uppercase tracking-tighter group-hover:text-primary">Deals</span>
+<span class="material-symbols-outlined text-secondary" data-icon="sell">sell</span>
+</div>
+</div>
+</section>
+<!-- Best Sellers (Bento-style horizontal) -->
+<section class="mb-stack-lg">
+<div class="px-margin-mobile flex items-center justify-between mb-stack-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="local_fire_department">local_fire_department</span>
+<h2 class="font-section-label text-section-label text-white uppercase tracking-widest">Best Sellers</h2>
+</div>
+<span class="text-primary text-label-sm font-bold border-b border-primary">View All</span>
+</div>
+<div class="flex overflow-x-auto no-scrollbar gap-gutter px-margin-mobile">
+<!-- Best Seller Item 1 -->
+<div class="flex-none w-64 bg-surface-brown border border-outline-variant/20 rounded-2xl overflow-hidden relative">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A close-up shot of a gourmet cheeseburger with multiple patties, dripping melted cheese, and a dark glaze. The background is a moody, dark-mode kitchen with warm glowing embers and subtle smoke. High-end food photography style with rich blacks and vibrant red-orange highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Or1IfXWCH0LsO0awgV7stZZec8kixMYdCwj1NVGksCR0Qvba0CJhl0kX6FzEUIA_O5d9J-pFAN5LLSC3wDIrhuXhEqHpzq_rWC86hlqSZREVGIiKQSMHkDiIWeNjxIPgNTJGQBblj_bQ0Rgg5lKewnVpgcI_vnZexYMkjighZjje0GcRgjT6vKU8BU6vHTIxlsThq03suEPPOmo3UF8FXJqU5FlK-5KpzxjSKzWnL24U4flSdUpXJtp1Cyp4Ilu4_rV1pdCwACGT"/>
+<div class="absolute top-2 right-2 bg-secondary/90 text-on-secondary font-bold text-[10px] px-2 py-0.5 rounded-full uppercase">Top Rated</div>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-body-md text-white">Rancher Smash</h4>
+<div class="flex justify-between items-end mt-2">
+<span class="font-price-tag text-price-tag text-secondary">$12.50</span>
+<button class="bg-primary-container p-2 rounded-lg text-white active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Best Seller Item 2 -->
+<div class="flex-none w-64 bg-surface-brown border border-outline-variant/20 rounded-2xl overflow-hidden relative">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A stack of golden honey-glazed wings sprinkled with chili flakes, served on a black stone plate. Soft, warm lighting creates an inviting glow on the crispy skin. The aesthetic is modern-brutalist dark-mode, focusing on tactile textures and rich culinary detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbTYDvSP3pUY2I19QaPvVyjy6VH1oLguz1gRyuUJ4DsoKzRReuaF-YJvpQhA4Tmtsa0KOPS7ERwJwmMoSWCzYPSS2SuflgBa1148ExXgJxQx4e0VZkqjreWjZm9bXhsmwZntqS2v-PZhYLHjbGHTHdB9nZuG6Ta1tUH7EKHgfUUvS899lLYyoSPmlc69T6pmaR5U4x_wQSfpZ3efIJHc_6mzW3WkYZ6bjSBvdF6bIti6LrTi8udejsAVjWgKyM8-MAe-WoMqFIlnkY"/>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-body-md text-white">Honey Blaze Wings</h4>
+<div class="flex justify-between items-end mt-2">
+<span class="font-price-tag text-price-tag text-secondary">$14.00</span>
+<button class="bg-primary-container p-2 rounded-lg text-white active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Item Grid (2-column) -->
+<section class="px-margin-mobile mb-24">
+<h2 class="font-section-label text-section-label text-on-surface-variant uppercase tracking-widest mb-stack-sm">Signature Picks</h2>
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Item Card -->
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl overflow-hidden">
+<img class="w-full h-32 object-cover" data-alt="A classic chicken wrap filled with grilled poultry, crisp lettuce, and a creamy garlic sauce. The wrap is cut diagonally to show the rich internal layers. Minimalist dark-mode background with professional food styling lighting in warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbXMTfH8zLyaQALMUtKgPbY4-_p9eZaoVK1JM5bUoPfV1XcpPgkD7rJIMG8rqIhRRTJ8EMHdKNXodqFQJPtZFK8eaL7kCRjLQNV7OS9JCtSh4jHkRFzoPcwO_wyxkbqQcDTi8ROm3w07LM2ykpvM6V1Vo2GzCjOpBTjEQOpW17ntx9T7mWwDW42Mye573bbHq_S4gM2lmKm7jk_LK0Uo8XLxqfraoWDE6PaFggCBFtXXWUenLFqnGmo1rQskB-ePcm1P62rLUNK72U"/>
+<div class="p-3">
+<h5 class="font-bold text-body-md text-white truncate">Classic Wrap</h5>
+<div class="flex justify-between items-center mt-2">
+<span class="font-price-tag text-[16px] text-secondary">$9.50</span>
+<button class="w-8 h-8 flex items-center justify-center bg-primary-container rounded-lg text-white text-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card -->
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl overflow-hidden">
+<img class="w-full h-32 object-cover" data-alt="Large bucket of seasoned potato wedges with a side of dipping sauce. The wedges are dusted with paprika and herbs, glowing under warm kitchen lights. The composition is clean, centered, and follows the modern rustic brand identity of Muncherz." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjLqbup9UrEtU-jtsQPijjYFIBoFQZZNdvZSvVESrUABqVfJ_a7f99AXlWW6JVTw2-VTzExcS0U0lvXd8G8saexAggyQqoR0NVdmxoy-d0Eod0arHfUiYOZAEdGfZKlpi0lnTt-GttCIgdgJTxVsbeSwRKzio5-hdH6XDbOd2ZPASHiue6oXSZJpervqznjpIZ2YjpNQrAkmbmTchtrFLNwaUhZwAvlAlyNfSrWCFxuPIHig_-ACy7mKzyQgnylnk1l3VmF8ZpOO2r"/>
+<div class="p-3">
+<h5 class="font-bold text-body-md text-white truncate">Spiced Wedges</h5>
+<div class="flex justify-between items-center mt-2">
+<span class="font-price-tag text-[16px] text-secondary">$5.25</span>
+<button class="w-8 h-8 flex items-center justify-center bg-primary-container rounded-lg text-white text-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card -->
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl overflow-hidden">
+<img class="w-full h-32 object-cover" data-alt="A thick, creamy chocolate milkshake topped with whipped cream and a cherry. The glass has condensation, making it look cold and refreshing against the dark, high-contrast background. The style is consistent with high-energy late-night food branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA76FJrKzlBK6t23gZoUJGPCm__zJeLce4TgUr9MWDsie1UqWbUoDaGFij6BbWzC8si4RLTCD1usfoPxj5Z4mBEorZha_Ik4kDs0CqPB7HhraSya3BHYxLO4wSoi0K4ToYId8dW8J60hV_Y_YFIAZXzXkSTKvXmBszBL15OboO5VFrbWWojCVy2FoF6SXQqK1o3IQ11PZ2FYB1Td64cGc_tLS2ZV97Ci1OLnR0l48J0SBEwNsfH8dJz496je6-M8VKHUAKg0BMmzqmn"/>
+<div class="p-3">
+<h5 class="font-bold text-body-md text-white truncate">Midnight Shake</h5>
+<div class="flex justify-between items-center mt-2">
+<span class="font-price-tag text-[16px] text-secondary">$7.00</span>
+<button class="w-8 h-8 flex items-center justify-center bg-primary-container rounded-lg text-white text-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card -->
+<div class="bg-surface-brown border border-outline-variant/20 rounded-xl overflow-hidden">
+<img class="w-full h-32 object-cover" data-alt="A plant-based burger with a grilled mushroom patty, vegan cheese, and fresh arugula. The burger is beautifully composed with vibrant green colors contrasting the dark rustic bun and the warm atmospheric lighting of the Muncherz theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxH96_7dqmEIUqNh664IrcWZOge5JfTzXi2DgN8HPxo4qR2fTuJ1KGX9X-Czjc_j8-jFSid2ZiYmVW8vOBBFftqDyKsar-Bime0pZqOdDcUgrjAZUlPIPxtQeV2fhpOtBvEkbcm6hPtgvWTmPvO92aiLK4QrxSIOt7XM-x9jiLc-oghicHL9eoJAA6MyJkam6pgU41FTRS2XoMOAmdJxe7MS2W0mE0U-27-1dj6ob_IFPSOOvsvqPDKQjv8XR01G_QxIPV6InBR5jv"/>
+<div class="p-3">
+<h5 class="font-bold text-body-md text-white truncate">Wild Shroom</h5>
+<div class="flex justify-between items-center mt-2">
+<span class="font-price-tag text-[16px] text-secondary">$11.20</span>
+<button class="w-8 h-8 flex items-center justify-center bg-primary-container rounded-lg text-white text-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-brown dark:bg-surface-container border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(215,43,43,0.1)] pb-safe h-20 px-2 flex justify-around items-center rtl:flex-row-reverse">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-ember-glow rounded-xl px-4 py-1.5 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-ember-glow rounded-xl px-4 py-1.5 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-ember-glow rounded-xl px-4 py-1.5 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple countdown logic for the flash sale
+        function updateCountdown() {
+            const now = new Date();
+            const h = String(23 - now.getHours()).padStart(2, '0');
+            const m = String(59 - now.getMinutes()).padStart(2, '0');
+            const s = String(59 - now.getSeconds()).padStart(2, '0');
+            const el = document.getElementById('countdown');
+            if(el) el.textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Horizontal scroll animation triggers or logic can be added here
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.classList.add('scale-95');
+            });
+            btn.addEventListener('touchend', function() {
+                this.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>

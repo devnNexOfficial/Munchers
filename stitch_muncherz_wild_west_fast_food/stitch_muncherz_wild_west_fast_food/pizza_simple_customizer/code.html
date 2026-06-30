@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pizza-canvas-shadow {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(215, 43, 43, 0.1);
+        }
+        .topping-transition {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .rustic-overlay {
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        @keyframes sizzle {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .ember-pulse {
+            animation: sizzle 3s infinite ease-in-out;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#5b1a00",
+                        "primary-container": "#d72b2b",
+                        "primary": "#ffb4ac",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#93000e",
+                        "tertiary": "#ffb59b",
+                        "on-surface": "#e5e2e1",
+                        "charcoal-muted": "#2A2420",
+                        "primary-fixed": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#3d2f00",
+                        "inverse-primary": "#bc131b",
+                        "on-background": "#e5e2e1",
+                        "ember-glow": "rgba(215, 43, 43, 0.15)",
+                        "secondary-container": "#e7b900",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed": "#241a00",
+                        "on-error": "#690005",
+                        "paper-white": "#F5F0E8",
+                        "secondary": "#ffd65b",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-secondary-fixed-variant": "#584400",
+                        "surface-variant": "#353534",
+                        "on-primary-container": "#fff3f2",
+                        "outline-variant": "#5c403d",
+                        "tertiary-fixed-dim": "#ffb59b",
+                        "surface-dim": "#131313",
+                        "on-primary": "#690007",
+                        "background": "#131313",
+                        "on-tertiary-container": "#fff4f1",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed-dim": "#f0c110",
+                        "primary-fixed-dim": "#ffb4ac",
+                        "on-tertiary-fixed-variant": "#7b2e0f",
+                        "surface-container": "#201f1f",
+                        "tertiary-fixed": "#ffdbcf",
+                        "on-surface-variant": "#e5bdb9",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-brown": "#1C1410",
+                        "surface-tint": "#ffb4ac",
+                        "outline": "#ac8885",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#b15734",
+                        "on-secondary-container": "#5f4a00",
+                        "secondary-fixed": "#ffe08b",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "section-label": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "price-tag": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "section-label": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "price-tag": ["18px", {"lineHeight": "18px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen selection:bg-primary-container selection:text-white overflow-x-hidden">
+<!-- Top AppBar Shell -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/30 bg-surface/95 backdrop-blur-md shadow-md shadow-ember-glow">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="text-primary active:scale-95 duration-150 transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary-container uppercase tracking-tighter">MUNCHERZ</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-primary-container text-on-primary-container text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-32 max-w-screen-xl mx-auto px-margin-mobile">
+<!-- Pizza Customizer Canvas Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-start">
+<!-- Visual Canvas -->
+<div class="relative flex flex-col items-center">
+<div class="absolute inset-0 rustic-overlay"></div>
+<!-- Pizza Display -->
+<div class="relative w-full aspect-square max-w-[480px] pizza-canvas-shadow rounded-full bg-surface-brown p-2 border border-outline-variant/20">
+<!-- Crust Base -->
+<div class="w-full h-full rounded-full bg-cover bg-center border-8 border-[#8B3A1A]" data-alt="A top-down view of a perfectly circular, rustic artisanal pizza crust with charred spots and a golden-brown texture. The aesthetic is dark and high-contrast, fitting a modern brutalist food app. The lighting is warm and dramatic, highlighting the bubbly dough edges. High-quality food photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAx_rjcNEYeJc8HY7JlSw5OGi2KR_l6h9CoCA3bhRKe_sHWaAEFPGFnFG6c2lxk5RLwy5o7SfsCcxoNv0HimigUD08Ajdupxf5PYNO0UXQizvPnY49glpw8gvPAXe9AwxcGzukdMSJGwUz1dHjJIzz-iUV20OXDswbIgiiQsdasJr642oBPh4ldzvsJMCqPRaLO1iZrrkoAGuQaNO-gOyajKwgPva-BzkodSI7Jugga_4AA2S4ehPd403zwKSoJEgKvi2fRobjsxzqb')">
+<!-- Sauce Layer -->
+<div class="w-[92%] h-[92%] m-auto rounded-full mt-[4%] transition-opacity duration-500 overflow-hidden relative" id="sauce-layer">
+<div class="absolute inset-0 bg-[#A61E1E] mix-blend-multiply opacity-80"></div>
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Close up top view of rich, textured tomato pizza sauce spread in a circle, with visible herbs and small chunks of tomato. Deep red tones consistent with a bold, high-energy brand palette. Dark rustic food styling." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAZAdraAOh6ail2nlltRsVdXNRfwgLa_hFZCO_LmVO6rYNMwLBekd09Us9nO9wlndzc9v-q3ltkLa7ZOVMFksMFzxMSFWR0O-ewQ9OB2NmyuwFwjAbKpW6jsnJrLd55e5RW_UPyz8JeqVw_p7tOzoorbhyHyxAiLqEcBs6qeNNYHFkXGi-XRFx3ZxLTO4_1zJ_qunE0gnf5YoEkNrQoinOkd4MJy9hMmhcJbLSs5CxkxB6Fac7vEKK7y5AdYu2wI1s0IWMMq_3uRR1')"></div>
+</div>
+<!-- Toppings Container (Dynamic Layer) -->
+<div class="absolute inset-0 pointer-events-none" id="topping-canvas">
+<!-- Toppings will be injected here via JS for the radial scatter effect -->
+</div>
+</div>
+<!-- Size Badge -->
+<div class="absolute top-4 right-4 bg-secondary text-on-secondary px-4 py-2 rounded-full font-price-tag text-price-tag shadow-lg rotate-12">
+                        12"
+                    </div>
+</div>
+<div class="mt-8 text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Build Your Wild West Pie</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Customize every layer. Scatter your favorites across our charcoal-fired crust.</p>
+</div>
+</div>
+<!-- Configuration Panel -->
+<div class="bg-surface-container rounded-xl p-stack-md border border-outline-variant/20 shadow-xl">
+<div class="mb-stack-lg">
+<span class="font-section-label text-section-label text-primary-fixed block mb-stack-sm">STEP 1: THE FOUNDATION</span>
+<div class="grid grid-cols-2 gap-stack-sm">
+<button class="flex flex-col items-center p-stack-sm bg-primary-container text-on-primary-container rounded-lg border border-primary/20 transition-all active:scale-95" onclick="updateSauce('classic')">
+<span class="font-bold">Classic Red</span>
+<span class="text-label-sm opacity-80">Included</span>
+</button>
+<button class="flex flex-col items-center p-stack-sm bg-charcoal-muted text-on-surface rounded-lg border border-outline-variant hover:border-primary transition-all active:scale-95" onclick="updateSauce('spicy')">
+<span class="font-bold text-error">Spicy Diablo</span>
+<span class="text-label-sm opacity-60">+$0.50</span>
+</button>
+</div>
+</div>
+<div class="mb-stack-lg">
+<span class="font-section-label text-section-label text-primary-fixed block mb-stack-sm">STEP 2: TOPPINGS</span>
+<div class="space-y-4" id="ingredient-panel">
+<!-- Pepperoni Item -->
+<div class="flex items-center justify-between bg-surface-brown p-stack-sm rounded-lg border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-cover bg-center" data-alt="Macro photo of sliced pepperoni pieces on a dark background, vibrant red color with shiny oil reflections, high contrast and appetizing." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4rqQLyhuDODKEYwG7J-HexUvp2xxcTztquAbCcPRCHHN8SLMWZXgPhSjNo1h8slf-7NhRA5ClJZdVzY_SkGnya4hbHQ0_84hAiOeZbyE31RJvJu29FgwxhI3WwrrWZfcP6-syIsxvN2WJlAYI_cta1I0aW6y4mz84h9P0j-XYBqwMPDvddfMSvWgLVh7bAqjfB2jwpaHyHMSMlFpvOYKMhzI40A73szf-O6r8nHIWjSch0odycQe_Zirn6S6qgfp1U_s8ozoNEQ5z')"></div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface">Pepperoni</h4>
+<p class="text-label-sm text-on-surface-variant">+$1.50</p>
+</div>
+</div>
+<div class="flex items-center bg-charcoal-muted rounded-full p-1 border border-outline-variant/30">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors" onclick="toggleTopping('pepperoni', 'none')"><span class="material-symbols-outlined text-[18px]">close</span></button>
+<div class="flex gap-1 px-2">
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-surface-variant text-on-surface-variant hover:text-primary transition-all" onclick="addTopping('pepperoni', 'light')">L</button>
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-primary-container text-on-primary-container shadow-sm shadow-ember-glow" onclick="addTopping('pepperoni', 'regular')">REG</button>
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-surface-variant text-on-surface-variant hover:text-primary transition-all" onclick="addTopping('pepperoni', 'extra')">EX</button>
+</div>
+</div>
+</div>
+<!-- Jalapenos Item -->
+<div class="flex items-center justify-between bg-surface-brown p-stack-sm rounded-lg border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-cover bg-center" data-alt="Bright green fresh jalapeno slices on a dark slate background, vibrant colors, appetizing and fresh." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4xstrdzhp3mmymWhM8113WkWxtNtUMH9rzvEs7t8a0PXxY_kpYcVetW_MjJ-ohg1kOJZPRrAfWrpMYC9XJx-RzN183o1n-qxa_3jY8QA4v7JUNUSFbOb7tbZt3kVN5FhCaMP4dsBap1S6HjCoXxgPJWDg-leVxxPNG1djEL5X5xxAY8jjDWOK8b7Uxf-nTDaJ5bEdOXv-9_rbMdGwJkzQIzkMX81q3cdoXGwQh5pocUh5abKcN8oRlPYoM0uLXL5dWLs1n4T4ViLU')"></div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface">Jalapeños</h4>
+<p class="text-label-sm text-on-surface-variant">+$1.00</p>
+</div>
+</div>
+<div class="flex items-center bg-charcoal-muted rounded-full p-1 border border-outline-variant/30">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors" onclick="toggleTopping('jalapeno', 'none')"><span class="material-symbols-outlined text-[18px]">close</span></button>
+<div class="flex gap-1 px-2">
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-surface-variant text-on-surface-variant" onclick="addTopping('jalapeno', 'light')">L</button>
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-surface-variant text-on-surface-variant" onclick="addTopping('jalapeno', 'regular')">REG</button>
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-surface-variant text-on-surface-variant" onclick="addTopping('jalapeno', 'extra')">EX</button>
+</div>
+</div>
+</div>
+<!-- Mushrooms Item -->
+<div class="flex items-center justify-between bg-surface-brown p-stack-sm rounded-lg border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-cover bg-center" data-alt="Sliced brown mushrooms on a dark wooden surface, earthy tones, high quality food photography." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOmrX1_cB8aALCrYVsu2AM_x_dtY5BcbGSuQZMuQXm-ruFI-OlqSehlk8_jo2tfsfQ328ke3TIMn5IU4j6eM7Lis9PMkfpq55TQm5Vlm5e9B0ZgR09rDbsrDRL8cPEHJznhWeFPefWkyw6Gf7Xv3QplRHXn-MuNKh5b_SEbaeQyNlPoM5WscqTQQ82EZ9fGuEOHEexm2X1ufDh1avraXVayYMt9NW2wNmDOI8QV_EE_skSqz-r3DSk8PukCPh0b1tSW5RqumfxMEUx')"></div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface">Portobello</h4>
+<p class="text-label-sm text-on-surface-variant">+$1.25</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-charcoal-muted text-primary rounded-lg font-bold border border-primary/20 hover:bg-primary/10 transition-all" onclick="addTopping('mushroom', 'regular')">ADD</button>
+</div>
+</div>
+</div>
+<div class="pt-stack-md border-t border-outline-variant/30 mt-stack-lg flex items-center justify-between">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-widest">Total Price</p>
+<p class="font-price-tag text-display-lg text-secondary">$24.50</p>
+</div>
+<button class="px-8 py-4 bg-primary-container text-on-primary-container rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-ember-glow active:scale-95 transition-all">
+<span>ADD TO CART</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Simple Sides Section -->
+<section class="mt-24">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-headline-md">The Outlaw Sides</h2>
+<a class="text-primary font-bold flex items-center gap-1 hover:underline" href="#">See All <span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
+<!-- Fries Card -->
+<div class="group bg-surface-brown rounded-2xl overflow-hidden border border-outline-variant/20 hover:border-primary/50 transition-all duration-300 shadow-lg">
+<div class="relative h-64 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-brown to-transparent z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up of a pile of golden crispy thick-cut fries served in a rustic metal bucket. Steam rising, coarse salt visible. The lighting is warm amber, dark background, energetic red and yellow color accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrQOjyywWlnUYyMQxP9W0NVjvE3Y1o_JDGYSVx4dgRB7RZC3XZrXvEaS-OhBRro5ub8-imyZBFYa-NGp5kKMpG_2A8hdNkjT-X6ADgrAforgw_Z8BYZPdO7gnQPPPPYgJrPOI-BmMZ-rx0Bk4tq3mLjxzOInr1VIdBzm81iHNXHncqCq-zYvJQ8bvl2KRX2zOE9VVM5UGz_4__dWM0-vACOkwbkqiyd0w6nkP8OSpmG3itA-plOAHO9XDiELGXdskX5FADIELVGFhS"/>
+<div class="absolute top-4 left-4 z-20 bg-primary-container text-on-primary-container text-[10px] font-extrabold px-2 py-1 rounded">HOT SELLER</div>
+</div>
+<div class="p-stack-md relative z-20 -mt-12">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Rancher Fries</h3>
+<div class="flex gap-1 text-secondary mt-1">
+<span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm text-on-surface-variant ml-1">(120)</span>
+</div>
+</div>
+<span class="font-price-tag text-headline-md text-secondary">$5.99</span>
+</div>
+<div class="flex gap-2 mb-6">
+<button class="flex-1 py-2 rounded-lg bg-primary-container text-on-primary-container font-bold text-label-sm border border-primary/20">REGULAR</button>
+<button class="flex-1 py-2 rounded-lg bg-charcoal-muted text-on-surface-variant font-bold text-label-sm border border-outline-variant">LARGE</button>
+<button class="flex-1 py-2 rounded-lg bg-charcoal-muted text-on-surface-variant font-bold text-label-sm border border-outline-variant">BUCKET</button>
+</div>
+<button class="w-full py-4 bg-charcoal-muted text-on-surface font-bold rounded-xl border border-outline-variant hover:bg-primary-container hover:text-white transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                            ADD TO CART
+                        </button>
+</div>
+</div>
+<!-- Bento-style smaller cards for comparison -->
+<div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
+<!-- Soda -->
+<div class="bg-surface-container rounded-2xl p-stack-md border border-outline-variant/10 flex items-center gap-stack-md hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-24 h-24 rounded-xl bg-cover bg-center flex-shrink-0" data-alt="A tall glass of dark cola with ice cubes and condensation on the glass, slice of lemon, dark background with red glow, high energy beverage photography." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdZnZQekZcFxmG8MPsGvj25_z6jCZhF64WC7hZ8st3TwILDGaYDLuw5DGaUWKXNJF6mug_8ol6sw0lZBOQdOB1x1e07Mo5TOImRwgUomBShKsOVxZDXyCVGR__q2apyVAawZ9IwnMOWCDfdQI5ZUsM3bV-C2iAw5ScnNPQ1yAa03cmgtN6zTFcyanPpafePya5IEO0PreombsE7hN2j5m18IG3He-REwlFXw0pVxP0z2QGS0BwmRhv_MlCXMn8VYpiOohnhjyz4ASJ')"></div>
+<div class="flex-1">
+<h4 class="font-headline-md text-on-surface text-lg">Wild Sarsaparilla</h4>
+<p class="text-label-sm text-on-surface-variant mb-3">Chilled to perfection</p>
+<div class="flex items-center justify-between">
+<span class="font-price-tag text-secondary">$2.50</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Dip -->
+<div class="bg-surface-container rounded-2xl p-stack-md border border-outline-variant/10 flex items-center gap-stack-md hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-24 h-24 rounded-xl bg-cover bg-center flex-shrink-0" data-alt="A small ceramic bowl filled with creamy garlic ranch dressing, chives sprinkled on top, dark rustic background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCBv_c2eZTvJ7fw1UBYkwpCnobHSumkJ02wn2VuplwXLmKTTvfm9gtxVifvRezq1LuooN_4Gj-BpcNiG0Q1eELlpTIR0MrZ9Ir--640Z7h_gr9ykMYV77_IbOD4QSz1-stk650AyZpGyLuZvOXtTFcBIIJ_uajLk469aOWLFTTonrfQvWSV1tfeyog2FU-Zz40GCWdggLhFbHyiwGkSSN0SEWWvxeuQMEuBrXvL6MxsrLMrlbDvnnr7WF5r1biQds0wUkTrk907UE4i')"></div>
+<div class="flex-1">
+<h4 class="font-headline-md text-on-surface text-lg">Garlic Glow Dip</h4>
+<p class="text-label-sm text-on-surface-variant mb-3">House-made secret recipe</p>
+<div class="flex items-center justify-between">
+<span class="font-price-tag text-secondary">$0.99</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Wings -->
+<div class="sm:col-span-2 bg-surface-container rounded-2xl p-stack-md border border-outline-variant/10 flex items-center gap-stack-lg hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-32 h-32 rounded-xl bg-cover bg-center flex-shrink-0" data-alt="Close up of spicy buffalo chicken wings glazed in red sauce on a dark platter, steam rising, celery sticks in background, high contrast, vibrant red colors." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_Odnv9Sd1uF07l1f0jCo2b0ZwxZvN5SaSr6TQfr8hZWPqMca-m1IpSXLxY-W2vlxgbUJ8R2g4o_MpjCz7Q4VAOkIwqBVbwsE_vkwv6HeLa2WE-SczHeVqcfTczYdWhMhVtE7upZUOXI2Y3ilM-rymK7m5ydSFvZ8Ddt9CwOhenuuIejEDijCX9i4iz9-MmwNoF_vXJoNs0lw-B448oz5v0g_gEzPpjDZP0kMzCruW6SyptcTKaOVQvRQF-5BQ1_-AhUqcNTcRorhA')"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-on-surface">Gunpowder Wings</h4>
+<p class="font-body-md text-on-surface-variant max-w-xs mt-1">Hickory smoked then flash-fried for that ultimate frontier crunch.</p>
+</div>
+<span class="font-price-tag text-secondary text-2xl">$12.99</span>
+</div>
+<div class="mt-4 flex gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-charcoal-muted rounded-full border border-outline-variant">
+<span class="text-error text-[12px] font-black uppercase">Spicy Level: 3</span>
+</div>
+<button class="ml-auto flex items-center gap-2 text-primary font-bold">ADD NOW <span class="material-symbols-outlined">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-brown border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(215,43,43,0.1)]">
+<div class="flex justify-around items-center w-full h-20 px-2 max-w-screen-xl mx-auto">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-90 transition-transform shadow-md shadow-ember-glow">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm mt-1">Cart</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</button>
+</div>
+</nav>
+<!-- Scripts for Canvas Micro-interactions -->
+<script>
+        const toppingCanvas = document.getElementById('topping-canvas');
+        const sauceLayer = document.getElementById('sauce-layer');
+
+        // Color maps for toppings
+        const toppingColors = {
+            'pepperoni': '#A61E1E',
+            'jalapeno': '#4C7A34',
+            'mushroom': '#8E7665'
+        };
+
+        function addTopping(type, state) {
+            // Clear existing of same type
+            const existing = toppingCanvas.querySelectorAll(`.topping-${type}`);
+            existing.forEach(e => e.remove());
+
+            let count = 0;
+            if(state === 'light') count = 6;
+            if(state === 'regular') count = 12;
+            if(state === 'extra') count = 22;
+
+            for(let i = 0; i < count; i++) {
+                const topping = document.createElement('div');
+                topping.className = `absolute topping-${type} topping-transition rounded-full shadow-lg border border-black/20`;
+                
+                // Radial scatter logic
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 15 + Math.random() * 70; // percentage from center
+                
+                topping.style.width = type === 'mushroom' ? '32px' : '24px';
+                topping.style.height = type === 'mushroom' ? '28px' : '24px';
+                topping.style.backgroundColor = toppingColors[type];
+                topping.style.left = `calc(50% + ${Math.cos(angle) * distance / 2.2}%)`;
+                topping.style.top = `calc(50% + ${Math.sin(angle) * distance / 2.2}%)`;
+                topping.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg) scale(0)`;
+                topping.style.opacity = '0';
+
+                // Texture simulation
+                if(type === 'pepperoni') topping.style.backgroundImage = 'radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 70%)';
+                
+                toppingCanvas.appendChild(topping);
+                
+                // Animate in
+                setTimeout(() => {
+                    topping.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg) scale(1)`;
+                    topping.style.opacity = '1';
+                }, i * 20);
+            }
+        }
+
+        function toggleTopping(type, state) {
+            if(state === 'none') {
+                const existing = toppingCanvas.querySelectorAll(`.topping-${type}`);
+                existing.forEach(e => {
+                    e.style.transform = 'translate(-50%, -50%) scale(0)';
+                    e.style.opacity = '0';
+                    setTimeout(() => e.remove(), 300);
+                });
+            }
+        }
+
+        function updateSauce(type) {
+            if(type === 'spicy') {
+                sauceLayer.querySelector('.bg-cover').style.filter = 'hue-rotate(-15deg) contrast(1.2)';
+                sauceLayer.classList.add('border-4', 'border-error/20');
+            } else {
+                sauceLayer.querySelector('.bg-cover').style.filter = 'none';
+                sauceLayer.classList.remove('border-4', 'border-error/20');
+            }
+        }
+
+        // Initialize with pepperoni
+        window.onload = () => {
+            setTimeout(() => addTopping('pepperoni', 'regular'), 500);
+        };
+    </script>
+</body></html>

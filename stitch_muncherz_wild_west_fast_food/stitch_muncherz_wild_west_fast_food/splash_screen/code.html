@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;500;700;800&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#5b1a00",
+                    "primary-container": "#d72b2b",
+                    "primary": "#ffb4ac",
+                    "error-container": "#93000a",
+                    "surface": "#131313",
+                    "surface-container-highest": "#353534",
+                    "on-primary-fixed-variant": "#93000e",
+                    "tertiary": "#ffb59b",
+                    "on-surface": "#e5e2e1",
+                    "charcoal-muted": "#2A2420",
+                    "primary-fixed": "#ffdad6",
+                    "inverse-on-surface": "#313030",
+                    "error": "#ffb4ab",
+                    "surface-bright": "#3a3939",
+                    "on-secondary": "#3d2f00",
+                    "inverse-primary": "#bc131b",
+                    "on-background": "#e5e2e1",
+                    "ember-glow": "rgba(215, 43, 43, 0.15)",
+                    "secondary-container": "#e7b900",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error": "#690005",
+                    "paper-white": "#F5F0E8",
+                    "secondary": "#ffd65b",
+                    "on-tertiary-fixed": "#380d00",
+                    "on-secondary-fixed-variant": "#584400",
+                    "surface-variant": "#353534",
+                    "on-primary-container": "#fff3f2",
+                    "outline-variant": "#5c403d",
+                    "tertiary-fixed-dim": "#ffb59b",
+                    "surface-dim": "#131313",
+                    "on-primary": "#690007",
+                    "background": "#131313",
+                    "on-tertiary-container": "#fff4f1",
+                    "on-primary-fixed": "#410003",
+                    "secondary-fixed-dim": "#f0c110",
+                    "primary-fixed-dim": "#ffb4ac",
+                    "on-tertiary-fixed-variant": "#7b2e0f",
+                    "surface-container": "#201f1f",
+                    "tertiary-fixed": "#ffdbcf",
+                    "on-surface-variant": "#e5bdb9",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-brown": "#1C1410",
+                    "surface-tint": "#ffb4ac",
+                    "outline": "#ac8885",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#b15734",
+                    "on-secondary-container": "#5f4a00",
+                    "secondary-fixed": "#ffe08b",
+                    "surface-container-high": "#2a2a2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "base": "4px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["DM Sans"],
+                    "headline-md": ["DM Sans"],
+                    "section-label": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "price-tag": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "section-label": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "price-tag": ["18px", {"lineHeight": "18px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            20% { opacity: 0.4; }
+            100% { transform: translate(40px, -120px) scale(0.5); opacity: 0; }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+        
+        .ember {
+            position: absolute;
+            background: #d72b2b;
+            filter: blur(1px);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .grain-overlay {
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+            opacity: 0.05;
+        }
+
+        .slab-wordmark {
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: -0.05em;
+            text-shadow: 0 0 30px rgba(215, 43, 43, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface overflow-hidden m-0 p-0 select-none">
+<!-- Atmospheric Background Canvas -->
+<div class="fixed inset-0 z-0 bg-surface-container-lowest">
+<!-- Radial Gradient for Depth -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-surface-brown via-surface to-black opacity-80"></div>
+<!-- Texture Overlay -->
+<div class="absolute inset-0 grain-overlay"></div>
+<!-- Animated Ember Particles -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none" id="particle-container"></div>
+<!-- Background Shadow Glow -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[50%] bg-primary-container/10 blur-[120px] rounded-full"></div>
+</div>
+<!-- Main Content Shell -->
+<main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-margin-mobile text-center">
+<!-- Brand Identity Cluster -->
+<div class="flex flex-col items-center space-y-4">
+<!-- Cowboy Hat Icon -->
+<div class="relative mb-2 animate-float">
+<div class="absolute inset-0 bg-primary-container blur-2xl opacity-40 animate-pulse-glow"></div>
+<span class="material-symbols-outlined text-[80px] text-primary relative z-10" style="font-variation-settings: 'FILL' 1;">
+                    skillet
+                </span>
+<!-- Replacing with a custom cowboy hat layout using material symbols as anchor -->
+<div class="absolute -top-6 left-1/2 -translate-x-1/2">
+<span class="material-symbols-outlined text-[64px] text-primary" style="font-variation-settings: 'FILL' 1;">balcony</span>
+</div>
+</div>
+<!-- Main Wordmark -->
+<h1 class="slab-wordmark text-[64px] md:text-[96px] font-extrabold text-on-primary-container leading-none uppercase tracking-tighter transition-all duration-700">
+                MUNCHERZ
+            </h1>
+<!-- Tagline Section -->
+<div class="mt-4 overflow-hidden">
+<p class="font-display-lg text-secondary italic tracking-wide opacity-0 translate-y-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 fill-mode-forwards delay-500">
+                    Good Fellas Eat Here
+                </p>
+</div>
+</div>
+<!-- Visual Anchor / Loading Bar -->
+<div class="absolute bottom-24 w-48 h-[2px] bg-outline-variant/30 overflow-hidden rounded-full">
+<div class="h-full bg-primary-container w-1/3 rounded-full animate-[progress_3s_infinite_ease-in-out]"></div>
+</div>
+<!-- Subtle Branding -->
+<div class="absolute bottom-12 flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant/40 tracking-[0.2em] uppercase">
+                Neon Frontier Dining
+            </span>
+</div>
+</main>
+<!-- Background Ambience Script -->
+<script>
+        function createEmber() {
+            const container = document.getElementById('particle-container');
+            const ember = document.createElement('div');
+            
+            // Random properties
+            const size = Math.random() * 4 + 2;
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight + 10;
+            const duration = Math.random() * 3 + 4;
+            const delay = Math.random() * 5;
+            
+            ember.className = 'ember';
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.left = `${startX}px`;
+            ember.style.top = `${startY}px`;
+            
+            // Random amber/red hue
+            const colors = ['#d72b2b', '#f5c518', '#8b3a1a', '#ffb4ac'];
+            ember.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Apply animation
+            ember.style.animation = `drift ${duration}s linear ${delay}s infinite`;
+            ember.style.boxShadow = `0 0 ${size * 2}px ${ember.style.backgroundColor}`;
+            
+            container.appendChild(ember);
+            
+            // Remove after animation to keep DOM clean if it wasn't infinite, 
+            // but here we use a pool
+            if (container.children.length > 50) {
+                container.removeChild(container.firstChild);
+            }
+        }
+
+        // Initialize particles
+        for(let i = 0; i < 40; i++) {
+            createEmber();
+        }
+
+        // Periodic maintenance or addition
+        setInterval(() => {
+            if (document.getElementById('particle-container').children.length < 60) {
+                createEmber();
+            }
+        }, 300);
+
+        // Keyframe injection for the progress bar
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes progress {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(300%); }
+            }
+            .animate-in {
+                animation: animateIn 1s ease-out forwards;
+            }
+            @keyframes animateIn {
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+<!-- Contextual Decorative Elements (Rustic Grain & Light Leaks) -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
+<!-- Top Left Glow -->
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-primary-container/5 blur-[100px] rounded-full"></div>
+<!-- Bottom Right Glow -->
+<div class="absolute -bottom-20 -right-20 w-80 h-80 bg-secondary-container/5 blur-[100px] rounded-full"></div>
+</div>
+</body></html>

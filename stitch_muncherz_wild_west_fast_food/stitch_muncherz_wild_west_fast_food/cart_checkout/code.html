@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>MUNCHERZ | Cart & Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#5b1a00",
+                        "primary-container": "#d72b2b",
+                        "primary": "#ffb4ac",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#93000e",
+                        "tertiary": "#ffb59b",
+                        "on-surface": "#e5e2e1",
+                        "charcoal-muted": "#2A2420",
+                        "primary-fixed": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#3d2f00",
+                        "inverse-primary": "#bc131b",
+                        "on-background": "#e5e2e1",
+                        "ember-glow": "rgba(215, 43, 43, 0.15)",
+                        "secondary-container": "#e7b900",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed": "#241a00",
+                        "on-error": "#690005",
+                        "paper-white": "#F5F0E8",
+                        "secondary": "#ffd65b",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-secondary-fixed-variant": "#584400",
+                        "surface-variant": "#353534",
+                        "on-primary-container": "#fff3f2",
+                        "outline-variant": "#5c403d",
+                        "tertiary-fixed-dim": "#ffb59b",
+                        "surface-dim": "#131313",
+                        "on-primary": "#690007",
+                        "background": "#131313",
+                        "on-tertiary-container": "#fff4f1",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed-dim": "#f0c110",
+                        "primary-fixed-dim": "#ffb4ac",
+                        "on-tertiary-fixed-variant": "#7b2e0f",
+                        "surface-container": "#201f1f",
+                        "tertiary-fixed": "#ffdbcf",
+                        "on-surface-variant": "#e5bdb9",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-brown": "#1C1410",
+                        "surface-tint": "#ffb4ac",
+                        "outline": "#ac8885",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#b15734",
+                        "on-secondary-container": "#5f4a00",
+                        "secondary-fixed": "#ffe08b",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "section-label": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "price-tag": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "section-label": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "price-tag": ["18px", {"lineHeight": "18px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .rustic-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .ember-shadow {
+            box-shadow: 0 0 20px rgba(215, 43, 43, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #d72b2b; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<div class="rustic-grain"></div>
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/30 bg-surface/95 backdrop-blur-md shadow-md shadow-ember-glow">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-primary active:scale-95 duration-150">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary-container uppercase tracking-tighter">MUNCHERZ</h1>
+<button class="text-primary active:scale-95 duration-150">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 max-w-screen-xl mx-auto px-margin-mobile grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Cart Content -->
+<div class="lg:col-span-7 space-y-8">
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+                        Your Haul
+                    </h2>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm">3 ITEMS</span>
+</div>
+<!-- Cart Items List -->
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="bg-surface-brown border border-outline-variant/30 rounded-xl p-4 flex gap-4 items-center group">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a rustic, double-patty brisket burger with melting yellow cheddar cheese dripping down the sides. The background is a dark, moody neon-lit saloon with deep red and amber lighting. The style is modern brutalist with high-contrast textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrmCbtLP56AW7NiGOMfjCr6OGg61kc0xh_FwXnyBlQKvVNhPtqYbhe0Qt7BAo5CDNgVAGPqeekJG2Sn1nZGaRSvqt19mZmxzXWMv4jKq_qwNYyk75QPI2-TnVsVjlUJFn9a5XeGfegw9it5aFSf2-b8GzXVAqZj6ZbdVvQ3fwejEv9CdGGrC47OTgCEjftSMldzCvr8u6zSdNo_vI_ZJBEmt1CUbKu2Osp787x1StbJnRnmLzH9M5dFlPrQMh08hn3bArjsoB_P8ft"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-body-lg text-on-surface">The Outlaw Burger</h3>
+<p class="text-on-surface-variant text-label-sm">Double Brisket, Ghost Pepper Sauce</p>
+<div class="mt-2 flex items-center justify-between">
+<span class="font-price-tag text-price-tag text-secondary">PKR 1,250</span>
+<div class="flex items-center bg-surface-container rounded-lg border border-outline-variant/20">
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="px-2 font-bold">1</span>
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-brown border border-outline-variant/30 rounded-xl p-4 flex gap-4 items-center group">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A top-down view of loaded campfire fries topped with pulled beef, melted spicy cheese, and green jalapeños. Glowing red ember light illuminates the dish from the side, creating a warm and rustic atmosphere. The style is gritty yet premium digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjARpInt6dVBMy80eCIfafWGMczBTXTvuQg100BICaRCUK1Xbz34vh7xafFK9ozIIeZTNJg72WxT5xURNqCbmdu3D4axK-e_4h8QzHD6IpoMmEIc3CoD-r_Js24n9Ryk6RrxeWbd7ZJ1JI_1uek2eWzyTbkU4midc5kVjsb-g6kA4ev6_eENiJrPBhh-B1F-BNWObtXzx4BIdPpPeVoz2ws-p-nyB-PS2euZdwrCVomDDAu7A_3nPekTTxBEiJe7MwjnM8A6LM3Eqv"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-body-lg text-on-surface">Campfire Fries</h3>
+<p class="text-on-surface-variant text-label-sm">Loaded with Pulled Beef & Jalapeños</p>
+<div class="mt-2 flex items-center justify-between">
+<span class="font-price-tag text-price-tag text-secondary">PKR 680</span>
+<div class="flex items-center bg-surface-container rounded-lg border border-outline-variant/20">
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="px-2 font-bold">1</span>
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-brown border border-outline-variant/30 rounded-xl p-4 flex gap-4 items-center group">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A frosted glass of vanilla milkshake topped with a swirl of whipped cream and a red cherry. The background is a dark-mode neon frontier setting with glowing red light bars and a rustic wooden texture. Minimalist and high-energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4Dj9XvNnhGuYpbFz1EcMMEPZd2P89A6idN1cJcoR57wDL3CpTWvETUSuu0yEQc5M3FMUbxr68KUtVDgVI5cUHmkZZjrb0VVEqaPRZA8BX1foMxa9XKA4oAygJiWuPLKfnpBo-p6hi-BioncDRqrmPT0pEj0ndp4uGnF9UpYY3sU4KvNqgek8tgp1XUbSd405R8JSGxVLEIFx5g9cL6e0D1D79muyLWe-bApqIH79hdF7H44Hwrhu2o6bqv4rTLZKOVebFEuBC0ack"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-body-lg text-on-surface">Vanilla Dust Shake</h3>
+<p class="text-on-surface-variant text-label-sm">With extra malt topping</p>
+<div class="mt-2 flex items-center justify-between">
+<span class="font-price-tag text-price-tag text-secondary">PKR 450</span>
+<div class="flex items-center bg-surface-container rounded-lg border border-outline-variant/20">
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="px-2 font-bold">1</span>
+<button class="p-1 px-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Special Requests -->
+<section class="bg-charcoal-muted rounded-xl p-6 border-l-4 border-primary">
+<label class="font-section-label text-section-label text-primary block mb-3">ANY SPECIAL REQUESTS, PARTNER?</label>
+<textarea class="w-full bg-surface-container border border-outline-variant/20 rounded-lg p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:border-primary focus:ring-0 transition-all" placeholder="Tell 'em how you like it cooked..." rows="2"></textarea>
+</section>
+<!-- Saved Creations & Order Again (Horizontal Scroll) -->
+<section class="space-y-6">
+<div>
+<h3 class="font-section-label text-section-label text-on-surface-variant mb-4 px-2">SAVED CREATIONS</h3>
+<div class="flex gap-4 overflow-x-auto pb-4 px-2 no-scrollbar">
+<div class="flex-shrink-0 w-48 bg-surface-container-high rounded-xl p-3 border border-outline-variant/10">
+<div class="h-24 bg-surface-brown rounded-lg mb-2 relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-60" data-alt="Digital art of a custom burger with fried onion rings and BBQ sauce drips. Dark rustic lighting, neon red highlights, wild west theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDaDxO4If-AqQNmoeDCE3rLru6zTqePp_vxRV1vqzdadP-fVgrupvk7NX5pacSu7gH-Xyb6rxGo5PKH6nR8InkmowL-i1x2LG9BoMXdmVPJvfFU-Y84V6NqY5dS7wrZYZegOjvTNwB-zClTRZycOyRDqoD6zQ9PIj2BVarjk1OKOaGm073BtyyRxisw3f2RrjsUkj72ERVY2QkhFTLExJZdWvmwWNrwpB8iLPNb_KsbEbCtBIZWg7nt4ko_xigeUugiSrbdn2KBoVv"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">star</span>
+</div>
+</div>
+<p class="font-bold text-sm">The Midnight Cowboy</p>
+<button class="mt-2 w-full py-1 text-primary border border-primary/30 rounded-lg text-xs hover:bg-primary hover:text-on-primary transition-all">ADD TO CART</button>
+</div>
+<div class="flex-shrink-0 w-48 bg-surface-container-high rounded-xl p-3 border border-outline-variant/10">
+<div class="h-24 bg-surface-brown rounded-lg mb-2 relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-60" data-alt="A vibrant platter of spicy chicken wings with blue cheese dip. Dark mode aesthetics with glowing ember light and rustic textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8DefNN2ZAcYXV5JhFMT16JFplXJDzX3kh2f7EYjkyYi9JXL9OW3RusWdEorn3CuDoVyhNhL5Cq3VuDZrDIXxnDqeKNbFIoqachjT-q2roH3_BYnMb8043vUJlRNku80dq3oChh2BNwVjavItRhs8MfpeGHWAnORqc4Jb4ztkQ-PU0zswTO7sDslFhLduRM6xZIyXbYGe_oQTa48ZwDarSzUNCfxmz0XqUdKmOEKegtrpDsJIhxXiOTCil_gQKNYSxlVNXQFPhSeEM"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">star</span>
+</div>
+</div>
+<p class="font-bold text-sm">Hot Wing Roulette</p>
+<button class="mt-2 w-full py-1 text-primary border border-primary/30 rounded-lg text-xs hover:bg-primary hover:text-on-primary transition-all">ADD TO CART</button>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-section-label text-section-label text-on-surface-variant mb-4 px-2">ORDER AGAIN</h3>
+<div class="flex gap-4 overflow-x-auto pb-4 px-2 no-scrollbar">
+<div class="flex-shrink-0 w-64 bg-surface-container-low border border-outline-variant/20 rounded-xl p-3 flex gap-3 items-center">
+<div class="w-12 h-12 rounded bg-surface-brown"></div>
+<div class="flex-grow">
+<p class="font-bold text-xs">Standard Feast #4</p>
+<p class="text-secondary font-price-tag text-xs">PKR 2,450</p>
+</div>
+<button class="material-symbols-outlined text-primary">add_circle</button>
+</div>
+<div class="flex-shrink-0 w-64 bg-surface-container-low border border-outline-variant/20 rounded-xl p-3 flex gap-3 items-center">
+<div class="w-12 h-12 rounded bg-surface-brown"></div>
+<div class="flex-grow">
+<p class="font-bold text-xs">The Morning Raid</p>
+<p class="text-secondary font-price-tag text-xs">PKR 1,120</p>
+</div>
+<button class="material-symbols-outlined text-primary">add_circle</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Checkout Sidebar -->
+<div class="lg:col-span-5">
+<div class="sticky top-24 space-y-6">
+<!-- Delivery/Takeaway Pivot -->
+<div class="bg-surface-container-low p-1.5 rounded-xl flex gap-1 border border-outline-variant/10">
+<button class="flex-1 py-3 rounded-lg bg-primary-container text-on-primary-container font-bold text-sm transition-all shadow-lg shadow-ember-glow">
+                        DELIVERY
+                    </button>
+<button class="flex-1 py-3 rounded-lg text-on-surface-variant font-bold text-sm hover:bg-surface-variant transition-all">
+                        TAKEAWAY
+                    </button>
+</div>
+<!-- Map & Address Card -->
+<div class="bg-surface-brown rounded-xl border border-outline-variant/30 overflow-hidden">
+<div class="h-40 w-full relative bg-surface-container">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-brown via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-location="Islamabad" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEsIFJmnzw6ZYqxJGXO3qaVMp4WRKCLm3h5001etZxajvucywoZ2bQsCLX5Y7XHsbqkm04drrgbJsQcGuG2uKmCfCGB4aPrSZEGLhtC85WPLlPL7ZuO-3guewd_DGMvEI0WzKykrtu243mYw_rPAMHzO_dg4E5GF_3JN061JgOpgMlvHbdg8W8hhGYT0JJkd87_o_tUXR_l30zerXBr93BuplKCMVZCCDZpWfflOoEmCqHYlIwLLnJrC9lWqr5FXDjDkZJWlPo1Faw"/>
+<div class="absolute inset-0 flex items-center justify-center z-20">
+<div class="w-8 h-8 bg-primary rounded-full animate-ping opacity-20"></div>
+<div class="absolute w-4 h-4 bg-primary rounded-full border-2 border-on-surface shadow-xl shadow-black"></div>
+</div>
+<button class="absolute bottom-4 right-4 z-30 bg-surface-container-highest p-2 rounded-lg text-on-surface shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">home</span>
+                                    Home Base
+                                </h4>
+<p class="text-on-surface-variant text-label-sm mt-1">Plot 24, Sector F-7/2, Street 18</p>
+<p class="text-on-surface-variant text-label-sm">Islamabad, Capital Territory</p>
+</div>
+<button class="text-primary-fixed text-xs font-bold underline">CHANGE</button>
+</div>
+<div class="flex items-center gap-4 pt-4 border-t border-outline-variant/20">
+<div class="bg-secondary-container/10 p-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">schedule</span>
+<span class="font-price-tag text-secondary">~28 MINUTES</span>
+</div>
+<span class="text-label-sm text-on-surface-variant opacity-60">Estimated time</span>
+</div>
+</div>
+</div>
+<!-- Receipt Breakdown -->
+<div class="bg-surface-container p-6 rounded-xl space-y-3">
+<h3 class="font-section-label text-section-label text-on-surface-variant mb-4">ORDER SUMMARY</h3>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-price-tag">PKR 2,380</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Delivery Fee</span>
+<span class="font-price-tag">PKR 150</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Tax</span>
+<span class="font-price-tag">PKR 357</span>
+</div>
+<div class="pt-4 mt-2 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="font-headline-md text-headline-md">TOTAL</span>
+<span class="font-price-tag text-headline-md text-secondary">PKR 2,887</span>
+</div>
+</div>
+<!-- Place Order Button -->
+<button class="w-full bg-primary-container text-on-primary-container h-16 rounded-xl font-display-lg text-lg uppercase tracking-wider flex items-center justify-center gap-3 shadow-xl hover:shadow-primary-container/40 active:scale-95 transition-all group overflow-hidden relative">
+<span class="relative z-10">PLACE ORDER</span>
+<span class="material-symbols-outlined relative z-10 group-hover:translate-x-2 transition-transform">bolt</span>
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-brown border-t border-outline-variant/30 h-20 px-2 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        // Quantity Controls Mock Interaction
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            if(icon.textContent === 'add' || icon.textContent === 'remove') {
+                icon.parentElement.addEventListener('click', function() {
+                    const countSpan = this.parentElement.querySelector('span:not(.material-symbols-outlined)');
+                    let count = parseInt(countSpan.textContent);
+                    if(icon.textContent === 'add') count++;
+                    else if(count > 0) count--;
+                    countSpan.textContent = count;
+                    
+                    // Add a tiny animation feedback
+                    countSpan.classList.add('scale-125', 'text-primary');
+                    setTimeout(() => {
+                        countSpan.classList.remove('scale-125', 'text-primary');
+                    }, 150);
+                });
+            }
+        });
+
+        // Add subtle hover tracking on order button
+        const orderBtn = document.querySelector('button.bg-primary-container');
+        if(orderBtn) {
+            orderBtn.addEventListener('mousemove', (e) => {
+                const rect = orderBtn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                orderBtn.style.setProperty('--x', `${x}px`);
+                orderBtn.style.setProperty('--y', `${y}px`);
+            });
+        }
+    </script>
+</body></html>

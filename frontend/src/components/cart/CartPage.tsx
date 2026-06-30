@@ -68,17 +68,20 @@ export function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <main className="grid min-h-screen place-items-center bg-muncherz-white p-6">
-        <div className="max-w-sm text-center">
-          <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-3xl">
+      <main className="relative grid min-h-screen place-items-center bg-wild-black p-6">
+        {/* Noise texture overlay */}
+        <div className="noise-overlay absolute inset-0" />
+
+        <div className="relative z-10 max-w-sm text-center">
+          <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-wild-card">
             <Image src={logoPlaceholder} alt="Muncherz logo" fill sizes="96px" unoptimized />
           </div>
-          <h1 className="mt-5 text-2xl font-black text-muncherz-black">Your cart is empty</h1>
-          <p className="mt-2 text-sm font-bold text-gray-500">Fresh builds are waiting on the menu.</p>
+          <h1 className="font-display mt-5 text-2xl font-black text-wild-paper">Your cart is empty</h1>
+          <p className="font-body mt-2 text-sm font-bold text-wild-paper/60">Fresh builds are waiting on the menu.</p>
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="mt-6 rounded-xl bg-muncherz-red px-6 py-3 text-sm font-black text-white"
+            className="btn-primary mt-6"
           >
             Browse Menu
           </button>
@@ -88,9 +91,12 @@ export function CartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-muncherz-white p-4 sm:p-6">
-      <div className="mx-auto max-w-3xl space-y-4">
-        <h1 className="text-3xl font-black text-muncherz-black">Your Cart</h1>
+    <main className="relative min-h-screen bg-wild-black p-4 sm:p-6">
+      {/* Noise texture overlay */}
+      <div className="noise-overlay absolute inset-0" />
+
+      <div className="relative z-10 mx-auto max-w-3xl space-y-4">
+        <h1 className="font-display text-3xl font-black text-wild-paper">Your Cart</h1>
         <QuickAddSection />
         {cartItems.map((item) => (
           <CartLineItem
@@ -101,24 +107,29 @@ export function CartPage() {
             onEditMeal={handleEditMeal}
           />
         ))}
-        <section className="rounded-xl bg-white p-4 shadow-sm">
-          <div className="flex items-center justify-between text-lg font-black">
-            <span>Subtotal</span>
-            <span className="text-muncherz-red">{formatPrice(subtotal)}</span>
+        <section className="relative rounded-wild-card bg-wild-brown border border-wild-rust p-4 shadow-wild-ember overflow-hidden">
+          {/* Noise texture overlay */}
+          <div className="noise-overlay absolute inset-0" />
+
+          <div className="relative z-10">
+            <div className="flex items-center justify-between text-lg font-black">
+              <span className="font-display text-wild-paper">Subtotal</span>
+              <span className="price-tag">{formatPrice(subtotal)}</span>
+            </div>
+            {remaining > 0 && (
+              <p className="mt-2 text-sm font-bold text-wild-paper/60">
+                Add {formatPrice(remaining)} more to place order
+              </p>
+            )}
+            <button
+              type="button"
+              disabled={!canCheckout}
+              onClick={() => router.push('/checkout')}
+              className="btn-primary mt-4 w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Proceed to Checkout
+            </button>
           </div>
-          {remaining > 0 && (
-            <p className="mt-2 text-sm font-bold text-gray-500">
-              Add {formatPrice(remaining)} more to place order
-            </p>
-          )}
-          <button
-            type="button"
-            disabled={!canCheckout}
-            onClick={() => router.push('/checkout')}
-            className="mt-4 w-full rounded-xl bg-muncherz-red px-4 py-3 text-sm font-black text-white disabled:bg-gray-300"
-          >
-            Proceed to Checkout
-          </button>
         </section>
       </div>
       <MealSelector

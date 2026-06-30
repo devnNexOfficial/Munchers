@@ -28,20 +28,30 @@ export default function UserHomeContent() {
   }, [searchParams]);
 
   return (
-    <div className="p-6 max-w-lg mx-auto text-center mt-20">
-      <h1 className="text-4xl font-black text-[#D62828] mb-4">Muncherz</h1>
-      <p className="text-gray-600 mb-8">Welcome to the best burgers in town.</p>
+    <div className="relative min-h-screen bg-wild-black p-6 max-w-lg mx-auto text-center mt-20">
+      {/* Noise texture overlay */}
+      <div className="noise-overlay absolute inset-0" />
 
-      {tableNumber && (
-        <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-8 font-bold inline-block">
-          Dine-in — Table {tableNumber}
+      <div className="relative z-10">
+        <h1 className="font-display text-5xl font-black text-wild-red mb-4 tracking-tight">
+          Muncherz
+        </h1>
+        <p className="font-body text-wild-paper/80 text-lg mb-8">
+          Welcome to the best burgers in town.
+        </p>
+
+        {tableNumber && (
+          <div className="bg-wild-brown border border-wild-rust text-wild-yellow px-6 py-4 rounded-wild-card mb-8 font-bold inline-block shadow-wild-ember">
+            <span className="section-label text-wild-red mb-1 block">Dine-in</span>
+            Table {tableNumber}
+          </div>
+        )}
+
+        <div className="space-y-4">
+          <button className="w-full bg-wild-red text-wild-paper py-4 rounded-wild-button font-bold text-lg hover:bg-wild-red-light hover:shadow-wild-glow transition-all active:scale-95">
+            View Menu
+          </button>
         </div>
-      )}
-
-      <div className="space-y-4">
-        <button className="w-full bg-[#0A0A0A] text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors">
-          View Menu
-        </button>
       </div>
     </div>
   );

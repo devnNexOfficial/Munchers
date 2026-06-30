@@ -104,7 +104,6 @@ export function CheckoutPageClient({
       totals,
       items: cartItems,
     }
-    console.log('POST /api/orders/place', payload)
     // TODO: actual API call - backend Section 13
     setToast('Order Placed!')
     clearCart()
@@ -113,12 +112,15 @@ export function CheckoutPageClient({
   }
 
   return (
-    <main className="min-h-screen bg-muncherz-white p-4 sm:p-6">
-      <div className="mx-auto grid max-w-5xl gap-4 lg:grid-cols-[1fr_360px]">
+    <main className="relative min-h-screen bg-wild-black p-4 sm:p-6">
+      {/* Noise texture overlay */}
+      <div className="noise-overlay absolute inset-0" />
+
+      <div className="relative z-10 mx-auto grid max-w-5xl gap-4 lg:grid-cols-[1fr_360px]">
         <div className="space-y-4">
           <div>
-            <h1 className="text-3xl font-black text-muncherz-black">Checkout</h1>
-            <p className="mt-1 text-sm font-bold text-gray-500">Confirm the essentials before the kitchen starts.</p>
+            <h1 className="font-display text-3xl font-black text-wild-paper">Checkout</h1>
+            <p className="font-body mt-1 text-sm font-bold text-wild-paper/60">Confirm the essentials before the kitchen starts.</p>
           </div>
           <CheckoutFormHeader
             phone={phone}
@@ -131,7 +133,6 @@ export function CheckoutPageClient({
               setError('Phone changed. OTP re-verify will run once backend Section 13 is connected.')
             }}
             onReverify={() => {
-              console.log('TODO: re-verify phone via OTP', phone)
               setPhoneVerified(true)
               setToast('Phone re-verified for checkout.')
             }}
@@ -151,43 +152,61 @@ export function CheckoutPageClient({
             />
           )}
           <PaymentMethodSelector settings={initialSettings} onSelect={setPaymentMethod} />
-          <label className="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm">
-            <input
-              type="checkbox"
-              checked={termsAccepted}
-              onChange={(event) => setTermsAccepted(event.target.checked)}
-              className="mt-1 accent-muncherz-red"
-            />
-            <span className="text-sm font-bold leading-6 text-gray-600">
-              I accept the Terms & Privacy Policy.
-            </span>
+          <label className="relative flex items-start gap-3 rounded-wild-card bg-wild-brown border border-wild-rust p-4 shadow-wild-ember overflow-hidden">
+            {/* Noise texture overlay */}
+            <div className="noise-overlay absolute inset-0" />
+
+            <div className="relative z-10 flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(event) => setTermsAccepted(event.target.checked)}
+                className="mt-1 accent-wild-red"
+              />
+              <span className="font-body text-sm font-bold leading-6 text-wild-paper/80">
+                I accept the Terms & Privacy Policy.
+              </span>
+            </div>
           </label>
         </div>
         <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
-          <OrderSummary
-            cartItems={cartItems}
-            settings={initialSettings}
-            orderType={orderType}
-            selectedAddress={selectedAddress}
-          />
+          <div className="relative rounded-wild-card bg-wild-brown border border-wild-rust p-4 shadow-wild-ember overflow-hidden">
+            {/* Noise texture overlay */}
+            <div className="noise-overlay absolute inset-0" />
+
+            <div className="relative z-10">
+              <OrderSummary
+                cartItems={cartItems}
+                settings={initialSettings}
+                orderType={orderType}
+                selectedAddress={selectedAddress}
+              />
+            </div>
+          </div>
           {belowMinimum && (
-            <p className="rounded-xl bg-white p-3 text-sm font-bold text-error shadow-sm">
-              Add Rs. {Math.round(initialSettings.min_order_amount - subtotal)} more to place order.
-            </p>
+            <div className="relative rounded-wild-button bg-red-900/20 border border-red-700/50 p-3 overflow-hidden">
+              <div className="noise-overlay absolute inset-0" />
+              <p className="relative z-10 text-sm font-bold text-red-300">
+                Add Rs. {Math.round(initialSettings.min_order_amount - subtotal)} more to place order.
+              </p>
+            </div>
           )}
           <button
             type="button"
             disabled={!canPlaceOrder}
             onClick={handlePlaceOrder}
-            className="w-full rounded-xl bg-muncherz-red px-4 py-4 text-sm font-black text-white shadow-sm transition active:scale-95 disabled:bg-gray-300"
+            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Place Order
           </button>
           {toast && (
-            <p className="flex items-center gap-2 rounded-xl bg-white p-3 text-sm font-black text-success shadow-sm">
-              <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-              {toast}
-            </p>
+            <div className="relative flex items-center gap-2 rounded-wild-card bg-green-900/20 border border-green-700/50 p-3 overflow-hidden">
+              <div className="noise-overlay absolute inset-0" />
+              <p className="relative z-10 flex items-center gap-2 text-sm font-black text-green-300">
+                <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+                {toast}
+              </p>
+            </div>
           )}
         </div>
       </div>

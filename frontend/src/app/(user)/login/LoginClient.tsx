@@ -2,10 +2,11 @@
 
 import { type FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 import { createClient } from '@/lib/supabase/client'
 
-export function DeveloperLoginForm() {
+export function LoginClient() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,7 +31,7 @@ export function DeveloperLoginForm() {
       return
     }
 
-    router.replace('/developer/dashboard')
+    router.replace('/')
     router.refresh()
   }
 
@@ -41,10 +42,10 @@ export function DeveloperLoginForm() {
 
       <div className="relative z-10">
         <h1 className="font-display text-3xl font-black text-wild-paper mb-2 tracking-tight">
-          Developer Login
+          Login
         </h1>
         <p className="font-body text-wild-paper/70 text-sm mb-6">
-          Sign in with your developer credentials.
+          Sign in with your credentials to continue.
         </p>
 
         <label className="mb-4 block">
@@ -84,6 +85,13 @@ export function DeveloperLoginForm() {
         >
           {isLoading ? 'Signing in...' : 'Login'}
         </button>
+
+        <p className="mt-6 text-center text-sm text-wild-paper/70">
+          Don&#39;t have an account?{' '}
+          <Link href="/register" className="font-bold text-wild-red hover:text-wild-red-light transition-colors">
+            Sign Up
+          </Link>
+        </p>
       </div>
     </form>
   )

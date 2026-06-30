@@ -35,43 +35,56 @@ export function RestaurantLoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-lg bg-white p-6 shadow-sm">
-      <h1 className="mb-1 text-2xl font-black text-muncherz-black">Restaurant Login</h1>
-      <p className="mb-6 text-sm font-medium text-gray-500">Access the restaurant dashboard.</p>
+    <form onSubmit={handleSubmit} className="relative w-full max-w-sm rounded-wild-card bg-wild-brown border border-wild-rust p-6 shadow-wild-ember">
+      {/* Noise texture overlay */}
+      <div className="noise-overlay absolute inset-0" />
 
-      <label className="mb-4 block">
-        <span className="mb-1 block text-sm font-bold text-gray-700">Email</span>
-        <input
-          type="email"
-          value={email}
-          autoComplete="email"
-          required
-          onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-muncherz-red focus:outline-none focus:ring-2 focus:ring-muncherz-red/20"
-        />
-      </label>
+      <div className="relative z-10">
+        <h1 className="font-display text-3xl font-black text-wild-paper mb-2 tracking-tight">
+          Restaurant Login
+        </h1>
+        <p className="font-body text-wild-paper/70 text-sm mb-6">
+          Access the restaurant dashboard.
+        </p>
 
-      <label className="mb-6 block">
-        <span className="mb-1 block text-sm font-bold text-gray-700">Password</span>
-        <input
-          type="password"
-          value={password}
-          autoComplete="current-password"
-          required
-          onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-muncherz-red focus:outline-none focus:ring-2 focus:ring-muncherz-red/20"
-        />
-      </label>
+        <label className="mb-4 block">
+          <span className="section-label text-wild-paper/90 mb-2 block">Email</span>
+          <input
+            type="email"
+            value={email}
+            autoComplete="email"
+            required
+            onChange={(event) => setEmail(event.target.value)}
+            className="wild-input w-full"
+          />
+        </label>
 
-      {error && <p className="mb-4 text-sm font-semibold text-red-600">{error}</p>}
+        <label className="mb-6 block">
+          <span className="section-label text-wild-paper/90 mb-2 block">Password</span>
+          <input
+            type="password"
+            value={password}
+            autoComplete="current-password"
+            required
+            onChange={(event) => setPassword(event.target.value)}
+            className="wild-input w-full"
+          />
+        </label>
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full rounded-md bg-muncherz-red px-4 py-3 text-sm font-black text-white transition hover:bg-red-700"
-      >
-        {isLoading ? 'Signing in...' : 'Login'}
-      </button>
+        {error && (
+          <div className="mb-4 rounded-wild-button bg-red-900/30 border border-red-700/50 px-4 py-3">
+            <p className="text-sm font-semibold text-red-300">{error}</p>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn-primary w-full"
+        >
+          {isLoading ? 'Signing in...' : 'Login'}
+        </button>
+      </div>
     </form>
   )
 }

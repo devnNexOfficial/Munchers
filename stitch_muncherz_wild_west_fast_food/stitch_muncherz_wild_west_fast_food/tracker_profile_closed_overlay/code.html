@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>MUNCHERZ | Order Tracker &amp; Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Inter:wght@400;500;700;800&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#5b1a00",
+                    "primary-container": "#d72b2b",
+                    "primary": "#ffb4ac",
+                    "error-container": "#93000a",
+                    "surface": "#131313",
+                    "surface-container-highest": "#353534",
+                    "on-primary-fixed-variant": "#93000e",
+                    "tertiary": "#ffb59b",
+                    "on-surface": "#e5e2e1",
+                    "charcoal-muted": "#2A2420",
+                    "primary-fixed": "#ffdad6",
+                    "inverse-on-surface": "#313030",
+                    "error": "#ffb4ab",
+                    "surface-bright": "#3a3939",
+                    "on-secondary": "#3d2f00",
+                    "inverse-primary": "#bc131b",
+                    "on-background": "#e5e2e1",
+                    "ember-glow": "rgba(215, 43, 43, 0.15)",
+                    "secondary-container": "#e7b900",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error": "#690005",
+                    "paper-white": "#F5F0E8",
+                    "secondary": "#ffd65b",
+                    "on-tertiary-fixed": "#380d00",
+                    "on-secondary-fixed-variant": "#584400",
+                    "surface-variant": "#353534",
+                    "on-primary-container": "#fff3f2",
+                    "outline-variant": "#5c403d",
+                    "tertiary-fixed-dim": "#ffb59b",
+                    "surface-dim": "#131313",
+                    "on-primary": "#690007",
+                    "background": "#131313",
+                    "on-tertiary-container": "#fff4f1",
+                    "on-primary-fixed": "#410003",
+                    "secondary-fixed-dim": "#f0c110",
+                    "primary-fixed-dim": "#ffb4ac",
+                    "on-tertiary-fixed-variant": "#7b2e0f",
+                    "surface-container": "#201f1f",
+                    "tertiary-fixed": "#ffdbcf",
+                    "on-surface-variant": "#e5bdb9",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-brown": "#1C1410",
+                    "surface-tint": "#ffb4ac",
+                    "outline": "#ac8885",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#b15734",
+                    "on-secondary-container": "#5f4a00",
+                    "secondary-fixed": "#ffe08b",
+                    "surface-container-high": "#2a2a2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "base": "4px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["DM Sans"],
+                    "headline-md": ["DM Sans"],
+                    "section-label": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "price-tag": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "section-label": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "price-tag": ["18px", {"lineHeight": "18px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grain-overlay {
+            background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+            pointer-events: none;
+            opacity: 0.05;
+        }
+        .ember-pulse {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); box-shadow: 0 0 15px #d72b2b; }
+        }
+        .countdown-ring {
+            transition: stroke-dashoffset 1s linear;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden min-h-screen">
+<div class="fixed inset-0 grain-overlay z-[100]"></div>
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/30 bg-surface/95 backdrop-blur-md">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-primary active:scale-95 duration-150" onclick="toggleDrawer()">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary-container uppercase tracking-tighter">MUNCHERZ</h1>
+<button class="text-primary active:scale-95 duration-150">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<!-- Sidebar Drawer (Shared Component) -->
+<aside class="fixed inset-y-0 left-0 w-80 bg-surface-brown z-[60] -translate-x-full transition-transform duration-300 border-r border-outline-variant/20 shadow-2xl" id="drawer">
+<div class="flex flex-col h-full p-stack-md">
+<div class="flex items-center space-x-4 mb-stack-lg p-4 bg-surface-container rounded-xl">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="A rugged yet stylish close-up portrait of a cowboy-themed food enthusiast with a leather hat, set against a warm, ember-lit background of a modern rustic kitchen. The lighting is cinematic, with rich reds and deep shadows, emphasizing a high-energy Wild West vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWdLOgup_zrsIFDtgh7YbOQ3VclLqqheWvfKzHBl4fE7yM2guFg7B6behAUoVqtLaOUh8eNMOQoNNM2xbHlDZEn_ZBX8GSUJkkB8QhVHif3wKJfVcobEwHaXcdVTvvdiJiw4cr3_IUDvIqcOly94lxSjv3TRJEKNlFneQ9Zw03BKvY0oUcVyzAz5jvcjXrDB7G-dbCUqkEmepIWB_Md5mRo2PX7CDHjuo_6KySDtuLx0LRwLmubi8uY6ir1wcPsZUpfJZd51aiAAvy"/>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold text-primary">Ranger Munch</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Loyalty Level: Gold • 1,240 XP</p>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center space-x-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-lg text-body-lg">Menu</span>
+</a>
+<a class="flex items-center space-x-4 p-4 bg-primary-container text-on-primary-container font-bold rounded-lg shadow-lg" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-body-lg text-body-lg">My Wallet</span>
+</a>
+<a class="flex items-center space-x-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-body-lg text-body-lg">Address Book</span>
+</a>
+<a class="flex items-center space-x-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">sell</span>
+<span class="font-body-lg text-body-lg">Promotions</span>
+</a>
+<a class="flex items-center space-x-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">headset_mic</span>
+<span class="font-body-lg text-body-lg">Support</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-label-sm font-label-sm opacity-60">V. 2.4.1 Western Edition</span>
+<button class="text-secondary bg-charcoal-muted px-3 py-1 rounded-full text-label-sm font-label-sm border border-outline-variant">UR/EN</button>
+</div>
+</div>
+</aside>
+<div class="fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity duration-300" id="drawer-overlay" onclick="toggleDrawer()"></div>
+<main class="pt-20 pb-32 px-margin-mobile max-w-lg mx-auto">
+<!-- Tracker Section -->
+<section class="mb-stack-lg">
+<div class="bg-surface-brown rounded-2xl p-6 border border-outline-variant/30 shadow-xl overflow-hidden relative">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary-fixed mb-1">Your Bounty is En Route</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Order #MNCH-9921 • Arriving in 12 min</p>
+</div>
+<!-- Countdown Ring -->
+<div class="relative flex items-center justify-center">
+<svg class="w-16 h-16">
+<circle class="text-charcoal-muted" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="countdown-ring" cx="32" cy="32" fill="transparent" r="28" stroke="#F5C518" stroke-dasharray="175.9" stroke-dashoffset="40" stroke-width="4"></circle>
+</svg>
+<span class="absolute font-price-tag text-price-tag text-secondary">12</span>
+</div>
+</div>
+<!-- Live Map Mockup -->
+<div class="w-full h-32 bg-charcoal-muted rounded-xl mb-6 relative overflow-hidden">
+<div class="absolute inset-0 opacity-40" data-location="Austin, Texas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDu_c7vUWyri6J1ryxCyDvA26abTUR5GRvunFHgMneHn6SDUBbVrKy4kf3x450Xn0sBNimR52tC4zEn4JvU5Rg6KihImleDda_43WgdN0UDTF3qQGYXC23wmdO9wgEKxBKDRZfNi956Ka-nFJ--2f_3L6rVEbzdx8g6keVjXyB-lO1HKgziq6-IAgkX70jm51RD5MixdxA5wziR_AmonRhRCCCJZT7K1UBtc_lPxbOoMqebRXLP9xeBShPmNUilYbV92sIUrM46oitT')"></div>
+<!-- Rider Dot -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="bg-primary-container p-1 rounded-full shadow-lg shadow-primary/40 ember-pulse relative z-10">
+<span class="material-symbols-outlined text-[16px] text-white">pedal_bike</span>
+</div>
+<div class="w-2 h-2 bg-primary-container rounded-full animate-ping absolute top-0"></div>
+</div>
+</div>
+<!-- Vertical Timeline -->
+<div class="relative ml-4">
+<div class="absolute left-1.5 top-2 bottom-2 w-0.5 bg-outline-variant/40"></div>
+<!-- Step 1: Received -->
+<div class="relative flex items-start mb-8 opacity-60">
+<div class="absolute -left-[18px] w-4 h-4 rounded-full bg-secondary border-4 border-surface-brown"></div>
+<div class="ml-6">
+<p class="font-body-md text-body-md font-bold text-on-surface">Order Received</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">8:42 PM • Ranch Hand confirmed</p>
+</div>
+</div>
+<!-- Step 2: Preparing (Active) -->
+<div class="relative flex items-start mb-8">
+<div class="absolute -left-[18px] w-4 h-4 rounded-full bg-primary-container border-4 border-surface-brown ember-pulse"></div>
+<div class="ml-6">
+<p class="font-body-md text-body-md font-bold text-primary">Sizzlin' on the Grill</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">8:45 PM • Chef is flipping patties</p>
+</div>
+</div>
+<!-- Step 3: Delivered -->
+<div class="relative flex items-start opacity-40">
+<div class="absolute -left-[18px] w-4 h-4 rounded-full bg-charcoal-muted border-4 border-surface-brown"></div>
+<div class="ml-6">
+<p class="font-body-md text-body-md font-bold">Safe at the Hitching Post</p>
+<p class="text-label-sm font-label-sm">Estimated 9:05 PM</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Profile / Loyalty Section -->
+<section class="space-y-4">
+<h3 class="font-section-label text-section-label text-secondary uppercase px-2">Loyalty Progress</h3>
+<div class="bg-surface-brown rounded-2xl p-6 border border-outline-variant/30">
+<div class="flex justify-between items-center mb-4">
+<p class="font-body-lg text-body-lg font-bold">Gold Ranger Badge</p>
+<span class="text-price-tag font-price-tag text-secondary">8/10 Stamps</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-3 bg-charcoal-muted rounded-full overflow-hidden border border-outline-variant/20 mb-4 flex">
+<div class="h-full bg-secondary-container w-[80%] rounded-full shadow-[0_0_8px_#e7b900]"></div>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Just 2 more orders for a Free Desert Sundae!</p>
+</div>
+<h3 class="font-section-label text-section-label text-secondary uppercase px-2 pt-4">Recent Bounty</h3>
+<div class="space-y-3">
+<!-- Order History Card -->
+<div class="bg-charcoal-muted/50 rounded-xl p-4 flex items-center justify-between border border-outline-variant/20 hover:bg-charcoal-muted transition-colors">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 bg-surface-brown rounded-lg flex items-center justify-center border border-outline-variant/40">
+<span class="material-symbols-outlined text-primary">lunch_dining</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Ghost Pepper Triple</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Jan 12 • $18.50</p>
+</div>
+</div>
+<button class="text-primary-fixed border border-primary/20 px-3 py-1 rounded-full text-label-sm font-label-sm hover:bg-primary-container/10">Reorder</button>
+</div>
+<div class="bg-charcoal-muted/50 rounded-xl p-4 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 bg-surface-brown rounded-lg flex items-center justify-center border border-outline-variant/40">
+<span class="material-symbols-outlined text-primary">local_pizza</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Cactus Pepperoni</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Jan 08 • $22.00</p>
+</div>
+</div>
+<button class="text-primary-fixed border border-primary/20 px-3 py-1 rounded-full text-label-sm font-label-sm">Reorder</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Feedback Bottom Sheet (Hidden by default) -->
+<div class="fixed inset-0 z-[100] translate-y-full transition-transform duration-500 ease-out flex items-end" id="feedback-sheet">
+<div class="fixed inset-0 bg-black/80" onclick="toggleFeedback()"></div>
+<div class="relative w-full bg-surface-brown rounded-t-[32px] p-8 border-t border-outline-variant/30 shadow-2xl">
+<div class="w-12 h-1.5 bg-outline-variant/40 rounded-full mx-auto mb-8"></div>
+<div class="text-center mb-8">
+<h2 class="font-headline-md text-headline-md text-primary mb-2">How's the Grub, Partner?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Help us keep the ranch running smooth.</p>
+</div>
+<div class="flex justify-center space-x-2 mb-10">
+<button class="text-secondary hover:scale-110 active:scale-90 transition-transform"><span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-secondary hover:scale-110 active:scale-90 transition-transform"><span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-secondary hover:scale-110 active:scale-90 transition-transform"><span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-secondary hover:scale-110 active:scale-90 transition-transform"><span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-secondary hover:scale-110 active:scale-90 transition-transform"><span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 0;">star</span></button>
+</div>
+<textarea class="w-full bg-charcoal-muted border-outline-variant/20 rounded-xl p-4 text-on-surface mb-6 focus:ring-primary focus:border-primary" placeholder="Tell us about the heat..." rows="3"></textarea>
+<button class="w-full py-4 bg-primary-container text-on-primary-container font-bold rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-transform" onclick="toggleFeedback()">Send Feedback</button>
+</div>
+</div>
+<!-- Closed Overlay (Hidden by default) -->
+<div class="fixed inset-0 z-[120] bg-surface flex-col items-center justify-center p-8 hidden opacity-0 transition-opacity duration-500" id="closed-overlay">
+
+<div class="relative z-10 text-center">
+<h1 class="font-display-lg text-display-lg text-primary-container uppercase tracking-tighter mb-4">MUNCHERZ</h1>
+<div class="w-24 h-24 bg-charcoal-muted rounded-full flex items-center justify-center border-4 border-outline-variant/30 mb-8 mx-auto">
+<span class="material-symbols-outlined !text-5xl text-outline">nights_stay</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-white mb-2">We're Closed, Partner</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">The grill is cold and the sun is down. Head back to the saloon and wait for dawn.</p>
+<div class="bg-surface-brown inline-block p-6 rounded-2xl border border-secondary/30">
+<p class="font-section-label text-section-label text-secondary mb-1">REOPENING AT</p>
+<p class="font-display-lg text-display-lg text-secondary">08:00 AM</p>
+</div>
+<button class="mt-12 text-primary-fixed hover:underline" onclick="toggleClosed()">Return to Profile</button>
+</div>
+</div>
+<!-- Bottom Navigation (Shared Component) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-brown border-t border-outline-variant/30 pb-safe">
+<div class="flex justify-around items-center w-full h-20 px-2 max-w-screen-xl mx-auto">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-ember-glow rounded-xl active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-ember-glow rounded-xl active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-ember-glow rounded-xl active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 shadow-lg active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</div>
+</nav>
+<!-- FAB for Feedback Simulation -->
+<button class="fixed right-6 bottom-24 z-40 w-14 h-14 bg-secondary-container rounded-full shadow-2xl flex items-center justify-center text-on-secondary active:scale-90 transition-transform" onclick="toggleFeedback()">
+<span class="material-symbols-outlined">rate_review</span>
+</button>
+<!-- Closed Simulation Button (Debug/Demo) -->
+<button class="fixed left-6 bottom-24 z-40 w-14 h-14 bg-charcoal-muted rounded-full shadow-2xl flex items-center justify-center text-outline active:scale-90 transition-transform" onclick="toggleClosed()">
+<span class="material-symbols-outlined">bedtime</span>
+</button>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            drawer.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            setTimeout(() => overlay.classList.toggle('opacity-0'), 10);
+        }
+
+        function toggleFeedback() {
+            const sheet = document.getElementById('feedback-sheet');
+            if (sheet.classList.contains('translate-y-full')) {
+                sheet.classList.remove('translate-y-full');
+            } else {
+                sheet.classList.add('translate-y-full');
+            }
+        }
+
+        function toggleClosed() {
+            const overlay = document.getElementById('closed-overlay');
+            if (overlay.classList.contains('hidden')) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 500);
+            }
+        }
+
+        // Simulate progress ring
+        let offset = 40;
+        setInterval(() => {
+            offset = offset > 175 ? 0 : offset + 2;
+            document.querySelector('.countdown-ring').style.strokeDashoffset = offset;
+        }, 1000);
+    </script>
+</body></html>

@@ -22,7 +22,7 @@ type RestaurantSettings = { loyalty_enabled: boolean; loyalty_stamp_count: numbe
 export function ProfilePage() {
   const router = useRouter()
   const { preferredLanguage, setLanguage, isRTL } = useProfileStore()
-  
+
   const [profile, setProfile] = useState<Profile | null>(null)
   const [creations, setCreations] = useState<SavedCreation[]>([])
   const [addresses, setAddresses] = useState<Address[]>([])
@@ -31,15 +31,25 @@ export function ProfilePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+
     async function loadData() {
       const supabase = createClient()
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        router.push('/')
+
+      // Timeout fallback: if session check takes more than 3 seconds, redirect to login
+      timeoutId = setTimeout(() => {
+        router.push('/login')
+      }, 3000)
+
+      const { data: { user } } = await supabase.auth.getUser()
+      clearTimeout(timeoutId)
+
+      if (!user) {
+        router.push('/login')
         return
       }
 
-      const uid = session.user.id
+      const uid = user.id
 
       const [profRes, creatRes, addrRes, orderRes, setRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', uid).single(),
@@ -54,14 +64,22 @@ export function ProfilePage() {
       if (addrRes.data) setAddresses(addrRes.data as Address[])
       if (orderRes.data) setOrders(orderRes.data as OrderHistoryEntry[])
       if (setRes.data) setSettings(setRes.data as RestaurantSettings)
-      
+
       setLoading(false)
     }
     loadData()
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+    }
   }, [router])
 
-  if (loading || !profile) {
+  if (loading) {
     return <div className="flex h-screen items-center justify-center p-4">Loading profile...</div>
+  }
+
+  if (!profile) {
+    return null
   }
 
   return (
