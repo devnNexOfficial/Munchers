@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="bg-muncherz-white text-muncherz-black antialiased"
+        className="bg-surface text-on-surface font-body antialiased selection:bg-primary-container selection:text-on-primary-container"
         suppressHydrationWarning
       >
         <RTLProvider>

@@ -4,14 +4,16 @@ export default function RestaurantLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex">
+    <div className="min-h-screen bg-surface flex">
+      {/* Rustic grain overlay */}
+      <div className="fixed inset-0 rustic-grain z-0 pointer-events-none" />
       {/* Sidebar nav */}
-      <aside className="w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0 z-10">
-        <div className="p-6 border-b">
-          <h1 className="text-xl font-bold text-[#D62828]">
-            Muncherz
+      <aside className="w-64 bg-surface-brown border-r border-outline-variant/20 min-h-screen fixed left-0 top-0 z-10">
+        <div className="p-6 border-b border-outline-variant/20">
+          <h1 className="text-xl font-black text-primary-container uppercase tracking-tighter font-display">
+            MUNCHERZ
           </h1>
-          <p className="text-xs text-gray-500">Restaurant Panel</p>
+          <p className="text-label-sm text-on-surface-variant font-label-sm">Restaurant Panel</p>
         </div>
         <nav className="p-4 space-y-1">
           {[
@@ -25,19 +27,26 @@ export default function RestaurantLayout({
             { href: '/restaurant/delivery', label: 'Delivery' },
             { href: '/restaurant/settings', label: 'Settings' },
             { href: '/restaurant/staff', label: 'Staff' },
+            { href: '/restaurant/riders', label: 'Riders' },
+            { href: '/restaurant/qr', label: 'QR Codes' },
+            { href: '/restaurant/reports', label: 'Reports' },
+            { href: '/restaurant/kitchen-screens', label: 'Kitchen Screens' },
           ].map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="block px-4 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-[#D62828] hover:text-white transition-colors"
+              className="block px-4 py-2.5 rounded-lg text-sm text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-all font-body font-medium"
             >
               {item.label}
             </a>
           ))}
         </nav>
+        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-outline-variant/20">
+          <p className="text-label-sm text-on-surface-variant/60">V. 2.4.1 Western Edition</p>
+        </div>
       </aside>
       {/* Main content */}
-      <main className="ml-64 flex-1 p-8">
+      <main className="ml-64 flex-1 p-8 relative z-10">
         {children}
       </main>
     </div>

@@ -53,10 +53,10 @@ export function DealsBanner({ deals }: DealsBannerProps) {
   if (deals.length === 0) return null
 
   return (
-    <section className="w-full overflow-hidden bg-muncherz-white py-6">
+    <section className="w-full overflow-hidden bg-surface py-6">
       <div
         ref={containerRef}
-        className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4"
+        className="no-scrollbar flex snap-x snap-mandatory gap-gutter overflow-x-auto px-margin-mobile pb-4"
         onPointerDown={() => setIsPaused(true)}
         onPointerUp={() => setIsPaused(false)}
         onPointerCancel={() => setIsPaused(false)}

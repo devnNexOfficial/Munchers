@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -72,15 +72,22 @@
     color: #ffd65b;
   }
 
+  /* Material Symbols Defaults */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
   /* Hide scrollbars on snap containers */
-  .hide-scrollbar {
+  .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .hide-scrollbar::-webkit-scrollbar {
+  .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+}
 
+@layer components {
   /* Wild West Button Styles */
   .btn-primary {
     @apply bg-wild-red text-wild-paper px-6 py-3 rounded-wild-button font-bold text-sm transition-all hover:bg-wild-red-light hover:shadow-wild-glow active:scale-95;
@@ -100,9 +107,60 @@
     @apply bg-wild-brown-light border border-wild-charcoal rounded-wild-button px-4 py-3 text-wild-paper placeholder:text-gray-500 focus:border-wild-red focus:outline-none focus:ring-2 focus:ring-wild-ember;
   }
 
-  /* Ember Glow Effect */
+  /* Rustic Texture Overlay */
+  .rustic-texture {
+    background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+    opacity: 0.05;
+    pointer-events: none;
+  }
+
+  .rustic-grain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Ember Glow Effects */
+  .ember-shadow {
+    box-shadow: 0 0 20px rgba(215, 43, 43, 0.2);
+  }
+
+  .ember-glow-effect {
+    box-shadow: 0 0 20px rgba(215, 43, 43, 0.4);
+  }
+
   .ember-glow {
     box-shadow: 0 0 20px rgba(215, 43, 43, 0.3);
+  }
+
+  /* Active Pill Style */
+  .active-pill {
+    background: #d72b2b;
+    color: white;
+    box-shadow: 0 0 12px rgba(215, 43, 43, 0.4);
+  }
+
+  /* Ember Pulse Animation */
+  .ember-pulse {
+    animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); box-shadow: 0 0 15px #d72b2b; }
+  }
+
+  /* Countdown Ring */
+  .countdown-ring {
+    transition: stroke-dashoffset 1s linear;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
   }
 
   /* Noise Texture Overlay */
@@ -118,4 +176,22 @@
     pointer-events: none;
     z-index: 1;
   }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #131313; }
+  ::-webkit-scrollbar-thumb { background: #d72b2b; border-radius: 10px; }
+
+  /* Splash Screen Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+  .animate-float { animation: float 4s ease-in-out infinite; }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+  }
+  .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 }

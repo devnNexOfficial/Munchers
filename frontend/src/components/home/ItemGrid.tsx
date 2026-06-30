@@ -100,7 +100,7 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
   }
 
   return (
-    <section className="bg-muncherz-white pb-10">
+    <section className="bg-surface pb-10">
       <SearchBar onSearch={setSearchQuery} />
       <CategoryTabs
         categories={initialCategories}
@@ -110,7 +110,7 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
 
       {frequentlyAdded.length > 0 && (
         <div className="pt-3">
-          <h2 className="px-4 text-base font-extrabold text-muncherz-black">
+          <h2 className="px-margin-mobile mb-stack-sm font-section-label text-section-label text-primary-fixed uppercase tracking-widest">
             Frequently Added
           </h2>
           <div className="hide-scrollbar mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2">
@@ -127,7 +127,7 @@ export function ItemGrid({ initialCategories, initialItems }: ItemGridProps) {
         </div>
       )}
 
-      <div className="px-4 pt-5">
+        <div className="px-margin-mobile pt-5">
         {isLoading ? (
           <p className="py-10 text-center text-sm font-medium text-gray-500">
             Loading items...

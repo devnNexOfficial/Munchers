@@ -72,7 +72,7 @@ export const ItemCard = React.memo(function ItemCard({
           onOpenDetail(item)
         }
       }}
-      className="flex h-full cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 focus:outline-none focus:ring-2 focus:ring-muncherz-red focus:ring-offset-2"
+      className="flex h-full cursor-pointer flex-col overflow-hidden rounded-xl bg-surface-brown border border-outline-variant/20 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-offset-2 focus:ring-offset-surface"
     >
       {/* Item image + discount badge */}
       <div className="relative aspect-square bg-gray-50">

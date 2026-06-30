@@ -49,7 +49,7 @@ export default async function HomePage() {
   ])
 
   return (
-    <main className="min-h-screen bg-muncherz-white">
+    <main className="min-h-screen bg-surface">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
